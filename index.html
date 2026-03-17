@@ -84,6 +84,13 @@ tr:nth-child(even){background:#ffffff04}
   <!-- Status -->
   <div id="status"></div>
 
+  <!-- Sessions (always visible) -->
+  <div class="card" id="sessionsCard">
+    <p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:12px">🌍 Forex Sessions (UTC)</p>
+    <div id="sessionsGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px"></div>
+    <p id="sessionHint" style="font-size:12px;color:#64748b;margin-top:10px"></p>
+  </div>
+
   <!-- Results (hidden until done) -->
   <div id="results" style="display:none">
 
@@ -115,6 +122,35 @@ tr:nth-child(even){background:#ffffff04}
       </div>
     </div>
 
+    <!-- Fundamental Deep Dive -->
+    <div class="card" id="fundDeepCard">
+      <p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:14px">📰 Fundamentalanalyse</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+        <div>
+          <p style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:6px">EZB / EUR</p>
+          <p id="fundECB" style="font-size:12px;color:#cbd5e1;line-height:1.6"></p>
+        </div>
+        <div>
+          <p style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:6px">FED / USD</p>
+          <p id="fundFED" style="font-size:12px;color:#cbd5e1;line-height:1.6"></p>
+        </div>
+        <div>
+          <p style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:6px">MAKRO / SENTIMENT</p>
+          <p id="fundMacro" style="font-size:12px;color:#cbd5e1;line-height:1.6"></p>
+        </div>
+      </div>
+      <div style="margin-top:14px;padding-top:12px;border-top:1px solid #334155">
+        <p style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:6px">NÄCHSTE WICHTIGE EREIGNISSE</p>
+        <div id="fundEvents"></div>
+      </div>
+    </div>
+
+    <!-- Session-basiertes Timing -->
+    <div class="card">
+      <p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:14px">⏰ Session-Timing & Einstiegshinweise</p>
+      <div id="sessionTiming"></div>
+    </div>
+
     <!-- Scenarios Table -->
     <div class="card">
       <p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:14px">🎯 Trade-Szenarien</p>
@@ -122,8 +158,8 @@ tr:nth-child(even){background:#ffffff04}
         <table>
           <thead><tr>
             <th>#</th><th>Szenario</th><th>Dir.</th><th>Entry TF</th><th>Higher TFs</th>
-            <th>Entry</th><th>SL</th><th>TP1</th><th>TP2</th><th>R:R</th>
-            <th>Timing</th><th>Entry Signal</th><th>Exit Signal</th><th>Wahrsch.</th><th>Konfidenz</th>
+            <th>Entry</th><th>SL</th><th>TP1</th><th>TP2</th>            <th>R:R</th>
+            <th>Timing</th><th>Best Session</th><th>Entry Signal</th><th>Exit Signal</th><th>Wahrsch.</th><th>Konfidenz</th>
           </tr></thead>
           <tbody id="scenarioBody"></tbody>
         </table>
@@ -253,7 +289,7 @@ H4 (${h4.length} Kerzen): ${JSON.stringify(fmtBars(h4,60))}
 H1 (${h1.length} Kerzen): ${JSON.stringify(fmtBars(h1,80))}
 
 Antworte NUR mit validem JSON ohne Markdown oder Backticks:
-{"lastPrice":"${lastPrice}","trend":{"d1":"","h4":"","h1":""},"fundamental":{"summary":"","bias":"Bullish","keyEvents":["",""]},"keyLevels":{"resistance":["","",""],"support":["","",""]},"scenarios":[{"id":1,"name":"","direction":"Long","setup":"","entryTF":"H1","higherTFs":["H4","D1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","entrySignal":"","exitSignal":"","probability":55,"confidence":"Hoch"},{"id":2,"name":"","direction":"Short","setup":"","entryTF":"H1","higherTFs":["H4","D1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","entrySignal":"","exitSignal":"","probability":45,"confidence":"Mittel"},{"id":3,"name":"","direction":"Long","setup":"","entryTF":"H4","higherTFs":["D1","W1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","entrySignal":"","exitSignal":"","probability":40,"confidence":"Niedrig"}],"summary":""}`;
+{"lastPrice":"${lastPrice}","trend":{"d1":"","h4":"","h1":""},"fundamental":{"summary":"","bias":"Bullish","ecb":"EZB-Lage in 2-3 Sätzen","fed":"Fed-Lage in 2-3 Sätzen","macro":"Makro/Sentiment in 2-3 Sätzen","keyEvents":[{"date":"","event":"","impact":"hoch"},{"date":"","event":"","impact":"mittel"}]},"keyLevels":{"resistance":["","",""],"support":["","",""]},"sessionTiming":[{"session":"London 08:00-16:00 UTC","recommendation":"","bestFor":"","avoid":""},{"session":"New York 13:00-22:00 UTC","recommendation":"","bestFor":"","avoid":""},{"session":"Overlap 13:00-16:00 UTC","recommendation":"","bestFor":"","avoid":""}],"scenarios":[{"id":1,"name":"","direction":"Long","setup":"","entryTF":"H1","higherTFs":["H4","D1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","bestSession":"","entrySignal":"","exitSignal":"","probability":55,"confidence":"Hoch"},{"id":2,"name":"","direction":"Short","setup":"","entryTF":"H1","higherTFs":["H4","D1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","bestSession":"","entrySignal":"","exitSignal":"","probability":45,"confidence":"Mittel"},{"id":3,"name":"","direction":"Long","setup":"","entryTF":"H4","higherTFs":["D1","W1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","bestSession":"","entrySignal":"","exitSignal":"","probability":40,"confidence":"Niedrig"}],"summary":""}`;
 
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -304,7 +340,31 @@ function renderResults(a) {
   document.getElementById('fundSummary').textContent = a.fundamental?.summary||'';
   document.getElementById('keyEvents').innerHTML = (a.fundamental?.keyEvents||[]).map(e=>`<div style="font-size:12px;color:#94a3b8;padding:3px 0;border-bottom:1px solid #33415544">• ${e}</div>`).join('');
 
-  // Scenarios
+  // Fundamental deep
+  document.getElementById('fundECB').textContent = a.fundamental?.ecb||'';
+  document.getElementById('fundFED').textContent = a.fundamental?.fed||'';
+  document.getElementById('fundMacro').textContent = a.fundamental?.macro||'';
+  document.getElementById('fundEvents').innerHTML = (a.fundamental?.keyEvents||[]).map(e=>{
+    const ic = e.impact==='hoch'?'#ef4444':e.impact==='mittel'?'#eab308':'#94a3b8';
+    return `<div style="display:flex;gap:10px;align-items:center;padding:5px 0;border-bottom:1px solid #33415544">
+      <span style="font-size:11px;color:#64748b;min-width:80px">${e.date||''}</span>
+      <span style="font-size:12px;color:#cbd5e1;flex:1">${e.event||''}</span>
+      <span style="font-size:10px;font-weight:700;color:${ic};background:${ic}22;padding:2px 8px;border-radius:5px">${(e.impact||'').toUpperCase()}</span>
+    </div>`;
+  }).join('');
+
+  // Session timing
+  document.getElementById('sessionTiming').innerHTML = (a.sessionTiming||[]).map(s=>`
+    <div style="background:#0f172a;border-radius:8px;padding:14px;margin-bottom:8px;border:1px solid #334155">
+      <p style="font-size:12px;font-weight:700;color:#6366f1;margin-bottom:8px">🕐 ${s.session}</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+        <div><p style="font-size:10px;color:#22c55e;font-weight:700;margin-bottom:3px">EMPFEHLUNG</p><p style="font-size:12px;color:#cbd5e1">${s.recommendation||''}</p></div>
+        <div><p style="font-size:10px;color:#3b82f6;font-weight:700;margin-bottom:3px">BEST FOR</p><p style="font-size:12px;color:#cbd5e1">${s.bestFor||''}</p></div>
+        <div><p style="font-size:10px;color:#ef4444;font-weight:700;margin-bottom:3px">VERMEIDEN</p><p style="font-size:12px;color:#cbd5e1">${s.avoid||''}</p></div>
+      </div>
+    </div>`).join('');
+
+  // Scenarios – add bestSession column
   const tbody = document.getElementById('scenarioBody');
   tbody.innerHTML = (a.scenarios||[]).map(sc => {
     const dc = sc.direction==='Long'?'#22c55e':'#ef4444';
@@ -322,6 +382,7 @@ function renderResults(a) {
       <td style="color:#22c55e">${sc.tp2}</td>
       <td style="color:#6366f1;font-weight:700">${sc.rr}</td>
       <td style="color:#94a3b8;white-space:nowrap">${sc.timing}</td>
+      <td style="color:#22c55e;font-size:11px">${sc.bestSession||''}</td>
       <td style="color:#cbd5e1;max-width:130px">${sc.entrySignal}</td>
       <td style="color:#cbd5e1;max-width:130px">${sc.exitSignal}</td>
       <td><div style="font-weight:800;font-size:14px;color:${pc}">${sc.probability}%</div><div class="prob-bar"><div class="prob-fill" style="width:${sc.probability}%;background:${pc}"></div></div></td>
@@ -333,6 +394,7 @@ function renderResults(a) {
 }
 
 // Init
+renderSessions();
 renderKeyField('massiveDisplay','massive_api_key','Massive.com API Key...');
 renderKeyField('anthropicDisplay','anthropic_api_key','sk-ant-api03-...');
 checkKeys();
