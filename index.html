@@ -165,13 +165,13 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <p style="font-size:13px;color:#64748b" id="heroSub">Massive.com + Alpha Vantage + Claude AI · Multi-Timeframe Analyse</p>
 </div>
 <div style="display:flex;gap:8px">
-<button class="btn btn-purple btn-lg" onclick="goPage('analyse')" title="Zur Analyse-Seite">&#9654; Analyse starten</button>
+<button class="btn btn-purple btn-lg" onclick="goPage('analyse')" title="Zur Analyse-Seite">>&#9654; Analyse starten<#9654; <span data-t="startAnalysis">Analyse starten</span></button>
 <button class="btn btn-amber btn-lg" onclick="goPage('news')" title="Fundamentalnachrichten laden">&#128240; News</button>
 </div></div></div>
 
 <!-- Sessions -->
 <div class="card" style="margin-bottom:16px">
-<p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:10px">&#127758; Forex Sessions</p>
+<p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:10px">>&#127758; Forex Sessions<#127758; <span data-t="sessions">Forex Sessions</span></p>
 <div id="sessionsGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px"></div>
 <p id="sessionHint" style="font-size:12px;color:#64748b;margin-top:8px"></p>
 </div>
@@ -179,8 +179,8 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <!-- Top Paare Quick-Analyse -->
 <div class="card" style="margin-bottom:16px">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
-<p style="font-size:14px;font-weight:800;color:#f1f5f9">&#128293; Top-Paare · One-Click Analyse</p>
-<button class="btn btn-cyan btn-sm" id="scanHomeBtn" onclick="scanTopPairs()" title="Alle Top-Paare scannen (Kurs + RSI via Alpha Vantage)">&#8635; Scan alle</button>
+<p style="font-size:14px;font-weight:800;color:#f1f5f9">>&#128293; Top-Paare · One-Click Analyse<#128293; <span data-t="topPairs">Top-Paare · One-Click Analyse</span></p>
+<button class="btn btn-cyan btn-sm" id="scanHomeBtn" onclick="scanTopPairs()" title="Alle Top-Paare scannen (Kurs + RSI via Alpha Vantage)">>&#8635; Scan alle</button>#8635; <span data-t="scanTP">Scan alle</span></button>
 </div>
 <div class="tp-grid" id="topPairsGrid"></div>
 </div>
@@ -188,19 +188,19 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <!-- Wirtschaftskalender -->
 <div class="card" style="margin-bottom:16px">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
-<p style="font-size:14px;font-weight:800;color:#f1f5f9">&#128197; Wirtschaftskalender</p>
-<button class="btn btn-purple btn-sm" onclick="loadCalendar()" id="calBtn" title="Wirtschaftskalender via Claude AI laden">&#8635; Laden</button>
+<p style="font-size:14px;font-weight:800;color:#f1f5f9">>&#128197; Wirtschaftskalender<#128197; <span data-t="calendar">Wirtschaftskalender</span></p>
+<button class="btn btn-purple btn-sm" onclick="loadCalendar()" id="calBtn" title="Wirtschaftskalender via Claude AI laden">>&#8635; Laden</button>#8635; <span data-t="loadCal">Laden</span></button>
 </div>
-<div id="calendarBody"><p style="font-size:12px;color:#475569">Klicke "Laden" um den Kalender via Claude AI zu erzeugen.</p></div>
+<div id="calendarBody"><p style="font-size:12px;color:#475569"><span data-t="calHint">Klicke "Laden" um den Kalender via Claude AI zu erzeugen.</span></p></div>
 </div>
 
 <!-- Marktübersicht -->
 <div class="card">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-<p style="font-size:14px;font-weight:800;color:#f1f5f9">&#127760; Marktlage &amp; Sentiment</p>
-<button class="btn btn-purple btn-sm" onclick="loadMarketOverview()" id="moBtn" title="Fundamentale Marktanalyse via Claude AI erstellen">&#8635; Laden</button>
+<p style="font-size:14px;font-weight:800;color:#f1f5f9">>&#127760; Marktlage &amp; Sentiment<#127760; <span data-t="market">Marktlage &amp; Sentiment</span></p>
+<button class="btn btn-purple btn-sm" onclick="loadMarketOverview()" id="moBtn" title="Fundamentale Marktanalyse via Claude AI erstellen">>&#8635; Laden</button>#8635; <span data-t="loadCal">Laden</span></button>
 </div>
-<div id="marketOverview"><p style="font-size:12px;color:#475569">Klicke "Laden" für eine aktuelle Markteinschätzung via Claude AI.</p></div>
+<div id="marketOverview"><p style="font-size:12px;color:#475569"><span data-t="marketHint">Klicke "Laden" für eine aktuelle Markteinschätzung via Claude AI.</span></p></div>
 </div>
 </div>
 
@@ -212,18 +212,18 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <!-- Watchlist -->
 <div class="card card-wl">
 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:10px">
-<p style="font-size:14px;font-weight:800;color:#22d3ee">Watchlist</p>
+<p style="font-size:14px;font-weight:800;color:#22d3ee"<span data-t="watchlist">Watchlist</span></p>
 <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
 <select id="symSelect" onchange="selectSymbol(this.value)" style="min-width:130px" title="Symbol auswaehlen">
 <optgroup label="Majors"><option value="EURUSD">EUR/USD</option><option value="GBPUSD">GBP/USD</option><option value="USDJPY">USD/JPY</option><option value="USDCHF">USD/CHF</option><option value="AUDUSD">AUD/USD</option><option value="USDCAD">USD/CAD</option><option value="NZDUSD">NZD/USD</option></optgroup>
 <optgroup label="Crosses"><option value="EURGBP">EUR/GBP</option><option value="EURJPY">EUR/JPY</option><option value="GBPJPY">GBP/JPY</option><option value="EURCHF">EUR/CHF</option><option value="CADJPY">CAD/JPY</option></optgroup>
 <optgroup label="Metalle"><option value="XAUUSD">XAU/USD</option><option value="XAGUSD">XAG/USD</option></optgroup></select>
-<button class="btn btn-cyan btn-sm" onclick="addToWL()" title="Symbol zur Watchlist hinzufuegen">+ Watchlist</button>
-<button class="btn btn-amber btn-sm" id="avBtn" onclick="runAVAnalysis()" disabled title="Technische Indikatoren laden (RSI, MACD, EMA)">&#128202; Indikatoren</button>
+<button class="btn btn-cyan btn-sm" onclick="addToWL()" title="Symbol zur Watchlist hinzufuegen"><span data-t="addWL">+ Watchlist</span></button>
+<button class="btn btn-amber btn-sm" id="avBtn" onclick="runAVAnalysis()" disabled title="Technische Indikatoren laden (RSI, MACD, EMA)">>&#128202; Indikatoren<#128202; <span data-t="indicators">Indikatoren</span></button>
 <button class="btn btn-purple" id="startBtn" onclick="runAnalysis()" disabled title="Vollanalyse starten (D1/H4/H1/M15 + Claude AI)">&#9654; Analyse</button>
 </div></div>
 <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
-<span style="font-size:11px;color:#64748b">Aktiv:</span>
+<span style="font-size:11px;color:#64748b"><span data-t="activeLbl">Aktiv</span>:/span>
 <span id="activeSym" style="font-size:16px;font-weight:800;color:#22d3ee">EUR/USD</span>
 <span id="activePrice" style="font-size:14px;color:#94a3b8"></span></div>
 <div class="sym-quick" id="quickBtns"></div>
@@ -258,8 +258,8 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><p style="font-size:13px;font-weight:700;color:#94a3b8">Bias</p><span id="biasBadge" class="badge"></span></div><p id="fundSummary" style="font-size:13px;color:#cbd5e1;line-height:1.6;margin-bottom:10px"></p><div id="keyEvents"></div></div></div>
 <div class="card"><div class="g3"><div><p style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:6px">CCY 1</p><p id="fundECB" style="font-size:12px;color:#cbd5e1;line-height:1.6"></p></div><div><p style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:6px">CCY 2</p><p id="fundFED" style="font-size:12px;color:#cbd5e1;line-height:1.6"></p></div><div><p style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:6px">Makro</p><p id="fundMacro" style="font-size:12px;color:#cbd5e1;line-height:1.6"></p></div></div></div>
 <div class="card"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:14px">Session-Timing</p><div id="sessionTiming"></div></div>
-<div class="card"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:14px">Trade-Szenarien</p><div style="overflow-x:auto"><table><thead><tr><th>#</th><th>Szenario</th><th>Dir.</th><th>TF</th><th>Entry</th><th>SL</th><th>TP1</th><th>TP2</th><th>R:R</th><th>Session</th><th>Prob.</th><th>Konf.</th></tr></thead><tbody id="scenarioBody"></tbody></table></div></div>
-<div class="card card-accent"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:8px">Zusammenfassung</p><p id="summary" style="font-size:14px;color:#cbd5e1;line-height:1.7"></p></div>
+<div class="card"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:14px"><span data-t="scenarios">Trade-Szenarien</span></p><div style="overflow-x:auto"><table><thead><tr><th>#</th><th>Szenario</th><th>Dir.</th><th>TF</th><th>Entry</th><th>SL</th><th>TP1</th><th>TP2</th><th>R:R</th><th>Session</th><th>Prob.</th><th>Konf.</th></tr></thead><tbody id="scenarioBody"></tbody></table></div></div>
+<div class="card card-accent"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:8px"><span data-t="summary">Zusammenfassung</span></p><p id="summary" style="font-size:14px;color:#cbd5e1;line-height:1.7"></p></div>
 </div></div>
 
 <!-- ════════════════════════════════════════════ -->
@@ -268,17 +268,17 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <div class="page" id="page_news">
 <div class="card" style="margin-bottom:16px">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-<p style="font-size:16px;font-weight:800;color:#f1f5f9">&#128240; Fundamentalnachrichten</p>
-<button class="btn btn-purple" onclick="loadNews()" id="newsBtn" title="Aktuelle Forex-Nachrichten via Claude AI laden">&#8635; News laden</button>
+<p style="font-size:16px;font-weight:800;color:#f1f5f9">>&#128240; Fundamentalnachrichten<#128240; <span data-t="fundNews">Fundamentalnachrichten</span></p>
+<button class="btn btn-purple" onclick="loadNews()" id="newsBtn" title="Aktuelle Forex-Nachrichten via Claude AI laden">>&#8635; News laden<#8635; <span data-t="loadNews">News laden</span></button>
 </div>
-<div id="newsBody"><p style="font-size:12px;color:#475569">Klicke "News laden" um aktuelle Forex-Fundamentalnachrichten zu erzeugen.</p></div>
+<div id="newsBody"><p style="font-size:12px;color:#475569"><span data-t="newsHint">Klicke "News laden" um aktuelle Forex-Fundamentalnachrichten zu erzeugen.</span></p></div>
 </div>
 <div class="card">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-<p style="font-size:16px;font-weight:800;color:#f1f5f9">&#128197; Wirtschaftskalender (diese Woche)</p>
+<p style="font-size:16px;font-weight:800;color:#f1f5f9">>&#128197; Wirtschaftskalender (diese Woche)<#128197; <span data-t="calendar">Wirtschaftskalender</span> <span data-t="thisWeek">(diese Woche)</span></p>
 <button class="btn btn-purple btn-sm" onclick="loadCalendar()" title="Kalender laden">&#8635;</button>
 </div>
-<div id="calendarBody2"><p style="font-size:12px;color:#475569">Kalender wird auf der Home-Seite geladen und hier gespiegelt.</p></div>
+<div id="calendarBody2"><p style="font-size:12px;color:#475569"><span data-t="calHint">Kalender wird geladen.</span></p></div>
 </div>
 </div>
 
@@ -286,13 +286,13 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <!-- PAGE: WIKI                                   -->
 <!-- ════════════════════════════════════════════ -->
 <div class="page" id="page_wiki">
-<p style="font-size:18px;font-weight:800;color:#f1f5f9;margin-bottom:6px">&#128218; Forex Wiki</p>
-<p style="font-size:12px;color:#64748b;margin-bottom:20px">Glossar, Strategien und Grundlagen für Forex-Trading</p>
+<p style="font-size:18px;font-weight:800;color:#f1f5f9;margin-bottom:6px">>&#128218; Forex Wiki<#128218; <span data-t="wikiTitle">Forex Wiki</span></p>
+<p style="font-size:12px;color:#64748b;margin-bottom:20px"><span data-t="wikiSub">Glossar, Strategien und Grundlagen für Forex-Trading</span></p>
 
-<p style="font-size:14px;font-weight:700;color:#6366f1;margin-bottom:12px">&#128214; Glossar</p>
+<p style="font-size:14px;font-weight:700;color:#6366f1;margin-bottom:12px">>&#128214; Glossar<#128214; <span data-t="glossar">Glossar</span></p>
 <div id="glossar" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px"></div>
 
-<p style="font-size:14px;font-weight:700;color:#6366f1;margin-bottom:12px">&#128736; Trading-Strategien</p>
+<p style="font-size:14px;font-weight:700;color:#6366f1;margin-bottom:12px">>&#128736; Trading-Strategien<#128736; <span data-t="strategies">Trading-Strategien</span></p>
 <div id="strategies"></div>
 </div>
 
@@ -301,22 +301,60 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <div id="ovHeader"><div style="flex:1"><div id="ovTitle"></div><div id="ovSub"></div></div><div style="display:flex;gap:8px;align-items:center"><span id="ovStatus" style="font-size:12px;color:#94a3b8"></span><button class="btn btn-gray" onclick="closeOverlay()" title="Schliessen">&#10005;</button></div></div>
 <div style="padding:16px 20px;background:#0a0e1a;border-bottom:1px solid #1f2937"><canvas id="ovChart" width="1360" height="500" style="width:100%;height:auto;border-radius:8px"></canvas></div>
 <div id="ovBody">
-<div class="card card-accent" style="margin-bottom:14px"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:10px">KI-Tiefenanalyse</p><div id="deepText" style="font-size:13px;color:#cbd5e1;line-height:1.8"></div></div>
+<div class="card card-accent" style="margin-bottom:14px"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:10px"><span data-t="deep">KI-Tiefenanalyse</span></p><div id="deepText" style="font-size:13px;color:#cbd5e1;line-height:1.8"></div></div>
 <div class="card" style="margin-bottom:14px"><table><tbody id="ovParamTable"></tbody></table></div>
 <div class="g2" style="margin-bottom:24px"><div class="card"><p style="font-size:10px;color:#ef4444;font-weight:700;margin-bottom:8px">RESISTANCE</p><div id="ovRes"></div></div><div class="card"><p style="font-size:10px;color:#22c55e;font-weight:700;margin-bottom:8px">SUPPORT</p><div id="ovSup"></div></div></div>
 </div></div></div>
 <script>
-// ═══ I18N ═══
+// ═══ I18N — FULL PAGE TRANSLATION ═══
 const TR={
-de:{indicators:'Indikatoren',analyze:'Analyse',reset:'Neu',watchlist:'Watchlist',scanAll:'Scan alle',sessions:'Sessions',active:'AKTIV',closed:'ZU',chart:'Chart',keyLevels:'Key Levels',bias:'Bias',scenarios:'Szenarien',summary:'Zusammenfassung',glossar:'Glossar',deep:'KI-Tiefenanalyse',close:'Schliessen',noAdvice:'Keine Finanzberatung.',home:'Home',news:'News',wiki:'Wiki',calendar:'Kalender',market:'Marktlage',loadNews:'News laden',loadCal:'Laden',topPairs:'Top-Paare',clI:'Antworte auf Deutsch.',deepH:'**Warum jetzt?** **Einstieg** **Risiko** **Gefahren** **Fazit**'},
-en:{indicators:'Indicators',analyze:'Analyze',reset:'Reset',watchlist:'Watchlist',scanAll:'Scan all',sessions:'Sessions',active:'ACTIVE',closed:'CLOSED',chart:'Chart',keyLevels:'Key Levels',bias:'Bias',scenarios:'Scenarios',summary:'Summary',glossar:'Glossary',deep:'AI Deep Analysis',close:'Close',noAdvice:'Not financial advice.',home:'Home',news:'News',wiki:'Wiki',calendar:'Calendar',market:'Market Overview',loadNews:'Load News',loadCal:'Load',topPairs:'Top Pairs',clI:'Respond in English.',deepH:'**Why now?** **Entry** **Risk** **Dangers** **Conclusion**'},
-fr:{indicators:'Indicateurs',analyze:'Analyser',reset:'Réinitialiser',watchlist:'Suivi',scanAll:'Scanner',sessions:'Sessions',active:'ACTIF',closed:'FERMÉ',chart:'Graphique',keyLevels:'Niveaux',bias:'Biais',scenarios:'Scénarios',summary:'Résumé',glossar:'Glossaire',deep:'Analyse IA',close:'Fermer',noAdvice:'Pas un conseil financier.',home:'Accueil',news:'Actualités',wiki:'Wiki',calendar:'Calendrier',market:'Marché',loadNews:'Charger',loadCal:'Charger',topPairs:'Top Paires',clI:'Réponds en français.',deepH:'**Pourquoi?** **Entrée** **Risque** **Dangers** **Conclusion**'},
-es:{indicators:'Indicadores',analyze:'Analizar',reset:'Reiniciar',watchlist:'Seguimiento',scanAll:'Escanear',sessions:'Sesiones',active:'ACTIVO',closed:'CERRADO',chart:'Gráfico',keyLevels:'Niveles',bias:'Sesgo',scenarios:'Escenarios',summary:'Resumen',glossar:'Glosario',deep:'Análisis IA',close:'Cerrar',noAdvice:'No es asesoría.',home:'Inicio',news:'Noticias',wiki:'Wiki',calendar:'Calendario',market:'Mercado',loadNews:'Cargar',loadCal:'Cargar',topPairs:'Top Pares',clI:'Responde en español.',deepH:'**Por qué?** **Entrada** **Riesgo** **Peligros** **Conclusión**'},
-it:{indicators:'Indicatori',analyze:'Analizza',reset:'Reimposta',watchlist:'Controllo',scanAll:'Scansiona',sessions:'Sessioni',active:'ATTIVO',closed:'CHIUSO',chart:'Grafico',keyLevels:'Livelli',bias:'Bias',scenarios:'Scenari',summary:'Riepilogo',glossar:'Glossario',deep:'Analisi IA',close:'Chiudi',noAdvice:'Non è consulenza.',home:'Home',news:'Notizie',wiki:'Wiki',calendar:'Calendario',market:'Mercato',loadNews:'Carica',loadCal:'Carica',topPairs:'Top Coppie',clI:'Rispondi in italiano.',deepH:'**Perché?** **Ingresso** **Rischio** **Pericoli** **Conclusione**'}
+de:{indicators:'Indikatoren',analyze:'Analyse',reset:'Neu',watchlist:'Watchlist',scanAll:'Scan alle',sessions:'Forex Sessions',active:'AKTIV',closed:'—',chart:'Chart',keyLevels:'Key Levels',bias:'Bias',scenarios:'Szenarien',summary:'Zusammenfassung',glossar:'Glossar',deep:'KI-Tiefenanalyse',close:'Schliessen',noAdvice:'<span data-t="noAdvice">Keine Finanzberatung.</span>',home:'Home',news:'News',wiki:'Wiki',calendar:'Wirtschaftskalender',market:'Marktlage & Sentiment',loadNews:'News laden',loadCal:'Laden',topPairs:'Top-Paare · One-Click Analyse',scanTP:'Scan alle',heroTitle:'Forex Analyse Dashboard',heroSub:'Massive.com + Alpha Vantage + Claude AI · Multi-Timeframe Analyse',startAnalysis:'Analyse starten',apiKeys:'API Keys',progress:'Fortschritt',activeLbl:'Aktiv',addWL:'+ Watchlist',fundNews:'Fundamentalnachrichten',thisWeek:'(diese Woche)',calHint:'<span data-t="calHint">Klicke "Laden" um den Kalender via Claude AI zu erzeugen.</span>',newsHint:'<span data-t="newsHint">Klicke "News laden" um aktuelle Forex-Fundamentalnachrichten zu erzeugen.</span>',marketHint:'<span data-t="marketHint">Klicke "Laden" für eine aktuelle Markteinschätzung via Claude AI.</span>',wikiTitle:'Forex Wiki',wikiSub:'<span data-t="wikiSub">Glossar, Strategien und Grundlagen für Forex-Trading</span>',strategies:'Trading-Strategien',rules:'REGELN',resistance:'RESISTANCE',support:'SUPPORT',ccy1:'Währung 1',ccy2:'Währung 2',macro:'Makro',sessionTiming:'Session-Timing',rec:'EMPFEHLUNG',bestFor:'BEST FOR',avoid:'VERMEIDEN',prob:'Wahrsch.',conf:'Konfidenz',entry:'Entry',clI:'Antworte auf Deutsch.',deepH:'**Warum jetzt?** **Einstieg** **Risiko** **Gefahren** **Fazit**',overview:'Übersicht',confluence:'Confluence',beginner:'Anfänger',intermediate:'Mittel',advanced:'Fortgeschritten'},
+en:{indicators:'Indicators',analyze:'Analyze',reset:'Reset',watchlist:'Watchlist',scanAll:'Scan all',sessions:'Forex Sessions',active:'ACTIVE',closed:'—',chart:'Chart',keyLevels:'Key Levels',bias:'Bias',scenarios:'Scenarios',summary:'Summary',glossar:'Glossary',deep:'AI Deep Analysis',close:'Close',noAdvice:'Not financial advice.',home:'Home',news:'News',wiki:'Wiki',calendar:'Economic Calendar',market:'Market Overview & Sentiment',loadNews:'Load News',loadCal:'Load',topPairs:'Top Pairs · One-Click Analysis',scanTP:'Scan all',heroTitle:'Forex Analysis Dashboard',heroSub:'Massive.com + Alpha Vantage + Claude AI · Multi-Timeframe Analysis',startAnalysis:'Start Analysis',apiKeys:'API Keys',progress:'Progress',activeLbl:'Active',addWL:'+ Watchlist',fundNews:'Fundamental News',thisWeek:'(this week)',calHint:'Click "Load" to generate the calendar via Claude AI.',newsHint:'Click "Load News" to generate current forex news.',marketHint:'Click "Load" for a current market assessment via Claude AI.',wikiTitle:'Forex Wiki',wikiSub:'Glossary, strategies and fundamentals for forex trading',strategies:'Trading Strategies',rules:'RULES',resistance:'RESISTANCE',support:'SUPPORT',ccy1:'Currency 1',ccy2:'Currency 2',macro:'Macro',sessionTiming:'Session Timing',rec:'RECOMMENDATION',bestFor:'BEST FOR',avoid:'AVOID',prob:'Prob.',conf:'Confidence',entry:'Entry',clI:'Respond in English.',deepH:'**Why now?** **Entry** **Risk management** **What can go wrong?** **Conclusion**',overview:'Overview',confluence:'Confluence',beginner:'Beginner',intermediate:'Intermediate',advanced:'Advanced'},
+fr:{indicators:'Indicateurs',analyze:'Analyser',reset:'Réinitialiser',watchlist:'Liste de suivi',scanAll:'Scanner tout',sessions:'Sessions Forex',active:'ACTIF',closed:'—',chart:'Graphique',keyLevels:'Niveaux clés',bias:'Biais',scenarios:'Scénarios',summary:'Résumé',glossar:'Glossaire',deep:'Analyse IA approfondie',close:'Fermer',noAdvice:'Pas un conseil financier.',home:'Accueil',news:'Actualités',wiki:'Wiki',calendar:'Calendrier économique',market:'Aperçu du marché',loadNews:'Charger les news',loadCal:'Charger',topPairs:'Top Paires · Analyse en un clic',scanTP:'Scanner tout',heroTitle:'Dashboard Analyse Forex',heroSub:'Massive.com + Alpha Vantage + Claude IA · Analyse Multi-Timeframe',startAnalysis:'Lancer l\'analyse',apiKeys:'Clés API',progress:'Progression',activeLbl:'Actif',addWL:'+ Suivi',fundNews:'Nouvelles fondamentales',thisWeek:'(cette semaine)',calHint:'Cliquez "Charger" pour générer le calendrier via Claude IA.',newsHint:'Cliquez "Charger" pour générer les actualités forex.',marketHint:'Cliquez "Charger" pour un aperçu du marché via Claude IA.',wikiTitle:'Wiki Forex',wikiSub:'Glossaire, stratégies et fondamentaux du trading forex',strategies:'Stratégies de trading',rules:'RÈGLES',resistance:'RÉSISTANCE',support:'SUPPORT',ccy1:'Devise 1',ccy2:'Devise 2',macro:'Macro',sessionTiming:'Timing des sessions',rec:'RECOMMANDATION',bestFor:'IDÉAL POUR',avoid:'ÉVITER',prob:'Prob.',conf:'Confiance',entry:'Entrée',clI:'Réponds en français.',deepH:'**Pourquoi maintenant?** **Entrée** **Risque** **Dangers** **Conclusion**',overview:'Aperçu',confluence:'Confluence',beginner:'Débutant',intermediate:'Intermédiaire',advanced:'Avancé'},
+es:{indicators:'Indicadores',analyze:'Analizar',reset:'Reiniciar',watchlist:'Lista de seguimiento',scanAll:'Escanear todo',sessions:'Sesiones Forex',active:'ACTIVO',closed:'—',chart:'Gráfico',keyLevels:'Niveles clave',bias:'Sesgo',scenarios:'Escenarios',summary:'Resumen',glossar:'Glosario',deep:'Análisis IA profundo',close:'Cerrar',noAdvice:'No es asesoría financiera.',home:'Inicio',news:'Noticias',wiki:'Wiki',calendar:'Calendario económico',market:'Resumen del mercado',loadNews:'Cargar noticias',loadCal:'Cargar',topPairs:'Top Pares · Análisis en un clic',scanTP:'Escanear',heroTitle:'Dashboard Análisis Forex',heroSub:'Massive.com + Alpha Vantage + Claude IA · Análisis Multi-Timeframe',startAnalysis:'Iniciar análisis',apiKeys:'Claves API',progress:'Progreso',activeLbl:'Activo',addWL:'+ Seguimiento',fundNews:'Noticias fundamentales',thisWeek:'(esta semana)',calHint:'Haz clic en "Cargar" para generar el calendario con Claude IA.',newsHint:'Haz clic en "Cargar" para generar noticias forex actuales.',marketHint:'Haz clic en "Cargar" para un análisis de mercado con Claude IA.',wikiTitle:'Wiki Forex',wikiSub:'Glosario, estrategias y fundamentos del trading forex',strategies:'Estrategias de trading',rules:'REGLAS',resistance:'RESISTENCIA',support:'SOPORTE',ccy1:'Divisa 1',ccy2:'Divisa 2',macro:'Macro',sessionTiming:'Timing de sesiones',rec:'RECOMENDACIÓN',bestFor:'IDEAL PARA',avoid:'EVITAR',prob:'Prob.',conf:'Confianza',entry:'Entrada',clI:'Responde en español.',deepH:'**¿Por qué ahora?** **Entrada** **Riesgo** **Peligros** **Conclusión**',overview:'Resumen',confluence:'Confluencia',beginner:'Principiante',intermediate:'Intermedio',advanced:'Avanzado'},
+it:{indicators:'Indicatori',analyze:'Analizza',reset:'Reimposta',watchlist:'Lista di controllo',scanAll:'Scansiona tutto',sessions:'Sessioni Forex',active:'ATTIVO',closed:'—',chart:'Grafico',keyLevels:'Livelli chiave',bias:'Bias',scenarios:'Scenari',summary:'Riepilogo',glossar:'Glossario',deep:'Analisi IA approfondita',close:'Chiudi',noAdvice:'Non è consulenza finanziaria.',home:'Home',news:'Notizie',wiki:'Wiki',calendar:'Calendario economico',market:'Panoramica del mercato',loadNews:'Carica notizie',loadCal:'Carica',topPairs:'Top Coppie · Analisi in un clic',scanTP:'Scansiona',heroTitle:'Dashboard Analisi Forex',heroSub:'Massive.com + Alpha Vantage + Claude IA · Analisi Multi-Timeframe',startAnalysis:'Avvia analisi',apiKeys:'Chiavi API',progress:'Progresso',activeLbl:'Attivo',addWL:'+ Controllo',fundNews:'Notizie fondamentali',thisWeek:'(questa settimana)',calHint:'Clicca "Carica" per generare il calendario con Claude IA.',newsHint:'Clicca "Carica" per generare notizie forex attuali.',marketHint:'Clicca "Carica" per una panoramica di mercato con Claude IA.',wikiTitle:'Wiki Forex',wikiSub:'Glossario, strategie e fondamenti del trading forex',strategies:'Strategie di trading',rules:'REGOLE',resistance:'RESISTENZA',support:'SUPPORTO',ccy1:'Valuta 1',ccy2:'Valuta 2',macro:'Macro',sessionTiming:'Timing delle sessioni',rec:'RACCOMANDAZIONE',bestFor:'IDEALE PER',avoid:'EVITARE',prob:'Prob.',conf:'Fiducia',entry:'Ingresso',clI:'Rispondi in italiano.',deepH:'**Perché ora?** **Ingresso** **Rischio** **Pericoli** **Conclusione**',overview:'Panoramica',confluence:'Confluenza',beginner:'Principiante',intermediate:'Intermedio',advanced:'Avanzato'}
 };
+
+// Glossary per language
+const GLOSS={
+de:[{t:'Dovish',s:'Lockere Geldpolitik — Zinssenkungen wahrscheinlich.',d:'Schwache Jobdaten, niedriger CPI. Währung schwächer.',c:'#22c55e'},{t:'Hawkish',s:'Straffe Geldpolitik — Zinserhöhungen.',d:'Starke Inflation, robuster Arbeitsmarkt. Währung stärker.',c:'#ef4444'},{t:'Support',s:'Preiszone mit historischem Kaufinteresse.',d:'Mehrfach getestet = stärker. Bruch = neue Resistance.',c:'#22c55e'},{t:'Resistance',s:'Preiszone mit Verkaufsdruck.',d:'Breakout = starkes Kaufsignal (Role Reversal).',c:'#ef4444'},{t:'R:R',s:'Verhältnis Risiko zu Gewinn.',d:'1:2 = 50 Pips Risiko für 100 Pips Gewinn.',c:'#6366f1'},{t:'MACD',s:'Moving Average Convergence Divergence.',d:'EMA12 minus EMA26. Signal = EMA9. Über Signal = bullish.',c:'#d97706'},{t:'RSI',s:'Relative Strength Index (0-100).',d:'Über 70 = overbought, unter 30 = oversold.',c:'#6366f1'},{t:'Pip',s:'Kleinste Preiseinheit im Forex.',d:'EUR/USD = 0.0001. JPY-Paare = 0.01.',c:'#94a3b8'},{t:'Spread',s:'Differenz zwischen Bid und Ask.',d:'Enger Spread = hohe Liquidität. Kostet bei jedem Trade.',c:'#94a3b8'},{t:'Lot',s:'Standard-Handelsgröße.',d:'1 Lot = 100.000 Einheiten. Mini = 10.000. Micro = 1.000.',c:'#94a3b8'}],
+en:[{t:'Dovish',s:'Loose monetary policy — rate cuts likely.',d:'Weak job data, low CPI. Currency weakens.',c:'#22c55e'},{t:'Hawkish',s:'Tight monetary policy — rate hikes.',d:'Strong inflation, robust labor market. Currency strengthens.',c:'#ef4444'},{t:'Support',s:'Price zone with historical buying interest.',d:'Tested multiple times = stronger. Break = new resistance.',c:'#22c55e'},{t:'Resistance',s:'Price zone with selling pressure.',d:'Breakout = strong buy signal (Role Reversal).',c:'#ef4444'},{t:'R:R',s:'Risk to Reward ratio.',d:'1:2 = 50 pips risk for 100 pips profit.',c:'#6366f1'},{t:'MACD',s:'Moving Average Convergence Divergence.',d:'EMA12 minus EMA26. Signal = EMA9. Above signal = bullish.',c:'#d97706'},{t:'RSI',s:'Relative Strength Index (0-100).',d:'Above 70 = overbought, below 30 = oversold.',c:'#6366f1'},{t:'Pip',s:'Smallest price unit in forex.',d:'EUR/USD = 0.0001. JPY pairs = 0.01.',c:'#94a3b8'},{t:'Spread',s:'Difference between bid and ask.',d:'Tight spread = high liquidity. Cost on every trade.',c:'#94a3b8'},{t:'Lot',s:'Standard trade size.',d:'1 Lot = 100,000 units. Mini = 10,000. Micro = 1,000.',c:'#94a3b8'}],
+fr:[{t:'Dovish',s:'Politique monétaire souple — baisses de taux probables.',d:'Données emploi faibles, IPC bas. Devise s\'affaiblit.',c:'#22c55e'},{t:'Hawkish',s:'Politique monétaire stricte — hausses de taux.',d:'Inflation forte, marché du travail robuste. Devise se renforce.',c:'#ef4444'},{t:'Support',s:'Zone de prix avec intérêt d\'achat historique.',d:'Testé plusieurs fois = plus fort. Cassure = nouvelle résistance.',c:'#22c55e'},{t:'Résistance',s:'Zone de prix avec pression vendeuse.',d:'Cassure = signal d\'achat fort (Role Reversal).',c:'#ef4444'},{t:'R:R',s:'Ratio risque/récompense.',d:'1:2 = 50 pips risque pour 100 pips profit.',c:'#6366f1'},{t:'MACD',s:'Moving Average Convergence Divergence.',d:'EMA12 moins EMA26. Signal = EMA9. Au-dessus = haussier.',c:'#d97706'},{t:'RSI',s:'Relative Strength Index (0-100).',d:'Au-dessus de 70 = suracheté, en-dessous de 30 = survendu.',c:'#6366f1'},{t:'Pip',s:'Plus petite unité de prix en forex.',d:'EUR/USD = 0.0001. Paires JPY = 0.01.',c:'#94a3b8'},{t:'Spread',s:'Différence entre bid et ask.',d:'Spread serré = haute liquidité.',c:'#94a3b8'},{t:'Lot',s:'Taille de transaction standard.',d:'1 Lot = 100 000 unités. Mini = 10 000. Micro = 1 000.',c:'#94a3b8'}],
+es:[{t:'Dovish',s:'Política monetaria laxa — recortes de tasas probables.',d:'Datos de empleo débiles, IPC bajo. Divisa se debilita.',c:'#22c55e'},{t:'Hawkish',s:'Política monetaria estricta — subidas de tasas.',d:'Inflación fuerte, mercado laboral robusto. Divisa se fortalece.',c:'#ef4444'},{t:'Soporte',s:'Zona de precio con interés comprador histórico.',d:'Probado varias veces = más fuerte. Ruptura = nueva resistencia.',c:'#22c55e'},{t:'Resistencia',s:'Zona de precio con presión vendedora.',d:'Ruptura = señal de compra fuerte (Role Reversal).',c:'#ef4444'},{t:'R:R',s:'Ratio riesgo/recompensa.',d:'1:2 = 50 pips riesgo por 100 pips ganancia.',c:'#6366f1'},{t:'MACD',s:'Moving Average Convergence Divergence.',d:'EMA12 menos EMA26. Señal = EMA9. Encima = alcista.',c:'#d97706'},{t:'RSI',s:'Relative Strength Index (0-100).',d:'Encima de 70 = sobrecomprado, debajo de 30 = sobrevendido.',c:'#6366f1'},{t:'Pip',s:'Unidad de precio más pequeña en forex.',d:'EUR/USD = 0.0001. Pares JPY = 0.01.',c:'#94a3b8'},{t:'Spread',s:'Diferencia entre bid y ask.',d:'Spread estrecho = alta liquidez.',c:'#94a3b8'},{t:'Lote',s:'Tamaño de operación estándar.',d:'1 Lote = 100.000 unidades. Mini = 10.000. Micro = 1.000.',c:'#94a3b8'}],
+it:[{t:'Dovish',s:'Politica monetaria espansiva — tagli dei tassi probabili.',d:'Dati occupazione deboli, IPC basso. Valuta si indebolisce.',c:'#22c55e'},{t:'Hawkish',s:'Politica monetaria restrittiva — rialzi dei tassi.',d:'Inflazione forte, mercato del lavoro robusto. Valuta si rafforza.',c:'#ef4444'},{t:'Supporto',s:'Zona di prezzo con interesse storico di acquisto.',d:'Testato più volte = più forte. Rottura = nuova resistenza.',c:'#22c55e'},{t:'Resistenza',s:'Zona di prezzo con pressione di vendita.',d:'Rottura = forte segnale di acquisto (Role Reversal).',c:'#ef4444'},{t:'R:R',s:'Rapporto rischio/rendimento.',d:'1:2 = 50 pips rischio per 100 pips profitto.',c:'#6366f1'},{t:'MACD',s:'Moving Average Convergence Divergence.',d:'EMA12 meno EMA26. Segnale = EMA9. Sopra = rialzista.',c:'#d97706'},{t:'RSI',s:'Relative Strength Index (0-100).',d:'Sopra 70 = ipercomprato, sotto 30 = ipervenduto.',c:'#6366f1'},{t:'Pip',s:'Unità di prezzo più piccola nel forex.',d:'EUR/USD = 0.0001. Coppie JPY = 0.01.',c:'#94a3b8'},{t:'Spread',s:'Differenza tra bid e ask.',d:'Spread stretto = alta liquidità.',c:'#94a3b8'},{t:'Lotto',s:'Dimensione standard dell\'operazione.',d:'1 Lotto = 100.000 unità. Mini = 10.000. Micro = 1.000.',c:'#94a3b8'}]
+};
+
+// Strategies per language
+const STRATS={
+de:[{name:'Trend Following',desc:'Handel in Richtung des übergeordneten Trends. Entry bei Pullbacks zum Moving Average.',rules:['D1/H4 Trend bestimmen','Auf H1/M15 Pullback zum EMA warten','Entry bei Bestätigung (Kerzenformation)','SL unter letztem Swing-Low','TP am nächsten Resistance/Support'],color:'#22c55e',diff:'beginner'},{name:'Breakout Trading',desc:'Entry beim Ausbruch aus einer Konsolidierung. Hohes Momentum.',rules:['Range identifizieren','Auf Volumen-Anstieg achten','Entry bei klarem Schlusskurs über/unter Range','SL innerhalb der Range','TP1 = Range-Höhe projiziert'],color:'#6366f1',diff:'intermediate'},{name:'Mean Reversion (RSI)',desc:'Handel auf Rückkehr zum Durchschnitt bei überkauften/überverkauften Bedingungen.',rules:['RSI unter 30 (Long) oder über 70 (Short)','Bestätigung durch Kerzenumkehr','Entry bei RSI-Kreuzung zurück','Enger SL','TP am EMA oder Mittelwert'],color:'#d97706',diff:'intermediate'},{name:'Multi-TF Confluence',desc:'Kombination mehrerer Timeframes für hochwahrscheinliche Setups.',rules:['D1 Trend als Filter','H4 Key Level identifizieren','H1 Struktur (HH/HL)','M15 Entry-Trigger','Alle TFs müssen übereinstimmen'],color:'#ef4444',diff:'advanced'}],
+en:[{name:'Trend Following',desc:'Trade in the direction of the higher timeframe trend. Enter on pullbacks to the moving average.',rules:['Determine D1/H4 trend','Wait for H1/M15 pullback to EMA','Enter on confirmation (candle pattern)','SL below last swing low','TP at next resistance/support'],color:'#22c55e',diff:'beginner'},{name:'Breakout Trading',desc:'Enter on breakout from consolidation. High momentum, fast moves.',rules:['Identify range/consolidation','Watch for volume increase','Enter on clear close above/below range','SL inside the range','TP1 = projected range height'],color:'#6366f1',diff:'intermediate'},{name:'Mean Reversion (RSI)',desc:'Trade the return to average from overbought/oversold conditions.',rules:['RSI below 30 (long) or above 70 (short)','Confirmation via candle reversal','Enter when RSI crosses back','Tight SL','TP at EMA or mean'],color:'#d97706',diff:'intermediate'},{name:'Multi-TF Confluence',desc:'Combine multiple timeframes for high-probability setups.',rules:['D1 trend as filter','Identify H4 key level','H1 structure (HH/HL)','M15 entry trigger','All TFs must align'],color:'#ef4444',diff:'advanced'}],
+fr:[{name:'Suivi de tendance',desc:'Trader dans la direction de la tendance. Entrée sur repli vers la moyenne mobile.',rules:['Déterminer la tendance D1/H4','Attendre un repli H1/M15 vers l\'EMA','Entrer sur confirmation','SL sous le dernier creux','TP au prochain niveau'],color:'#22c55e',diff:'beginner'},{name:'Trading de cassure',desc:'Entrée sur cassure d\'une consolidation. Momentum élevé.',rules:['Identifier la zone de range','Surveiller l\'augmentation du volume','Entrer sur clôture claire','SL à l\'intérieur du range','TP1 = hauteur du range projetée'],color:'#6366f1',diff:'intermediate'},{name:'Retour à la moyenne (RSI)',desc:'Trader le retour à la moyenne depuis des conditions extrêmes.',rules:['RSI sous 30 (long) ou au-dessus de 70 (short)','Confirmation par bougie de retournement','Entrer quand le RSI recroise','SL serré','TP à l\'EMA'],color:'#d97706',diff:'intermediate'},{name:'Confluence Multi-TF',desc:'Combiner plusieurs timeframes pour des setups à haute probabilité.',rules:['Tendance D1 comme filtre','Identifier niveaux clés H4','Structure H1','Trigger M15','Tous les TFs doivent s\'aligner'],color:'#ef4444',diff:'advanced'}],
+es:[{name:'Seguimiento de tendencia',desc:'Operar en dirección de la tendencia principal. Entrada en retrocesos a la media móvil.',rules:['Determinar tendencia D1/H4','Esperar retroceso H1/M15 a EMA','Entrar en confirmación','SL bajo último mínimo','TP en próximo nivel'],color:'#22c55e',diff:'beginner'},{name:'Trading de ruptura',desc:'Entrada en ruptura de consolidación. Alto momentum.',rules:['Identificar rango','Vigilar aumento de volumen','Entrar en cierre claro','SL dentro del rango','TP1 = altura del rango proyectada'],color:'#6366f1',diff:'intermediate'},{name:'Reversión a la media (RSI)',desc:'Operar el retorno al promedio desde condiciones extremas.',rules:['RSI bajo 30 (largo) o sobre 70 (corto)','Confirmación por vela de reversión','Entrar cuando RSI recruza','SL ajustado','TP en EMA'],color:'#d97706',diff:'intermediate'},{name:'Confluencia Multi-TF',desc:'Combinar múltiples temporalidades para setups de alta probabilidad.',rules:['Tendencia D1 como filtro','Identificar niveles H4','Estructura H1','Trigger M15','Todos los TFs deben alinearse'],color:'#ef4444',diff:'advanced'}],
+it:[{name:'Trend Following',desc:'Operare nella direzione del trend principale. Ingresso sui pullback alla media mobile.',rules:['Determinare il trend D1/H4','Attendere pullback H1/M15 a EMA','Ingresso su conferma','SL sotto ultimo minimo swing','TP al prossimo livello'],color:'#22c55e',diff:'beginner'},{name:'Breakout Trading',desc:'Ingresso alla rottura di una consolidazione. Alto momentum.',rules:['Identificare il range','Osservare aumento volume','Ingresso su chiusura chiara','SL dentro il range','TP1 = altezza range proiettata'],color:'#6366f1',diff:'intermediate'},{name:'Mean Reversion (RSI)',desc:'Operare il ritorno alla media da condizioni estreme.',rules:['RSI sotto 30 (long) o sopra 70 (short)','Conferma con candela di inversione','Ingresso quando RSI ricrocca','SL stretto','TP a EMA'],color:'#d97706',diff:'intermediate'},{name:'Confluenza Multi-TF',desc:'Combinare più timeframe per setup ad alta probabilità.',rules:['Trend D1 come filtro','Identificare livelli chiave H4','Struttura H1','Trigger M15','Tutti i TF devono allinearsi'],color:'#ef4444',diff:'advanced'}]
+};
+
 let LANG=localStorage.getItem('fx_lang')||'de';
 function T(k){return(TR[LANG]||TR.de)[k]||k;}
-function setLang(l){LANG=l;localStorage.setItem('fx_lang',l);document.getElementById('langSel').value=l;}
+
+function setLang(l){
+  LANG=l;localStorage.setItem('fx_lang',l);document.getElementById('langSel').value=l;
+  translatePage();
+}
+
+function translatePage(){
+  // Nav buttons
+  document.querySelectorAll('.nav-btn[data-page="home"]').forEach(e=>e.innerHTML='&#127968; '+T('home'));
+  document.querySelectorAll('.nav-btn[data-page="analyse"]').forEach(e=>e.innerHTML='&#128202; '+T('analyze'));
+  document.querySelectorAll('.nav-btn[data-page="news"]').forEach(e=>e.innerHTML='&#128240; '+T('news'));
+  document.querySelectorAll('.nav-btn[data-page="wiki"]').forEach(e=>e.innerHTML='&#128218; '+T('wiki'));
+  // Hero
+  const ht=document.getElementById('heroTitle');if(ht)ht.textContent=T('heroTitle');
+  const hs=document.getElementById('heroSub');if(hs)hs.textContent=T('heroSub');
+  // All elements with data-t attribute
+  document.querySelectorAll('[data-t]').forEach(el=>{const k=el.dataset.t;const v=T(k);if(v!==k)el.textContent=v;});
+  // Re-render all dynamic sections
+  renderSessions();renderGlossar();renderStrategies();renderTopPairs();renderWL();
+}
 
 // ═══ NAVIGATION ═══
 function goPage(id){
@@ -367,7 +405,7 @@ function renderTopPairs(){
       <div class="tp-sym">${i.l}</div>
       <div class="tp-price">${p?p.toFixed(i.d):'—'}</div>
       ${r?`<div class="tp-rsi" style="color:${r>60?'#22c55e':r<40?'#ef4444':'#eab308'}">RSI ${r.toFixed(1)}</div>`:'<div class="tp-rsi" style="color:#475569">—</div>'}
-      <button class="btn btn-purple btn-sm" style="width:100%" onclick="event.stopPropagation();selectSymbol('${s}');goPage('analyse');runAnalysis()">&#9654; Analyse</button>
+      <button class="btn btn-purple btn-sm" style="width:100%" onclick="event.stopPropagation();selectSymbol('${s}');goPage('analyse');runAnalysis()">&#9654; ${T('analyze')}</button>
     </div>`;}).join('');
 }
 async function scanTopPairs(){if(!gk('av_api_key')){toggleSettings();return;}document.getElementById('scanHomeBtn').disabled=true;
@@ -379,7 +417,7 @@ async function scanTopPairs(){if(!gk('av_api_key')){toggleSettings();return;}doc
 
 // ═══ SESSIONS ═══
 const SESS=[{n:'Tokio',o:0,c:9,col:'#3b82f6'},{n:'London',o:7,c:16,col:'#22c55e'},{n:'NY',o:13,c:22,col:'#f59e0b'},{n:'Overlap',o:13,c:16,col:'#ef4444'}];
-function renderSessions(){const h=new Date().getUTCHours()+new Date().getUTCMinutes()/60;let hi=[];document.getElementById('sessionsGrid').innerHTML=SESS.map(s=>{const on=h>=s.o&&h<s.c,m=on?((s.c-h+24)%24*60|0):((s.o-h+24)%24*60|0);if(on)hi.push(s.n);return`<div style="background:${on?s.col+'22':'#0f172a'};border:1px solid ${on?s.col+'66':'#334155'};border-radius:8px;padding:12px;text-align:center"><div style="font-size:11px;font-weight:700;color:${on?s.col:'#64748b'}">${s.n}</div><div style="font-size:10px;color:#64748b">${String(s.o).padStart(2,'0')}–${String(s.c).padStart(2,'0')}</div><div style="font-size:11px;font-weight:800;color:${on?s.col:'#475569'};margin:4px 0">${on?'AKTIV':'—'}</div></div>`;}).join('');document.getElementById('sessionHint').textContent=hi.length?hi.join(', ')+' aktiv':new Date().toUTCString().slice(17,22)+' UTC';setTimeout(renderSessions,60000);}
+function renderSessions(){const h=new Date().getUTCHours()+new Date().getUTCMinutes()/60;let hi=[];document.getElementById('sessionsGrid').innerHTML=SESS.map(s=>{const on=h>=s.o&&h<s.c,m=on?((s.c-h+24)%24*60|0):((s.o-h+24)%24*60|0);if(on)hi.push(s.n);return`<div style="background:${on?s.col+'22':'#0f172a'};border:1px solid ${on?s.col+'66':'#334155'};border-radius:8px;padding:12px;text-align:center"><div style="font-size:11px;font-weight:700;color:${on?s.col:'#64748b'}">${s.n}</div><div style="font-size:10px;color:#64748b">${String(s.o).padStart(2,'0')}–${String(s.c).padStart(2,'0')}</div><div style="font-size:11px;font-weight:800;color:${on?s.col:'#475569'};margin:4px 0">${on?T('active'):T('closed')}</div></div>`;}).join('');document.getElementById('sessionHint').textContent=hi.length?hi.join(', ')+' '+T('active').toLowerCase():new Date().toUTCString().slice(17,22)+' UTC';setTimeout(renderSessions,60000);}
 // ═══ CHART ENGINE ═══
 function drawChart(cid,bars,opts){const cvs=document.getElementById(cid);if(!cvs||!bars.length)return;const ctx=cvs.getContext('2d');const W=cvs.width,H=cvs.height;const PAD={t:30,b:30,l:10,r:90};const cW=W-PAD.l-PAD.r,cH=H-PAD.t-PAD.b;ctx.clearRect(0,0,W,H);ctx.fillStyle='#0a0e1a';ctx.fillRect(0,0,W,H);
   let cMin=Infinity,cMax=-Infinity;bars.forEach(b=>{if(b.h>cMax)cMax=b.h;if(b.l<cMin)cMin=b.l;});const cR=cMax-cMin||.001;const mE=cR*.4;let pMn=cMin,pMx=cMax;
@@ -525,26 +563,8 @@ JSON ONLY.`,800);
   }catch(e){showErr(e.message);}document.getElementById('newsBtn').disabled=false;}
 
 // ═══ WIKI ═══
-const GLOSSAR=[
-  {t:'Dovish',s:'Lockere Geldpolitik — Zinssenkungen wahrscheinlich.',d:'Schwache Jobdaten, niedriger CPI. Waehrung schwaecher.',c:'#22c55e'},
-  {t:'Hawkish',s:'Straffe Geldpolitik — Zinserhoehungen.',d:'Starke Inflation, robuster Arbeitsmarkt. Waehrung staerker.',c:'#ef4444'},
-  {t:'Support',s:'Preiszone mit historischem Kaufinteresse.',d:'Mehrfach getestet = staerker. Bruch = neue Resistance.',c:'#22c55e'},
-  {t:'Resistance',s:'Preiszone mit Verkaufsdruck.',d:'Breakout nach oben = starkes Kaufsignal (Role Reversal).',c:'#ef4444'},
-  {t:'R:R (Risk/Reward)',s:'Verhaeltnis Risiko zu Gewinn.',d:'1:2 = 50 Pips Risiko fuer 100 Pips Gewinn. Ab 1:1.5 empfohlen.',c:'#6366f1'},
-  {t:'MACD',s:'Moving Average Convergence Divergence.',d:'EMA12 minus EMA26. Signal = EMA9(MACD). Ueber Signal = bullish.',c:'#d97706'},
-  {t:'RSI',s:'Relative Strength Index (0-100).',d:'Ueber 70 = overbought, unter 30 = oversold. Multi-TF Konvergenz staerkt Signal.',c:'#6366f1'},
-  {t:'Pip',s:'Kleinste Preiseinheit im Forex.',d:'Bei EUR/USD = 0.0001 (4. Nachkommastelle). Bei JPY-Paaren = 0.01.',c:'#94a3b8'},
-  {t:'Spread',s:'Differenz zwischen Bid und Ask.',d:'Enger Spread = hohe Liquiditaet. Weiter = News/Nacht. Kostet bei jedem Trade.',c:'#94a3b8'},
-  {t:'Lot',s:'Standard-Handelsgroesse.',d:'1 Lot = 100.000 Einheiten. Mini = 10.000. Micro = 1.000.',c:'#94a3b8'},
-];
-const STRATEGIES=[
-  {name:'Trend Following',desc:'Handel in Richtung des uebergeordneten Trends. Entry bei Pullbacks zum Moving Average.',rules:['D1/H4 Trend bestimmen','Auf H1/M15 Pullback zum EMA warten','Entry bei Bestaetigung (Kerzenformation)','SL unter letztem Swing-Low','TP am naechsten Resistance/Support'],color:'#22c55e',difficulty:'Anfaenger'},
-  {name:'Breakout Trading',desc:'Entry beim Ausbruch aus einer Konsolidierung. Hohes Momentum, schnelle Moves.',rules:['Range/Konsolidierung identifizieren','Auf Volumen-Anstieg achten','Entry bei klarem Schlusskurs ueber/unter der Range','SL innerhalb der Range','TP1 = Range-Hoehe projiziert'],color:'#6366f1',difficulty:'Mittel'},
-  {name:'Mean Reversion (RSI)',desc:'Handel auf Rueckkehr zum Durchschnitt bei ueberkauften/ueberverkauften Bedingungen.',rules:['RSI unter 30 (Long) oder ueber 70 (Short)','Bestaetigung durch Kerzenumkehr','Entry bei RSI-Kreuzung zurueck ueber 30 / unter 70','Enger SL','TP am EMA oder Mittelwert'],color:'#d97706',difficulty:'Mittel'},
-  {name:'Multi-Timeframe Confluence',desc:'Kombination mehrerer Timeframes fuer hochwahrscheinliche Setups.',rules:['D1 Trend als Filter','H4 Key Level identifizieren','H1 Struktur (HH/HL oder LH/LL)','M15 Entry-Trigger (Kerze/Indikator)','Alle TFs muessen uebereinstimmen'],color:'#ef4444',difficulty:'Fortgeschritten'},
-];
-function renderGlossar(){document.getElementById('glossar').innerHTML=GLOSSAR.map(g=>`<div style="background:#0f172a;border-radius:10px;padding:16px;border:1px solid #334155;border-left:3px solid ${g.c}"><p style="font-size:13px;font-weight:700;color:${g.c};margin-bottom:4px">${g.t}</p><p style="font-size:13px;color:#f1f5f9;margin-bottom:4px">${g.s}</p><p style="font-size:12px;color:#94a3b8">${g.d}</p></div>`).join('');}
-function renderStrategies(){document.getElementById('strategies').innerHTML=STRATEGIES.map(s=>`<div class="wiki-card" style="border-left:3px solid ${s.color}"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div class="wiki-title" style="color:${s.color}">${s.name}</div><span class="wiki-tag" style="background:${s.color}22;color:${s.color}">${s.difficulty}</span></div><p class="wiki-body" style="margin-bottom:10px">${s.desc}</p><div style="font-size:11px;color:#64748b;font-weight:700;margin-bottom:6px">REGELN:</div>${s.rules.map((r,i)=>`<div style="display:flex;gap:8px;padding:4px 0;font-size:12px;color:#cbd5e1"><span style="color:${s.color};font-weight:800;min-width:18px">${i+1}.</span>${r}</div>`).join('')}</div>`).join('');}
+function renderGlossar(){document.getElementById('glossar').innerHTML=(GLOSS[LANG]||GLOSS.de).map(g=>`<div style="background:#0f172a;border-radius:10px;padding:16px;border:1px solid #334155;border-left:3px solid ${g.c}"><p style="font-size:13px;font-weight:700;color:${g.c};margin-bottom:4px">${g.t}</p><p style="font-size:13px;color:#f1f5f9;margin-bottom:4px">${g.s}</p><p style="font-size:12px;color:#94a3b8">${g.d}</p></div>`).join('');}
+function renderStrategies(){document.getElementById('strategies').innerHTML=(STRATS[LANG]||STRATS.de).map(s=>`<div class="wiki-card" style="border-left:3px solid ${s.color}"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div class="wiki-title" style="color:${s.color}">${s.name}</div><span class="wiki-tag" style="background:${s.color}22;color:${s.color}">${T(s.diff)}</span></div><p class="wiki-body" style="margin-bottom:10px">${s.desc}</p><div style="font-size:11px;color:#64748b;font-weight:700;margin-bottom:6px">${T('rules')}:</div>${s.rules.map((r,i)=>`<div style="display:flex;gap:8px;padding:4px 0;font-size:12px;color:#cbd5e1"><span style="color:${s.color};font-weight:800;min-width:18px">${i+1}.</span>${r}</div>`).join('')}</div>`).join('');}
 
 // ═══ INIT ═══
 renderSessions();renderGlossar();renderStrategies();renderTopPairs();
@@ -553,5 +573,6 @@ renderKeyField('anthropicDisplay','anthropic_api_key','sk-ant-...');
 renderKeyField('avDisplay','av_api_key','AV Key...');
 checkKeys();selectSymbol(SYM);renderWL();
 document.getElementById('langSel').value=LANG;
+translatePage();
 </script>
 </body></html>
