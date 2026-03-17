@@ -81,21 +81,28 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <body>
 <div id="header"><div><h1 id="mainTitle">Forex Live-Analyse</h1><p id="updated">Massive + Alpha Vantage · Claude AI</p></div>
 <div class="hbtns">
+<select id="langSel" onchange="setLang(this.value)" style="background:#334155;border:1px solid #475569;border-radius:8px;color:#e2e8f0;padding:7px 10px;font-size:12px;cursor:pointer" title="Sprache / Language">
+<option value="de">&#127465;&#127466; Deutsch</option>
+<option value="en">&#127468;&#127463; English</option>
+<option value="fr">&#127467;&#127479; Français</option>
+<option value="es">&#127466;&#127480; Español</option>
+<option value="it">&#127470;&#127481; Italiano</option>
+</select>
 <button class="btn btn-gray" onclick="toggleSettings()" title="API Keys verwalten (Massive, Anthropic, Alpha Vantage)">&#9881; Keys</button>
-<button class="btn btn-amber" id="avBtn" onclick="runAVAnalysis()" disabled title="Technische Indikatoren via Alpha Vantage laden (RSI, MACD, EMA)">&#128202; Indikatoren</button>
-<button class="btn btn-gray" id="resetBtn" onclick="resetApp()" style="display:none" title="Analyse zuruecksetzen">&#8634; Neu</button>
-<button class="btn btn-purple" id="startBtn" onclick="runAnalysis()" disabled title="Vollstaendige KI-Analyse starten (D1/H4/H1/M15 + Claude AI)">&#9654; Analyse</button>
+<button class="btn btn-amber" id="avBtn" onclick="runAVAnalysis()" disabled title="Technische Indikatoren via Alpha Vantage laden (RSI, MACD, EMA)">&#128202; <span data-t="indicators">Indikatoren</span></button>
+<button class="btn btn-gray" id="resetBtn" onclick="resetApp()" style="display:none" title="Analyse zuruecksetzen">&#8634; <span data-t="reset">Neu</span></button>
+<button class="btn btn-purple" id="startBtn" onclick="runAnalysis()" disabled title="Vollstaendige KI-Analyse starten (D1/H4/H1/M15 + Claude AI)">&#9654; <span data-t="analyze">Analyse</span></button>
 </div></div>
 
 <!-- Progress Indicator -->
 <div class="prog-wrap" id="progWrap">
-<div style="font-size:11px;font-weight:700;color:#94a3b8;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em">Analyse-Fortschritt</div>
-<div class="prog-step" id="ps_d1"><div class="prog-dot"></div>D1 Tagesdaten</div><div class="prog-line" id="pl1"></div>
-<div class="prog-step" id="ps_h4"><div class="prog-dot"></div>H4 Daten</div><div class="prog-line" id="pl2"></div>
-<div class="prog-step" id="ps_h1"><div class="prog-dot"></div>H1 Daten</div><div class="prog-line" id="pl3"></div>
-<div class="prog-step" id="ps_m15"><div class="prog-dot"></div>M15 Daten</div><div class="prog-line" id="pl4"></div>
-<div class="prog-step" id="ps_ai"><div class="prog-dot"></div>Claude AI</div><div class="prog-line" id="pl5"></div>
-<div class="prog-step" id="ps_chart"><div class="prog-dot"></div>Chart erzeugen</div>
+<div style="font-size:11px;font-weight:700;color:#94a3b8;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em" data-t="progTitle">Analyse-Fortschritt</div>
+<div class="prog-step" id="ps_d1"><div class="prog-dot"></div><span data-t="progD1">D1 Tagesdaten</span></div><div class="prog-line" id="pl1"></div>
+<div class="prog-step" id="ps_h4"><div class="prog-dot"></div><span data-t="progH4">H4 Daten</span></div><div class="prog-line" id="pl2"></div>
+<div class="prog-step" id="ps_h1"><div class="prog-dot"></div><span data-t="progH1">H1 Daten</span></div><div class="prog-line" id="pl3"></div>
+<div class="prog-step" id="ps_m15"><div class="prog-dot"></div><span data-t="progM15">M15 Daten</span></div><div class="prog-line" id="pl4"></div>
+<div class="prog-step" id="ps_ai"><div class="prog-dot"></div><span data-t="progAI">Claude AI</span></div><div class="prog-line" id="pl5"></div>
+<div class="prog-step" id="ps_chart"><div class="prog-dot"></div><span data-t="progChart">Chart erzeugen</span></div>
 </div>
 
 <div id="main">
@@ -112,7 +119,7 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <!-- WATCHLIST -->
 <div class="card card-wl">
 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:10px">
-<p style="font-size:14px;font-weight:800;color:#22d3ee">&#128203; Watchlist</p>
+<p style="font-size:14px;font-weight:800;color:#22d3ee"><span data-t="watchlist">Watchlist</span></p>
 <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
 <select id="symSelect" onchange="selectSymbol(this.value)" style="min-width:130px" title="Waehle ein Symbol aus der Liste">
 <optgroup label="Majors"><option value="EURUSD">EUR/USD</option><option value="GBPUSD">GBP/USD</option><option value="USDJPY">USD/JPY</option><option value="USDCHF">USD/CHF</option><option value="AUDUSD">AUD/USD</option><option value="USDCAD">USD/CAD</option><option value="NZDUSD">NZD/USD</option></optgroup>
@@ -158,7 +165,7 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
 <p style="font-size:13px;font-weight:700;color:#94a3b8" id="chartTitle">Kerzenchart</p>
 <span id="chartTF" style="font-size:11px;color:#6366f1"></span></div>
-<canvas id="mainChart" width="1360" height="480" style="width:100%;height:auto;border-radius:8px;background:#0f172a"></canvas>
+<canvas id="mainChart" width="1360" height="560" style="width:100%;height:auto;border-radius:8px;background:#0f172a"></canvas>
 <div style="display:flex;gap:16px;margin-top:8px;font-size:10px;color:#64748b;flex-wrap:wrap">
 <span><span style="display:inline-block;width:8px;height:8px;background:#22c55e;border-radius:2px;vertical-align:middle;margin-right:3px"></span>Bullish</span>
 <span><span style="display:inline-block;width:8px;height:8px;background:#ef4444;border-radius:2px;vertical-align:middle;margin-right:3px"></span>Bearish</span>
@@ -170,26 +177,42 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 </div></div>
 
 <div class="kpi-grid"><div class="kpi"><div class="kpi-label">Kurs</div><div class="kpi-val" id="kpiPrice" style="color:#f1f5f9;font-size:20px"></div></div><div class="kpi"><div class="kpi-label">D1</div><div class="kpi-val" id="kpiD1"></div></div><div class="kpi"><div class="kpi-label">H4</div><div class="kpi-val" id="kpiH4"></div></div><div class="kpi"><div class="kpi-label">H1</div><div class="kpi-val" id="kpiH1"></div></div><div class="kpi"><div class="kpi-label">M15</div><div class="kpi-val" id="kpiM15"></div></div></div>
-<div class="two-col"><div class="card"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:12px">Key Levels</p><p style="font-size:10px;color:#ef4444;font-weight:700;margin-bottom:5px">RESISTANCE</p><div id="resistance"></div><p style="font-size:10px;color:#22c55e;font-weight:700;margin:10px 0 5px">SUPPORT</p><div id="support"></div></div>
+<div class="two-col"><div class="card"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:12px"><span data-t="keyLevels">Key Levels</span></p><p style="font-size:10px;color:#ef4444;font-weight:700;margin-bottom:5px">RESISTANCE</p><div id="resistance"></div><p style="font-size:10px;color:#22c55e;font-weight:700;margin:10px 0 5px">SUPPORT</p><div id="support"></div></div>
 <div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><p style="font-size:13px;font-weight:700;color:#94a3b8">Fundamentaler Bias</p><span id="biasBadge" class="badge"></span></div><p id="fundSummary" style="font-size:13px;color:#cbd5e1;line-height:1.6;margin-bottom:10px"></p><div id="keyEvents"></div></div></div>
 <div class="card"><div class="three-col"><div><p style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:6px">Waehrung 1</p><p id="fundECB" style="font-size:12px;color:#cbd5e1;line-height:1.6"></p></div><div><p style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:6px">Waehrung 2</p><p id="fundFED" style="font-size:12px;color:#cbd5e1;line-height:1.6"></p></div><div><p style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:6px">Makro</p><p id="fundMacro" style="font-size:12px;color:#cbd5e1;line-height:1.6"></p></div></div></div>
-<div class="card"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:14px">Session-Timing</p><div id="sessionTiming"></div></div>
-<div class="card"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:4px">Trade-Szenarien</p><p style="font-size:11px;color:#6366f1;margin-bottom:14px">Klicke fuer Tiefenanalyse + Chart</p><div style="overflow-x:auto"><table><thead><tr><th>#</th><th>Szenario</th><th>Dir.</th><th>TF</th><th>HTF</th><th>Entry</th><th>SL</th><th>TP1</th><th>TP2</th><th>R:R</th><th>Session</th><th>Prob.</th><th>Konf.</th></tr></thead><tbody id="scenarioBody"></tbody></table></div></div>
-<div class="card card-accent"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:8px">Zusammenfassung</p><p id="summary" style="font-size:14px;color:#cbd5e1;line-height:1.7"></p></div>
-<p style="text-align:center;font-size:11px;color:#334155;margin-bottom:24px">Keine Finanzberatung.</p>
-<div class="card" style="margin-bottom:24px"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:16px">Glossar</p><div id="glossar" style="display:grid;grid-template-columns:1fr 1fr;gap:12px"></div></div>
+<div class="card"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:14px"><span data-t="sessionTiming">Session-Timing</span></p><div id="sessionTiming"></div></div>
+<div class="card"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:4px"><span data-t="scenarios">Trade-Szenarien</span></p><p style="font-size:11px;color:#6366f1;margin-bottom:14px">Klicke fuer Tiefenanalyse + Chart</p><div style="overflow-x:auto"><table><thead><tr><th>#</th><th>Szenario</th><th>Dir.</th><th>TF</th><th>HTF</th><th>Entry</th><th>SL</th><th>TP1</th><th>TP2</th><th>R:R</th><th>Session</th><th>Prob.</th><th>Konf.</th></tr></thead><tbody id="scenarioBody"></tbody></table></div></div>
+<div class="card card-accent"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:8px"><span data-t="summary">Zusammenfassung</span></p><p id="summary" style="font-size:14px;color:#cbd5e1;line-height:1.7"></p></div>
+<p style="text-align:center;font-size:11px;color:#334155;margin-bottom:24px"><span data-t="noFinAdvice">Keine Finanzberatung.</span></p>
+<div class="card" style="margin-bottom:24px"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:16px"><span data-t="glossar">Glossar</span></p><div id="glossar" style="display:grid;grid-template-columns:1fr 1fr;gap:12px"></div></div>
 </div></div>
 
 <!-- OVERLAY (no TradingView, own chart) -->
 <div id="overlay"><div id="ovBox">
 <div id="ovHeader"><div style="flex:1"><div id="ovTitle"></div><div id="ovSub"></div></div><div style="display:flex;gap:8px;align-items:center"><span id="ovStatus" style="font-size:12px;color:#94a3b8"></span><button class="btn btn-gray" onclick="closeOverlay()" title="Overlay schliessen">&#10005; Schliessen</button></div></div>
-<div style="padding:16px 20px;background:#0f172a;border-bottom:1px solid #334155"><canvas id="ovChart" width="1360" height="420" style="width:100%;height:auto;border-radius:8px"></canvas></div>
+<div style="padding:16px 20px;background:#0f172a;border-bottom:1px solid #334155"><canvas id="ovChart" width="1360" height="500" style="width:100%;height:auto;border-radius:8px"></canvas></div>
 <div id="ovBody">
-<div class="card card-accent" style="margin-bottom:14px"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:10px">KI-Tiefenanalyse</p><div id="deepText" style="font-size:13px;color:#cbd5e1;line-height:1.8"></div></div>
+<div class="card card-accent" style="margin-bottom:14px"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:10px"><span data-t="deepAnalysis">KI-Tiefenanalyse</span></p><div id="deepText" style="font-size:13px;color:#cbd5e1;line-height:1.8"></div></div>
 <div class="card" style="margin-bottom:14px"><table><tbody id="ovParamTable"></tbody></table></div>
 <div class="two-col" style="margin-bottom:24px"><div class="card"><p style="font-size:10px;color:#ef4444;font-weight:700;margin-bottom:8px">RESISTANCE</p><div id="ovRes"></div></div><div class="card"><p style="font-size:10px;color:#22c55e;font-weight:700;margin-bottom:8px">SUPPORT</p><div id="ovSup"></div></div></div>
 </div></div></div>
 <script>
+// ═══ LANGUAGE SYSTEM ═══
+const TRANSLATIONS={
+  de:{indicators:'Indikatoren',analyze:'Analyse',reset:'Neu',watchlist:'Watchlist',addWL:'+ Watchlist',scanAll:'Scan alle',sessions:'Sessions (UTC)',active:'Aktiv',closed:'Zu',chartTitle:'Kerzenchart',keyLevels:'Key Levels',fundamentalBias:'Fundamentaler Bias',currency1:'Währung 1',currency2:'Währung 2',macro:'Makro',sessionTiming:'Session-Timing',scenarios:'Trade-Szenarien',scenarioHint:'Klicke für Tiefenanalyse + Chart',summary:'Zusammenfassung',glossar:'Glossar',resistance:'RESISTANCE',support:'SUPPORT',recommendation:'EMPFEHLUNG',bestFor:'BEST FOR',avoid:'VERMEIDEN',deepAnalysis:'KI-Tiefenanalyse',tradeParams:'Trade-Parameter',close:'Schließen',noFinAdvice:'<span data-t="noFinAdvice">Keine Finanzberatung.</span>',progTitle:'Analyse-Fortschritt',progD1:'D1 Tagesdaten',progH4:'H4 Daten',progH1:'H1 Daten',progM15:'M15 Daten',progAI:'Claude AI',progChart:'Chart erzeugen',claudeLang:'Deutsch',claudeInstr:'Antworte auf Deutsch.'},
+  en:{indicators:'Indicators',analyze:'Analyze',reset:'Reset',watchlist:'Watchlist',addWL:'+ Watchlist',scanAll:'Scan all',sessions:'Sessions (UTC)',active:'Active',closed:'Closed',chartTitle:'Candlestick chart',keyLevels:'Key Levels',fundamentalBias:'Fundamental Bias',currency1:'Currency 1',currency2:'Currency 2',macro:'Macro',sessionTiming:'Session Timing',scenarios:'Trade Scenarios',scenarioHint:'Click for deep analysis + chart',summary:'Summary',glossar:'Glossary',resistance:'RESISTANCE',support:'SUPPORT',recommendation:'RECOMMENDATION',bestFor:'BEST FOR',avoid:'AVOID',deepAnalysis:'AI Deep Analysis',tradeParams:'Trade Parameters',close:'Close',noFinAdvice:'Not financial advice.',progTitle:'Analysis Progress',progD1:'D1 Daily Data',progH4:'H4 Data',progH1:'H1 Data',progM15:'M15 Data',progAI:'Claude AI',progChart:'Generate Chart',claudeLang:'English',claudeInstr:'Respond in English.'},
+  fr:{indicators:'Indicateurs',analyze:'Analyser',reset:'Réinitialiser',watchlist:'Liste de suivi',addWL:'+ Suivi',scanAll:'Scanner tout',sessions:'Sessions (UTC)',active:'Actif',closed:'Fermé',chartTitle:'Graphique en chandeliers',keyLevels:'Niveaux clés',fundamentalBias:'Biais fondamental',currency1:'Devise 1',currency2:'Devise 2',macro:'Macro',sessionTiming:'Timing des sessions',scenarios:'Scénarios de trade',scenarioHint:'Cliquez pour analyse détaillée + graphique',summary:'Résumé',glossar:'Glossaire',resistance:'RÉSISTANCE',support:'SUPPORT',recommendation:'RECOMMANDATION',bestFor:'IDÉAL POUR',avoid:'ÉVITER',deepAnalysis:'Analyse IA approfondie',tradeParams:'Paramètres du trade',close:'Fermer',noFinAdvice:'Pas un conseil financier.',progTitle:'Progression',progD1:'D1 Données',progH4:'H4 Données',progH1:'H1 Données',progM15:'M15 Données',progAI:'Claude IA',progChart:'Créer graphique',claudeLang:'français',claudeInstr:'Réponds en français.'},
+  es:{indicators:'Indicadores',analyze:'Analizar',reset:'Reiniciar',watchlist:'Lista de seguimiento',addWL:'+ Seguimiento',scanAll:'Escanear todo',sessions:'Sesiones (UTC)',active:'Activo',closed:'Cerrado',chartTitle:'Gráfico de velas',keyLevels:'Niveles clave',fundamentalBias:'Sesgo fundamental',currency1:'Divisa 1',currency2:'Divisa 2',macro:'Macro',sessionTiming:'Timing de sesiones',scenarios:'Escenarios de trading',scenarioHint:'Haz clic para análisis + gráfico',summary:'Resumen',glossar:'Glosario',resistance:'RESISTENCIA',support:'SOPORTE',recommendation:'RECOMENDACIÓN',bestFor:'IDEAL PARA',avoid:'EVITAR',deepAnalysis:'Análisis IA profundo',tradeParams:'Parámetros del trade',close:'Cerrar',noFinAdvice:'No es asesoría financiera.',progTitle:'Progreso',progD1:'D1 Datos',progH4:'H4 Datos',progH1:'H1 Datos',progM15:'M15 Datos',progAI:'Claude IA',progChart:'Crear gráfico',claudeLang:'español',claudeInstr:'Responde en español.'},
+  it:{indicators:'Indicatori',analyze:'Analizza',reset:'Reimposta',watchlist:'Lista di controllo',addWL:'+ Controllo',scanAll:'Scansiona tutto',sessions:'Sessioni (UTC)',active:'Attivo',closed:'Chiuso',chartTitle:'Grafico a candele',keyLevels:'Livelli chiave',fundamentalBias:'Bias fondamentale',currency1:'Valuta 1',currency2:'Valuta 2',macro:'Macro',sessionTiming:'Timing delle sessioni',scenarios:'Scenari di trading',scenarioHint:'Clicca per analisi + grafico',summary:'Riepilogo',glossar:'Glossario',resistance:'RESISTENZA',support:'SUPPORTO',recommendation:'RACCOMANDAZIONE',bestFor:'IDEALE PER',avoid:'EVITARE',deepAnalysis:'Analisi IA approfondita',tradeParams:'Parametri del trade',close:'Chiudi',noFinAdvice:'Non è consulenza finanziaria.',progTitle:'Progresso',progD1:'D1 Dati',progH4:'H4 Dati',progH1:'H1 Dati',progM15:'M15 Dati',progAI:'Claude IA',progChart:'Crea grafico',claudeLang:'italiano',claudeInstr:'Rispondi in italiano.'}
+};
+let LANG=localStorage.getItem('fx_lang')||'de';
+function T(k){return(TRANSLATIONS[LANG]||TRANSLATIONS.de)[k]||k;}
+function setLang(l){LANG=l;localStorage.setItem('fx_lang',l);document.getElementById('langSel').value=l;
+  document.querySelectorAll('[data-t]').forEach(el=>{const k=el.dataset.t;if(T(k)!==k)el.textContent=T(k);});
+  // Update progress steps
+  const pm={'ps_d1':'progD1','ps_h4':'progH4','ps_h1':'progH1','ps_m15':'progM15','ps_ai':'progAI','ps_chart':'progChart'};
+  Object.entries(pm).forEach(([id,tk])=>{const el=document.getElementById(id);if(el){const txt=el.querySelector('.prog-dot');if(txt&&txt.nextSibling)txt.nextSibling.textContent=T(tk);}});
+}
 const fmt=d=>d.toISOString().split('T')[0],ago=n=>{const d=new Date();d.setDate(d.getDate()-n);return fmt(d)},now=()=>fmt(new Date());
 const dc=v=>/bull|long|up|steig/i.test(v)?'#22c55e':/bear|short|down|fall/i.test(v)?'#ef4444':'#eab308';
 const cc=c=>c==='Hoch'?'#22c55e':c==='Mittel'?'#eab308':'#ef4444';
@@ -239,14 +262,18 @@ function renderSessions(){const h=new Date().getUTCHours()+new Date().getUTCMinu
 function drawChart(canvasId, bars, opts){
   const cvs=document.getElementById(canvasId);if(!cvs||!bars.length)return;
   const ctx=cvs.getContext('2d');const W=cvs.width,H=cvs.height;
-  const PAD={t:30,b:30,l:10,r:80};const cW=W-PAD.l-PAD.r,cH=H-PAD.t-PAD.b;
+  const PAD={t:30,b:30,l:10,r:90};const cW=W-PAD.l-PAD.r,cH=H-PAD.t-PAD.b;
   ctx.clearRect(0,0,W,H);ctx.fillStyle='#0f172a';ctx.fillRect(0,0,W,H);
-  // Price range
-  let pMin=Infinity,pMax=-Infinity;
-  bars.forEach(b=>{if(b.h>pMax)pMax=b.h;if(b.l<pMin)pMin=b.l;});
+  // Price range: candle-based, then extend modestly for nearby levels
+  let cMin=Infinity,cMax=-Infinity;
+  bars.forEach(b=>{if(b.h>cMax)cMax=b.h;if(b.l<cMin)cMin=b.l;});
+  const cRange=cMax-cMin||0.001;
+  // Only extend range for levels within 40% of candle range (prevents extreme stretching)
+  const maxExt=cRange*0.4;let pMin=cMin,pMax=cMax;
   const levels=[...(opts.resistance||[]),...(opts.support||[]),...[opts.entry,opts.sl,opts.tp1,opts.tp2].filter(Boolean)];
-  levels.forEach(l=>{const v=parseFloat(l);if(!isNaN(v)){if(v>pMax)pMax=v;if(v<pMin)pMin=v;}});
-  const pRange=pMax-pMin||0.001;pMin-=pRange*0.05;pMax+=pRange*0.05;const pR=pMax-pMin;
+  levels.forEach(l=>{const v=parseFloat(l);if(isNaN(v))return;if(v>cMax&&v<=cMax+maxExt)pMax=Math.max(pMax,v);if(v<cMin&&v>=cMin-maxExt)pMin=Math.min(pMin,v);});
+  // Add 8% padding
+  const pad8=(pMax-pMin)*0.08;pMin-=pad8;pMax+=pad8;const pR=pMax-pMin;
   const yOf=p=>PAD.t+cH*(1-(p-pMin)/pR);
   const n=bars.length;const bW=Math.max(2,Math.floor(cW/n*0.7));const gap=cW/n;
   // Grid
@@ -258,13 +285,18 @@ function drawChart(canvasId, bars, opts){
   ctx.fillStyle='#475569';ctx.font='9px -apple-system,sans-serif';ctx.textAlign='center';
   const tStep=Math.max(1,Math.floor(n/8));
   for(let i=0;i<n;i+=tStep){const x=PAD.l+i*gap+gap/2;const t=bars[i].t||'';const short=t.length>11?t.slice(5,16):t.slice(5,10);ctx.fillText(short,x,H-8);}
-  // Support lines
-  (opts.support||[]).forEach(lv=>{const v=parseFloat(lv);if(isNaN(v))return;const y=yOf(v);ctx.strokeStyle='#22c55e66';ctx.lineWidth=1;ctx.setLineDash([6,4]);ctx.beginPath();ctx.moveTo(PAD.l,y);ctx.lineTo(W-PAD.r,y);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#22c55e';ctx.font='bold 10px sans-serif';ctx.textAlign='left';ctx.fillText('S '+lv,PAD.l+4,y-4);});
-  // Resistance lines
-  (opts.resistance||[]).forEach(lv=>{const v=parseFloat(lv);if(isNaN(v))return;const y=yOf(v);ctx.strokeStyle='#ef444466';ctx.lineWidth=1;ctx.setLineDash([6,4]);ctx.beginPath();ctx.moveTo(PAD.l,y);ctx.lineTo(W-PAD.r,y);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#ef4444';ctx.font='bold 10px sans-serif';ctx.textAlign='left';ctx.fillText('R '+lv,PAD.l+4,y-4);});
+  // Support lines (clip to visible range)
+  (opts.support||[]).forEach(lv=>{const v=parseFloat(lv);if(isNaN(v))return;const y=yOf(v);const vis=y>=PAD.t-10&&y<=H-PAD.b+10;
+    if(vis){ctx.strokeStyle='#22c55e55';ctx.lineWidth=1;ctx.setLineDash([6,4]);ctx.beginPath();ctx.moveTo(PAD.l,y);ctx.lineTo(W-PAD.r,y);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#22c55e';ctx.font='bold 10px sans-serif';ctx.textAlign='left';ctx.fillText('S '+lv,PAD.l+4,y-4);}
+    else if(v<pMin){ctx.fillStyle='#22c55e88';ctx.font='bold 9px sans-serif';ctx.textAlign='left';ctx.fillText('▼ S '+lv,PAD.l+4,H-PAD.b-2);}});
+  // Resistance lines (clip to visible range)
+  (opts.resistance||[]).forEach(lv=>{const v=parseFloat(lv);if(isNaN(v))return;const y=yOf(v);const vis=y>=PAD.t-10&&y<=H-PAD.b+10;
+    if(vis){ctx.strokeStyle='#ef444455';ctx.lineWidth=1;ctx.setLineDash([6,4]);ctx.beginPath();ctx.moveTo(PAD.l,y);ctx.lineTo(W-PAD.r,y);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#ef4444';ctx.font='bold 10px sans-serif';ctx.textAlign='left';ctx.fillText('R '+lv,PAD.l+4,y-4);}
+    else if(v>pMax){ctx.fillStyle='#ef444488';ctx.font='bold 9px sans-serif';ctx.textAlign='left';ctx.fillText('▲ R '+lv,PAD.l+4,PAD.t+12);}});
   // Entry / SL / TP lines
-  function drawLevel(val,col,label,dash){const v=parseFloat(val);if(isNaN(v))return;const y=yOf(v);ctx.strokeStyle=col;ctx.lineWidth=2;ctx.setLineDash(dash||[]);ctx.beginPath();ctx.moveTo(PAD.l,y);ctx.lineTo(W-PAD.r,y);ctx.stroke();ctx.setLineDash([]);
-    ctx.fillStyle=col;ctx.font='bold 11px sans-serif';ctx.textAlign='right';ctx.fillText(label+' '+val,W-PAD.r-6,y-5);}
+  function drawLevel(val,col,label,dash){const v=parseFloat(val);if(isNaN(v))return;const y=yOf(v);const vis=y>=PAD.t-10&&y<=H-PAD.b+10;
+    if(vis){ctx.strokeStyle=col;ctx.lineWidth=2;ctx.setLineDash(dash||[]);ctx.beginPath();ctx.moveTo(PAD.l,y);ctx.lineTo(W-PAD.r,y);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle=col;ctx.font='bold 11px sans-serif';ctx.textAlign='right';ctx.fillText(label+' '+val,W-PAD.r-6,y-5);}
+    else{ctx.fillStyle=col;ctx.font='bold 9px sans-serif';ctx.textAlign='right';ctx.fillText((v>pMax?'▲ ':'▼ ')+label+' '+val,W-PAD.r-6,v>pMax?PAD.t+26:H-PAD.b-14);}}
   if(opts.entry)drawLevel(opts.entry,'#fbbf24','ENTRY',[]);
   if(opts.sl)drawLevel(opts.sl,'#ef4444','SL',[4,4]);
   if(opts.tp1)drawLevel(opts.tp1,'#22c55e','TP1',[4,4]);
@@ -371,7 +403,7 @@ async function runAnalysis(){hideErr();document.getElementById('results').style.
     let avC='';if(AV&&AV.sym===SYM){const lt=AV.macd[AV.macd.length-1]||{};avC=`\nTech: RSI H1=${wlD[SYM+'_r']?.toFixed(1)||'n/a'}, MACD=${(lt.macd*pm()).toFixed(1)} Pips`;}
 
     setProg('ps_ai','active');setStatus('Claude AI analysiert...');
-    const text=await callClaude(`Forex-Analyst. ${now()}. ${info.l}: ${lp}.
+    const text=await callClaude(`Forex-Analyst. ${T('claudeInstr')} ${now()}. ${info.l}: ${lp}.
 D1(${d1.length}):${JSON.stringify(fmtBars(d1,40))}
 H4(${h4.length}):${JSON.stringify(fmtBars(h4,50))}
 H1(${h1.length}):${JSON.stringify(fmtBars(h1,60))}
@@ -422,9 +454,10 @@ function openScenario(i){if(!G)return;const s=G.scenarios[i],inf=SYMS[G._sym||SY
   const chartBars=(rawBars[tfKey]||rawBars.h1||[]).slice(-80).map(b=>({t:new Date(b.t).toISOString().slice(0,16).replace('T',' '),o:b.o,h:b.h,l:b.l,c:b.c}));
   if(chartBars.length)drawChart('ovChart',chartBars,{dec:inf.d,resistance:G.keyLevels?.resistance,support:G.keyLevels?.support,entry:s.entry,sl:s.sl,tp1:s.tp1,tp2:s.tp2,direction:s.direction,scenario:s.name});
   loadDeep(s,inf);}
-async function loadDeep(s,inf){const el=document.getElementById('deepText');document.getElementById('ovStatus').innerHTML='<span class="spin"></span>';el.innerHTML='<span class="spin"></span> Tiefenanalyse...';
-  try{const t=await callClaude(`Forex-Trader. ${inf.l}: ${s.name} (${s.direction}, Entry ${s.entry}, SL ${s.sl}, TP ${s.tp1}/${s.tp2}, R:R ${s.rr}, TF ${s.entryTF}). Trends: D1 ${G.trend?.d1}, H4 ${G.trend?.h4}, H1 ${G.trend?.h1}, M15 ${G.trend?.m15}. Bias: ${G.fundamental?.bias}. R: ${(G.keyLevels?.resistance||[]).join(',')}. S: ${(G.keyLevels?.support||[]).join(',')}.
-Deutsch, 300W: **Warum jetzt?** **Einstieg** **Risiko** **Gefahren** **Fazit**`,900);
+async function loadDeep(s,inf){const el=document.getElementById('deepText');document.getElementById('ovStatus').innerHTML='<span class="spin"></span>';el.innerHTML='<span class="spin"></span> '+T('deepAnalysis')+'...';
+  const secH={de:'**Warum jetzt?** **Einstieg** **Risiko** **Gefahren** **Fazit**',en:'**Why now?** **Entry step by step** **Risk management** **What can go wrong?** **Conclusion**',fr:'**Pourquoi maintenant?** **Entrée** **Risque** **Dangers** **Conclusion**',es:'**Por qué ahora?** **Entrada** **Riesgo** **Peligros** **Conclusión**',it:'**Perché ora?** **Ingresso** **Rischio** **Pericoli** **Conclusione**'};
+  try{const t=await callClaude(`Forex-Trader. ${T('claudeInstr')} ${inf.l}: ${s.name} (${s.direction}, Entry ${s.entry}, SL ${s.sl}, TP ${s.tp1}/${s.tp2}, R:R ${s.rr}, TF ${s.entryTF}). Trends: D1 ${G.trend?.d1}, H4 ${G.trend?.h4}, H1 ${G.trend?.h1}, M15 ${G.trend?.m15}. Bias: ${G.fundamental?.bias}. R: ${(G.keyLevels?.resistance||[]).join(',')}. S: ${(G.keyLevels?.support||[]).join(',')}.
+300 words, sections: ${secH[LANG]||secH.en}`,900);
   el.innerHTML=t.replace(/\*\*(.*?)\*\*/g,'<strong style="color:#f1f5f9;display:block;margin-top:12px;margin-bottom:4px">$1</strong>').replace(/\n/g,'<br>');document.getElementById('ovStatus').textContent='Done';}catch(e){el.innerHTML=`<span style="color:#ef4444">${e.message}</span>`;document.getElementById('ovStatus').textContent='';}}
 function closeOverlay(){document.getElementById('overlay').style.display='none';document.body.style.overflow='';}
 document.getElementById('overlay').addEventListener('click',e=>{if(e.target===document.getElementById('overlay'))closeOverlay();});
@@ -440,5 +473,9 @@ renderKeyField('massiveDisplay','massive_api_key','Massive Key...');
 renderKeyField('anthropicDisplay','anthropic_api_key','sk-ant-...');
 renderKeyField('avDisplay','av_api_key','AV Key...');
 checkKeys();selectSymbol(SYM);renderWL();
+// Restore saved language
+const savedLang=localStorage.getItem('fx_lang')||'de';
+document.getElementById('langSel').value=savedLang;
+setLang(savedLang);
 </script>
 </body></html>
