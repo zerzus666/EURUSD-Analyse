@@ -174,6 +174,12 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
       <p id="summary" style="font-size:14px;color:#cbd5e1;line-height:1.7"></p>
     </div>
     <p style="text-align:center;font-size:11px;color:#334155;margin-bottom:24px">⚠️ Keine Finanzberatung. Alle Entscheidungen liegen in deiner Verantwortung.</p>
+
+    <!-- Glossar -->
+    <div class="card" style="margin-bottom:24px">
+      <p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:16px">📖 Begriffserklärungen – Was bedeutet das?</p>
+      <div id="glossar" style="display:grid;grid-template-columns:1fr 1fr;gap:12px"></div>
+    </div>
   </div>
 </div>
 
@@ -189,6 +195,7 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
       </div>
       <div style="display:flex;gap:8px;align-items:center;flex-shrink:0">
         <span id="ovStatus" style="font-size:12px;color:#94a3b8"></span>
+        <button class="btn btn-gray" id="tvToggleBtn" onclick="toggleTV()">📉 Chart ausblenden</button>
         <button class="btn btn-gray" onclick="closeOverlay()">✕ Schließen</button>
       </div>
     </div>
@@ -509,6 +516,13 @@ function loadTVChart(interval){
   });
 }
 
+let tvVisible=true;
+function toggleTV(){
+  tvVisible=!tvVisible;
+  document.getElementById('tvWrap').style.display=tvVisible?'block':'none';
+  document.getElementById('tvToggleBtn').textContent=tvVisible?'📉 Chart ausblenden':'📈 Chart einblenden';
+}
+
 function switchTF(tf){
   currentTF=tf;
   updateTFBtns(tf);
@@ -566,8 +580,79 @@ function closeOverlay(){
 document.getElementById('overlay').addEventListener('click',e=>{ if(e.target===document.getElementById('overlay')) closeOverlay(); });
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeOverlay(); });
 
+// ─── Glossar ───────────────────────────────────────────────────────
+const GLOSSAR=[
+  {
+    term:'🏦 Dovish (Fed/EZB)',
+    short:'Notenbank signalisiert lockere Geldpolitik – Zinssenkungen wahrscheinlicher.',
+    detail:'Dovische Signale entstehen wenn die Fed Risiken am Arbeitsmarkt betont, Inflation nachlässt oder Powell auf Pressekonferenzen weniger restriktiv klingt. Konkrete Auslöser: schwache US-Jobdaten (NFP), niedriger CPI, rückläufiges BIP.',
+    impact:'💹 Auswirkung auf EUR/USD: USD schwächer → EUR/USD steigt. Haupttreiber der Rally von 1.01 → 1.09 seit Januar 2025.',
+    col:'#22c55e'
+  },
+  {
+    term:'🏦 Hawkish (Fed/EZB)',
+    short:'Notenbank signalisiert straffe Geldpolitik – Zinserhöhungen oder keine Senkungen.',
+    detail:'Hawkische Signale: Fed betont hartnäckige Inflation, starke Jobdaten, Dot Plot zeigt weniger Senkungen als erwartet. Typisch nach heißem CPI oder NFP über Erwartung.',
+    impact:'💹 Auswirkung auf EUR/USD: USD stärker → EUR/USD fällt.',
+    col:'#ef4444'
+  },
+  {
+    term:'📊 Support (Unterstützung)',
+    short:'Preiszone wo Käufer historisch eingestiegen sind – Kurs hat dort oft gedreht.',
+    detail:'Support-Level sind Preiszonen die mehrfach als Boden dienten. Je öfter ein Level gehalten hat, desto stärker. Wird ein Support gebrochen, wird er oft zur neuen Resistance.',
+    impact:'💹 Auswirkung: Kurs nähert sich Support → Long-Trades werden wahrscheinlicher. Bruch nach unten → Beschleunigung des Abverkaufs.',
+    col:'#22c55e'
+  },
+  {
+    term:'📊 Resistance (Widerstand)',
+    short:'Preiszone wo Verkäufer historisch aktiv wurden – Kurs hat dort oft gedreht.',
+    detail:'Resistance-Level sind Preiszonen die mehrfach als Deckel wirkten. Wird eine Resistance gebrochen, kann sie zum neuen Support werden (Role Reversal).',
+    impact:'💹 Auswirkung: Kurs nähert sich Resistance → Short-Trades oder TP-Mitnahmen wahrscheinlicher. Breakout darüber → starkes Kaufsignal.',
+    col:'#ef4444'
+  },
+  {
+    term:'⚖️ Risk/Reward (R:R)',
+    short:'Verhältnis von möglichem Gewinn zu möglichem Verlust eines Trades.',
+    detail:'Ein R:R von 1:2 bedeutet: du riskierst 50 Pips Stop Loss um 100 Pips Gewinn zu machen. Professionelle Trader akzeptieren meist nur Trades ab 1:1.5 aufwärts.',
+    impact:'💹 Faustregel: Selbst mit 40% Trefferquote bist du profitabel wenn dein R:R konstant 1:2 oder besser ist.',
+    col:'#6366f1'
+  },
+  {
+    term:'🔀 London/NY Overlap',
+    short:'13:00–16:00 UTC – höchste Liquidität und Volatilität des Tages.',
+    detail:'Wenn London- und New-York-Session gleichzeitig offen sind, treffen die größten Handelsvolumina aufeinander. Spread ist am engsten, Bewegungen am stärksten.',
+    impact:'💹 Beste Zeit für EUR/USD Breakout-Trades. Viele institutionelle Orders werden in dieser Zeit ausgeführt.',
+    col:'#f59e0b'
+  },
+  {
+    term:'📈 Bullish / Bearish',
+    short:'Bullish = steigende Kurse erwartet. Bearish = fallende Kurse erwartet.',
+    detail:'Bullisher Bias bedeutet mehr Long-Trades bevorzugt. Bearisher Bias = Short-Trades bevorzugt. Der Bias sollte mit dem übergeordneten Trend (D1/W1) übereinstimmen.',
+    impact:'💹 Gegen den Trend zu traden erhöht das Risiko erheblich. "Trade with the trend, not against it."',
+    col:'#3b82f6'
+  },
+  {
+    term:'🕐 Session-Timing',
+    short:'Forex hat keine zentrale Börse – Aktivität hängt davon ab welche Finanzzentren gerade offen sind.',
+    detail:'Tokio (0–9 UTC): ruhig, JPY-Paare aktiver. London (7–16 UTC): EUR/USD erwacht, hohe Liquidität. New York (13–22 UTC): USD-Nachrichten bewegen den Markt. Overlap (13–16 UTC): maximale Aktivität.',
+    impact:'💹 Außerhalb der Sessions: weite Spreads, falsche Ausbrüche, dünne Liquidität. Besser keine neuen Positionen eröffnen.',
+    col:'#94a3b8'
+  },
+];
+
+function renderGlossar(){
+  document.getElementById('glossar').innerHTML=GLOSSAR.map(g=>`
+    <div style="background:#0f172a;border-radius:10px;padding:16px;border:1px solid #334155;border-left:3px solid ${g.col}">
+      <p style="font-size:13px;font-weight:700;color:${g.col};margin-bottom:6px">${g.term}</p>
+      <p style="font-size:13px;color:#f1f5f9;font-weight:600;margin-bottom:6px">${g.short}</p>
+      <p style="font-size:12px;color:#94a3b8;line-height:1.6;margin-bottom:8px">${g.detail}</p>
+      <p style="font-size:12px;color:#cbd5e1;background:${g.col}11;border-radius:6px;padding:6px 10px;border-left:2px solid ${g.col}">${g.impact}</p>
+    </div>`).join('');
+}
+
 // ─── Init ──────────────────────────────────────────────────────────
 renderSessions();
+renderGlossar();
 renderKeyField('massiveDisplay','massive_api_key','Massive.com API Key…');
 renderKeyField('anthropicDisplay','anthropic_api_key','sk-ant-api03-…');
 checkKeys();
