@@ -136,7 +136,28 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <p style="font-size:13px;color:#94a3b8;margin-bottom:12px;font-weight:700">API Keys</p>
 <div style="margin-bottom:12px"><label style="font-size:11px;color:#94a3b8;font-weight:700;display:block;margin-bottom:4px">MASSIVE.COM</label><div id="massiveDisplay"></div></div>
 <div style="margin-bottom:12px"><label style="font-size:11px;color:#94a3b8;font-weight:700;display:block;margin-bottom:4px">ANTHROPIC</label><div id="anthropicDisplay"></div></div>
-<div style="border-top:1px solid #334155;padding-top:12px"><label style="font-size:11px;color:#d97706;font-weight:700;display:block;margin-bottom:4px">ALPHA VANTAGE</label><div id="avDisplay"></div></div>
+<div style="border-top:1px solid #334155;padding-top:12px;margin-bottom:12px"><label style="font-size:11px;color:#d97706;font-weight:700;display:block;margin-bottom:4px">ALPHA VANTAGE</label><div id="avDisplay"></div></div>
+<div style="border-top:1px solid #334155;padding-top:12px">
+<p style="font-size:13px;color:#22d3ee;margin-bottom:10px;font-weight:700">📤 MT5 Signal / Telegram</p>
+<div style="margin-bottom:10px"><label style="font-size:11px;color:#94a3b8;font-weight:700;display:block;margin-bottom:4px">TELEGRAM BOT TOKEN</label><div id="tgTokenDisplay"></div><p style="font-size:10px;color:#475569;margin-top:3px">@BotFather → /newbot → Token kopieren</p></div>
+<div style="margin-bottom:10px"><label style="font-size:11px;color:#94a3b8;font-weight:700;display:block;margin-bottom:4px">TELEGRAM CHAT ID</label><div id="tgChatDisplay"></div><p style="font-size:10px;color:#475569;margin-top:3px">@userinfobot oder Channel-ID (z.B. -1001234567890)</p></div>
+<div style="margin-bottom:10px"><label style="font-size:11px;color:#94a3b8;font-weight:700;display:block;margin-bottom:4px">WEBHOOK URL <span style="color:#475569;font-weight:400">(optional, z.B. MT5 EA Endpoint)</span></label><div id="webhookDisplay"></div></div>
+<div style="margin-bottom:6px"><label style="font-size:11px;color:#94a3b8;font-weight:700;display:block;margin-bottom:4px">RISK % <span style="color:#475569;font-weight:400">(pro Trade)</span></label>
+<div class="irow"><input type="text" id="riskInput" value="" placeholder="1.0" style="max-width:80px" oninput="sk('fx_risk',this.value)"><span style="font-size:12px;color:#64748b">% vom Konto</span></div></div>
+<div style="margin-bottom:6px"><label style="font-size:11px;color:#94a3b8;font-weight:700;display:block;margin-bottom:4px">ACCOUNT EQUITY <span style="color:#475569;font-weight:400">(aktueller Kontostand)</span></label>
+<div class="irow"><input type="text" id="equityInput" value="" placeholder="10000" style="max-width:120px" oninput="sk('fx_equity',this.value)">
+<select id="accCcySelect" onchange="sk('fx_acc_ccy',this.value)" style="max-width:80px"><option value="USD">USD</option><option value="EUR">EUR</option><option value="GBP">GBP</option><option value="CHF">CHF</option><option value="JPY">JPY</option></select></div></div>
+<div style="background:#0f172a;border:1px solid #334155;border-radius:8px;padding:10px 14px;margin:10px 0">
+<div style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:6px">LOT SIZE RECHNER (Vorschau)</div>
+<div style="display:flex;gap:16px;flex-wrap:wrap;font-size:12px">
+<div><span style="color:#64748b">Equity:</span> <span id="prevEquity" style="color:#f1f5f9">—</span></div>
+<div><span style="color:#64748b">Risk:</span> <span id="prevRisk" style="color:#fbbf24">—</span></div>
+<div><span style="color:#64748b">SL Pips:</span> <span id="prevSLPips" style="color:#ef4444">—</span></div>
+<div><span style="color:#64748b">Pip Value:</span> <span id="prevPipVal" style="color:#94a3b8">—</span></div>
+<div><span style="color:#22c55e;font-weight:800;font-size:14px">Lot: <span id="prevLot">—</span></span></div>
+</div></div>
+<div style="margin-top:10px;display:flex;gap:8px"><button class="btn btn-cyan btn-sm" onclick="testTelegram()">🔔 Telegram Test</button><button class="btn btn-gray btn-sm" onclick="calcLotPreview()">🔢 Lot berechnen</button></div>
+</div>
 </div>
 <div class="card card-err" id="errorBox" style="display:none;margin-top:8px"><p id="errorMsg" style="color:#ef4444;font-size:13px"></p><button class="btn btn-gray btn-sm" style="margin-top:8px" onclick="hideErr()">OK</button></div>
 <div id="status" style="padding:4px 0"></div>
@@ -259,7 +280,7 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><p style="font-size:13px;font-weight:700;color:#94a3b8">Bias</p><span id="biasBadge" class="badge"></span></div><p id="fundSummary" style="font-size:13px;color:#cbd5e1;line-height:1.6;margin-bottom:10px"></p><div id="keyEvents"></div></div></div>
 <div class="card"><div class="g3"><div><p style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:6px"><span data-t="ccy1">CCY 1</span></p><p id="fundECB" style="font-size:12px;color:#cbd5e1;line-height:1.6"></p></div><div><p style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:6px"><span data-t="ccy2">CCY 2</span></p><p id="fundFED" style="font-size:12px;color:#cbd5e1;line-height:1.6"></p></div><div><p style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:6px"><span data-t="macro">Makro</span></p><p id="fundMacro" style="font-size:12px;color:#cbd5e1;line-height:1.6"></p></div></div></div>
 <div class="card"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:14px"><span data-t="sessionTiming">Session-Timing</span></p><div id="sessionTiming"></div></div>
-<div class="card"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:14px"><span data-t="scenarios">Trade-Szenarien</span></p><div style="overflow-x:auto"><table><thead><tr><th>#</th><th>Szenario</th><th>Dir.</th><th>TF</th><th>Entry</th><th>SL</th><th>TP1</th><th>TP2</th><th>R:R</th><th>Session</th><th>Prob.</th><th>Konf.</th></tr></thead><tbody id="scenarioBody"></tbody></table></div></div>
+<div class="card"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:14px"><span data-t="scenarios">Trade-Szenarien</span></p><div style="overflow-x:auto"><table><thead><tr><th>#</th><th>Szenario</th><th>Dir.</th><th>TF</th><th>Entry</th><th>SL</th><th>TP1</th><th>TP2</th><th>R:R</th><th>Lot</th><th>Session</th><th>Prob.</th><th>Konf.</th><th>Signal</th></tr></thead><tbody id="scenarioBody"></tbody></table></div></div>
 <div class="card card-accent"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:8px"><span data-t="summary">Zusammenfassung</span></p><p id="summary" style="font-size:14px;color:#cbd5e1;line-height:1.7"></p></div>
 <p style="text-align:center;font-size:11px;color:#334155;margin:12px 0"><span data-t="noAdvice">Keine Finanzberatung.</span></p>
 </div></div>
@@ -300,7 +321,7 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 
 <!-- OVERLAY -->
 <div id="overlay"><div id="ovBox">
-<div id="ovHeader"><div style="flex:1"><div id="ovTitle"></div><div id="ovSub"></div></div><div style="display:flex;gap:8px;align-items:center"><span id="ovStatus" style="font-size:12px;color:#94a3b8"></span><button class="btn btn-gray" onclick="closeOverlay()">✕</button></div></div>
+<div id="ovHeader"><div style="flex:1"><div id="ovTitle"></div><div id="ovSub"></div></div><div style="display:flex;gap:8px;align-items:center"><span id="ovStatus" style="font-size:12px;color:#94a3b8"></span><button class="btn btn-cyan btn-sm" id="ovSignalBtn" onclick="sendSignalFromOverlay()" title="Signal an MT5/Telegram senden">📤 Signal</button><button class="btn btn-gray" onclick="closeOverlay()">✕</button></div></div>
 <div style="padding:16px 20px;background:#0a0e1a;border-bottom:1px solid #1f2937"><canvas id="ovChart" width="1360" height="500" style="width:100%;height:auto;border-radius:8px"></canvas></div>
 <div id="ovBody">
 <div class="card card-accent" style="margin-bottom:14px"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:10px"><span data-t="deep">KI-Tiefenanalyse</span></p><div id="deepText" style="font-size:13px;color:#cbd5e1;line-height:1.8"></div></div>
@@ -490,9 +511,9 @@ function switchAVTab(id){['overview','macd','rsi','confluence'].forEach(t=>{docu
 let G=null,rawBars={};
 async function runAnalysis(){hideErr();document.getElementById('results').style.display='none';document.getElementById('startBtn').disabled=true;const info=si(),tk=info.m;showProg();
   try{setProg('ps_d1','active');setStatus(info.l+' D1...');const d1=await fetchOHLC(`/v2/aggs/ticker/${tk}/range/1/day/${ago(100)}/${now()}?adjusted=true&sort=desc&limit=60`);if(!d1.length)throw new Error('No D1');setProg('ps_d1','done');
-    setProg('ps_h4','active');setStatus(info.l+' H4...');let h4=[];try{h4=await fetchOHLC(`/v2/aggs/ticker/${tk}/range/4/hour/${ago(35)}/${now()}?adjusted=true&sort=desc&limit=80`);}catch{}setProg('ps_h4','done');
-    setProg('ps_h1','active');setStatus(info.l+' H1...');let h1=[];try{h1=await fetchOHLC(`/v2/aggs/ticker/${tk}/range/1/hour/${ago(10)}/${now()}?adjusted=true&sort=desc&limit=120`);}catch{}setProg('ps_h1','done');
-    setProg('ps_m15','active');setStatus(info.l+' M15...');let m15=[];try{m15=await fetchOHLC(`/v2/aggs/ticker/${tk}/range/15/minute/${ago(5)}/${now()}?adjusted=true&sort=desc&limit=200`);}catch{}setProg('ps_m15','done');
+    setProg('ps_h4','active');setStatus(info.l+' H4...');let h4=[];try{h4=await fetchOHLC(`/v2/aggs/ticker/${tk}/range/4/hour/${ago(60)}/${now()}?adjusted=true&sort=desc&limit=200`);}catch{}setProg('ps_h4','done');
+    setProg('ps_h1','active');setStatus(info.l+' H1...');let h1=[];try{h1=await fetchOHLC(`/v2/aggs/ticker/${tk}/range/1/hour/${ago(14)}/${now()}?adjusted=true&sort=desc&limit=250`);}catch{}setProg('ps_h1','done');
+    setProg('ps_m15','active');setStatus(info.l+' M15...');let m15=[];try{m15=await fetchOHLC(`/v2/aggs/ticker/${tk}/range/15/minute/${ago(7)}/${now()}?adjusted=true&sort=desc&limit=400`);}catch{}setProg('ps_m15','done');
     rawBars={d1:d1.slice().reverse(),h4:h4.slice().reverse(),h1:h1.slice().reverse(),m15:m15.slice().reverse()};
     const lp=(m15[0]?.c||h1[0]?.c||d1[0]?.c)?.toFixed(si().d)??'n/a';
     let avC='';if(AV&&AV.sym===SYM){const lt=AV.macd[AV.macd.length-1]||{};avC=`\nTech: RSI=${wlD[SYM+'_r']?.toFixed(1)||'?'}, MACD=${(lt.macd*pm()).toFixed(1)}p`;}
@@ -501,9 +522,16 @@ async function runAnalysis(){hideErr();document.getElementById('results').style.
     setProg('ps_ai','done');
     G=safeJSON(text,'object');G._sym=SYM;
     setProg('ps_chart','active');renderResults(G);
-    const bSc=G.scenarios[0]||{};const tfK=bSc.entryTF==='M15'?'m15':bSc.entryTF==='H4'?'h4':bSc.entryTF==='D1'?'d1':'h1';
-    const cBars=(rawBars[tfK]||rawBars.h1||[]).slice(-150).map(b=>({t:new Date(b.t).toISOString().slice(0,16).replace('T',' '),o:b.o,h:b.h,l:b.l,c:b.c}));
-    if(cBars.length){document.getElementById('chartTitle').textContent=info.l+' · '+bSc.name;document.getElementById('chartTF').textContent=bSc.entryTF+' · '+cBars.length+' bars · '+new Date().toLocaleTimeString('de-DE');drawChart('mainChart',cBars,{dec:si().d,resistance:G.keyLevels?.resistance,support:G.keyLevels?.support,entry:bSc.entry,sl:bSc.sl,tp1:bSc.tp1,tp2:bSc.tp2,direction:bSc.direction,scenario:bSc.name});}
+    const bSc=G.scenarios[0]||{};
+    // Smart TF selection: prefer entry TF, but fall back if too few bars
+    const tfPref=bSc.entryTF==='M15'?'m15':bSc.entryTF==='H4'?'h4':bSc.entryTF==='D1'?'d1':'h1';
+    const tfFallback=['h1','h4','m15','d1'];
+    let chartTF=tfPref, chartData=rawBars[tfPref]||[];
+    if(chartData.length<40){for(const tf of tfFallback){if((rawBars[tf]||[]).length>=40){chartTF=tf;chartData=rawBars[tf];break;}}}
+    if(chartData.length<10)chartData=rawBars.h1||rawBars.d1||[];
+    const usedTF={'m15':'M15','h1':'H1','h4':'H4','d1':'D1'}[chartTF]||'H1';
+    const cBars=chartData.slice(-120).map(b=>({t:new Date(b.t).toISOString().slice(0,16).replace('T',' '),o:b.o,h:b.h,l:b.l,c:b.c}));
+    if(cBars.length){document.getElementById('chartTitle').textContent=info.l+' · '+bSc.name;document.getElementById('chartTF').textContent=usedTF+' · '+cBars.length+' bars';drawChart('mainChart',cBars,{dec:si().d,resistance:G.keyLevels?.resistance,support:G.keyLevels?.support,entry:bSc.entry,sl:bSc.sl,tp1:bSc.tp1,tp2:bSc.tp2,direction:bSc.direction,scenario:bSc.name});}
     setProg('ps_chart','done');setStatus('');document.getElementById('results').style.display='block';setTimeout(hideProg,2000);
   }catch(e){showErr(e.message);hideProg();}finally{checkKeys();}}
 
@@ -514,17 +542,22 @@ function renderResults(a){document.getElementById('kpiPrice').textContent=a.last
   document.getElementById('keyEvents').innerHTML=(a.fundamental?.keyEvents||[]).map(e=>{const ev=typeof e==='string'?{date:'',event:e,impact:'mittel'}:e;const c=ev.impact==='hoch'||ev.impact==='high'?'#ef4444':'#eab308';return`<div style="display:flex;gap:10px;padding:5px 0;border-bottom:1px solid #33415544"><span style="font-size:11px;color:#64748b;min-width:80px">${ev.date||''}</span><span style="font-size:12px;color:#cbd5e1;flex:1">${ev.event||''}</span><span style="font-size:10px;font-weight:700;color:${c};background:${c}22;padding:2px 8px;border-radius:5px">${(ev.impact||'').toUpperCase()}</span></div>`;}).join('');
   document.getElementById('fundECB').textContent=a.fundamental?.ecb||'';document.getElementById('fundFED').textContent=a.fundamental?.fed||'';document.getElementById('fundMacro').textContent=a.fundamental?.macro||'';
   document.getElementById('sessionTiming').innerHTML=(a.sessionTiming||[]).map(s=>`<div style="background:#0f172a;border-radius:8px;padding:12px;margin-bottom:8px;border:1px solid #334155"><p style="font-size:12px;font-weight:700;color:#6366f1;margin-bottom:6px">${s.session}</p><div class="g3"><div><p style="font-size:10px;color:#22c55e;font-weight:700">${T('rec')}</p><p style="font-size:12px;color:#cbd5e1">${s.recommendation||''}</p></div><div><p style="font-size:10px;color:#3b82f6;font-weight:700">${T('bestFor')}</p><p style="font-size:12px;color:#cbd5e1">${s.bestFor||''}</p></div><div><p style="font-size:10px;color:#ef4444;font-weight:700">${T('avoid')}</p><p style="font-size:12px;color:#cbd5e1">${s.avoid||''}</p></div></div></div>`).join('');
-  document.getElementById('scenarioBody').innerHTML=(a.scenarios||[]).map((s,i)=>{const d=s.direction==='Long'?'#22c55e':'#ef4444',p=pc(s.probability),c=cc(s.confidence);return`<tr class="sc-row" onclick="openScenario(${i})"><td style="color:#64748b;font-weight:700">${s.id}</td><td style="font-weight:700;color:#f1f5f9">${s.name}</td><td>${pill(d,s.direction)}</td><td style="color:#a78bfa;font-weight:700">${s.entryTF}</td><td style="color:#fbbf24;font-weight:700">${s.entry}</td><td style="color:#ef4444">${s.sl}</td><td style="color:#22c55e">${s.tp1}</td><td style="color:#22c55e">${s.tp2}</td><td style="color:#6366f1;font-weight:700">${s.rr}</td><td style="font-size:11px">${s.bestSession||''}</td><td><div style="font-weight:800;color:${p}">${s.probability}%</div><div class="prob-bar"><div class="prob-fill" style="width:${s.probability}%;background:${p}"></div></div></td><td>${pill(c,s.confidence)}</td></tr>`;}).join('');
+  document.getElementById('scenarioBody').innerHTML=(a.scenarios||[]).map((s,i)=>{const d=s.direction==='Long'?'#22c55e':'#ef4444',p=pc(s.probability),c=cc(s.confidence);const lt=calcLot(G?._sym||SYM,s.entry,s.sl);return`<tr class="sc-row"><td style="color:#64748b;font-weight:700" onclick="openScenario(${i})">${s.id}</td><td style="font-weight:700;color:#f1f5f9" onclick="openScenario(${i})">${s.name}</td><td>${pill(d,s.direction)}</td><td style="color:#a78bfa;font-weight:700">${s.entryTF}</td><td style="color:#fbbf24;font-weight:700">${s.entry}</td><td style="color:#ef4444">${s.sl}</td><td style="color:#22c55e">${s.tp1}</td><td style="color:#22c55e">${s.tp2}</td><td style="color:#6366f1;font-weight:700">${s.rr}</td><td style="color:#22d3ee;font-weight:800">${lt.lots>0?lt.lots:'—'}<div style="font-size:9px;color:#475569;font-weight:400">${lt.slPips}p</div></td><td style="font-size:11px">${s.bestSession||''}</td><td><div style="font-weight:800;color:${p}">${s.probability}%</div><div class="prob-bar"><div class="prob-fill" style="width:${s.probability}%;background:${p}"></div></div></td><td>${pill(c,s.confidence)}</td><td><button class="btn btn-cyan btn-sm" onclick="event.stopPropagation();sendSignal(${i})" title="Signal an MT5 senden">📤</button></td></tr>`;}).join('');
   document.getElementById('summary').textContent=a.summary||'';}
 
 // ═══ OVERLAY ═══
-function openScenario(i){if(!G)return;const s=G.scenarios[i],inf=SYMS[G._sym||SYM]||si(),d=s.direction==='Long'?'#22c55e':'#ef4444';
+function openScenario(i){if(!G)return;const s=G.scenarios[i];currentOvScenario=s;const inf=SYMS[G._sym||SYM]||si(),d=s.direction==='Long'?'#22c55e':'#ef4444';
   document.getElementById('ovTitle').textContent=inf.l+' · '+s.name;document.getElementById('ovSub').textContent=`${s.direction} ${s.entry} SL${s.sl} TP${s.tp1}/${s.tp2}`;
-  document.getElementById('ovParamTable').innerHTML=[['Dir.',pill(d,s.direction)],['Setup',s.setup],['TF',s.entryTF],['Entry',`<b style="color:#fbbf24">${s.entry}</b>`],['SL',`<b style="color:#ef4444">${s.sl}</b>`],['TP1',`<b style="color:#22c55e">${s.tp1}</b>`],['TP2',`<b style="color:#22c55e">${s.tp2}</b>`],['R:R',`<b style="color:#6366f1">${s.rr}</b>`],['Session',s.bestSession],['Prob.',`<b style="color:${pc(s.probability)}">${s.probability}%</b>`]].map(([k,v])=>`<tr><td style="color:#64748b;font-weight:700;width:80px">${k}</td><td style="color:#cbd5e1">${v}</td></tr>`).join('');
+  const ovLot=calcLot(G?._sym||SYM,s.entry,s.sl);
+  document.getElementById('ovParamTable').innerHTML=[['Dir.',pill(d,s.direction)],['Setup',s.setup],['TF',s.entryTF],['Entry',`<b style="color:#fbbf24">${s.entry}</b>`],['SL',`<b style="color:#ef4444">${s.sl}</b> <span style="color:#64748b;font-size:11px">(${ovLot.slPips} Pips)</span>`],['TP1',`<b style="color:#22c55e">${s.tp1}</b>`],['TP2',`<b style="color:#22c55e">${s.tp2}</b>`],['R:R',`<b style="color:#6366f1">${s.rr}</b>`],['📏 Lot Size',`<b style="color:#22d3ee;font-size:16px">${ovLot.lots>0?ovLot.lots:'—'}</b> <span style="color:#64748b;font-size:11px">(${ovLot.riskAmt} ${gk('fx_acc_ccy')||'USD'} Risk @ ${gk('fx_risk')||'1.0'}%)</span>`],['Session',s.bestSession],['Prob.',`<b style="color:${pc(s.probability)}">${s.probability}%</b>`]].map(([k,v])=>`<tr><td style="color:#64748b;font-weight:700;width:100px">${k}</td><td style="color:#cbd5e1">${v}</td></tr>`).join('');
   document.getElementById('ovRes').innerHTML=(G.keyLevels?.resistance||[]).map(l=>`<div class="level-pill res-pill">${l}</div>`).join('');
   document.getElementById('ovSup').innerHTML=(G.keyLevels?.support||[]).map(l=>`<div class="level-pill sup-pill">${l}</div>`).join('');
   document.getElementById('overlay').style.display='block';document.body.style.overflow='hidden';document.getElementById('overlay').scrollTop=0;
-  const tfK=s.entryTF==='M15'?'m15':s.entryTF==='H4'?'h4':'h1';const cB=(rawBars[tfK]||rawBars.h1||[]).slice(-150).map(b=>({t:new Date(b.t).toISOString().slice(0,16).replace('T',' '),o:b.o,h:b.h,l:b.l,c:b.c}));
+  // Smart TF for overlay chart
+  const tfP2=s.entryTF==='M15'?'m15':s.entryTF==='H4'?'h4':'h1';
+  let ovData=rawBars[tfP2]||[];
+  if(ovData.length<40){for(const tf of ['h1','h4','m15','d1']){if((rawBars[tf]||[]).length>=40){ovData=rawBars[tf];break;}}}
+  const cB=ovData.slice(-120).map(b=>({t:new Date(b.t).toISOString().slice(0,16).replace('T',' '),o:b.o,h:b.h,l:b.l,c:b.c}));
   if(cB.length)drawChart('ovChart',cB,{dec:inf.d,resistance:G.keyLevels?.resistance,support:G.keyLevels?.support,entry:s.entry,sl:s.sl,tp1:s.tp1,tp2:s.tp2,direction:s.direction,scenario:s.name});
   loadDeep(s,inf);}
 async function loadDeep(s,inf){const el=document.getElementById('deepText');document.getElementById('ovStatus').innerHTML='<span class="spin"></span>';el.innerHTML='<span class="spin"></span>';
@@ -608,11 +641,217 @@ async function loadNews(){if(!gk('anthropic_api_key')){toggleSettings();return;}
 function renderGlossar(){document.getElementById('glossar').innerHTML=(GLOSS[LANG]||GLOSS.de).map(g=>`<div style="background:#0f172a;border-radius:10px;padding:16px;border:1px solid #334155;border-left:3px solid ${g.c}"><p style="font-size:13px;font-weight:700;color:${g.c};margin-bottom:4px">${g.t}</p><p style="font-size:13px;color:#f1f5f9;margin-bottom:4px">${g.s}</p><p style="font-size:12px;color:#94a3b8">${g.d}</p></div>`).join('');}
 function renderStrategies(){document.getElementById('strategies').innerHTML=(STRATS[LANG]||STRATS.de).map(s=>`<div class="wiki-card" style="border-left:3px solid ${s.color}"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div class="wiki-title" style="color:${s.color}">${s.name}</div><span class="wiki-tag" style="background:${s.color}22;color:${s.color}">${T(s.diff)}</span></div><p class="wiki-body" style="margin-bottom:10px">${s.desc}</p><div style="font-size:11px;color:#64748b;font-weight:700;margin-bottom:6px">${T('rules')}:</div>${s.rules.map((r,i)=>`<div style="display:flex;gap:8px;padding:4px 0;font-size:12px;color:#cbd5e1"><span style="color:${s.color};font-weight:800;min-width:18px">${i+1}.</span>${r}</div>`).join('')}</div>`).join('');}
 
+// ═══ MT5 SIGNAL SYSTEM + LOT SIZE CALCULATOR ═══
+let currentOvScenario=null;
+
+// Lot size calculation
+// Formula: Lot = (Equity × Risk%) / (SL_pips × Pip_value_per_lot_in_account_ccy)
+function calcLot(sym, entry, sl){
+  const info=SYMS[sym]||si();
+  const equity=parseFloat(gk('fx_equity'))||10000;
+  const riskPct=parseFloat(gk('fx_risk'))||1.0;
+  const accCcy=(gk('fx_acc_ccy')||'USD').toUpperCase();
+  const entryF=parseFloat(entry)||0, slF=parseFloat(sl)||0;
+  if(!entryF||!slF)return{lots:0,slPips:0,riskAmt:0,pipVal:0,error:'Entry/SL missing'};
+
+  // Pip size based on decimals
+  const pipSize=info.d>=4?0.0001:info.d===3?0.01:sym==='XAUUSD'?0.1:sym==='XAGUSD'?0.001:0.0001;
+
+  // SL distance in pips
+  const slPips=Math.abs(entryF-slF)/pipSize;
+  if(slPips<0.1)return{lots:0,slPips:0,riskAmt:0,pipVal:0,error:'SL too close'};
+
+  // Contract size
+  const contract=sym==='XAUUSD'?100:sym==='XAGUSD'?5000:100000;
+
+  // Pip value per standard lot in QUOTE currency
+  const pipValQuote=contract*pipSize;
+  // EURUSD: 100000×0.0001 = $10, USDJPY: 100000×0.01 = ¥1000, XAUUSD: 100×0.1 = $10
+
+  // Convert pip value to account currency
+  const quoteCcy=info.t; // USD, JPY, CHF, GBP, CAD, NZD, AUD
+  let pipValAcc=pipValQuote;
+
+  if(quoteCcy!==accCcy){
+    // Use entry price as approximate conversion rate
+    // For USD/JPY with USD account: pipVal = 1000 JPY = 1000/rate USD
+    // For EUR/GBP with USD account: pipVal = 10 GBP × GBPUSD rate
+    if(accCcy==='USD'){
+      if(quoteCcy==='JPY')pipValAcc=pipValQuote/entryF;
+      else if(quoteCcy==='CHF')pipValAcc=pipValQuote/entryF;
+      else if(quoteCcy==='CAD')pipValAcc=pipValQuote/entryF;
+      else if(quoteCcy==='GBP')pipValAcc=pipValQuote*1.27; // approx GBPUSD
+      else if(quoteCcy==='AUD')pipValAcc=pipValQuote*0.65;
+      else if(quoteCcy==='NZD')pipValAcc=pipValQuote*0.60;
+      else pipValAcc=pipValQuote; // fallback
+    }else if(accCcy==='EUR'){
+      // Convert pip value to EUR
+      let pipUSD=pipValQuote;
+      if(quoteCcy==='JPY')pipUSD=pipValQuote/entryF;
+      else if(quoteCcy==='CHF')pipUSD=pipValQuote/entryF;
+      else if(quoteCcy==='CAD')pipUSD=pipValQuote/entryF;
+      else if(quoteCcy!=='USD')pipUSD=pipValQuote;
+      pipValAcc=pipUSD/1.09; // approx EURUSD
+    }else{
+      // Other account currencies - rough estimate
+      pipValAcc=pipValQuote;
+    }
+  }
+
+  const riskAmt=equity*(riskPct/100);
+  const rawLots=riskAmt/(slPips*pipValAcc);
+
+  // Round to 2 decimals (0.01 lot = micro lot)
+  const lots=Math.floor(rawLots*100)/100;
+
+  return{lots:Math.max(lots,0.01),slPips:Math.round(slPips*10)/10,riskAmt:Math.round(riskAmt*100)/100,pipVal:Math.round(pipValAcc*100)/100,rawLots,equity,riskPct};
+}
+
+function calcLotPreview(){
+  // Use first scenario if available
+  if(!G||!G.scenarios||!G.scenarios.length){
+    document.getElementById('prevLot').textContent='— (Analyse zuerst starten)';return;
+  }
+  const sc=G.scenarios[0];
+  const r=calcLot(G._sym||SYM,sc.entry,sc.sl);
+  document.getElementById('prevEquity').textContent=(r.equity||0).toLocaleString()+' '+(gk('fx_acc_ccy')||'USD');
+  document.getElementById('prevRisk').textContent=(r.riskPct||0)+'% = '+(r.riskAmt||0).toFixed(2);
+  document.getElementById('prevSLPips').textContent=r.slPips+' Pips';
+  document.getElementById('prevPipVal').textContent='$'+r.pipVal+'/Lot';
+  document.getElementById('prevLot').textContent=r.lots+' Lot';
+}
+
+function buildSignalMsg(sc){
+  const info=SYMS[G?._sym||SYM]||si();
+  const risk=gk('fx_risk')||'1.0';
+  const equity=gk('fx_equity')||'';
+  const accCcy=gk('fx_acc_ccy')||'USD';
+  const dir=sc.direction==='Long'?'BUY':'SELL';
+  const ts=new Date().toISOString().slice(0,19).replace('T',' ');
+
+  // Calculate lot size
+  const lot=calcLot(G?._sym||SYM,sc.entry,sc.sl);
+  const lotLine=lot.lots>0?`\n📏 Lot Size: ${lot.lots} (${lot.slPips} Pips SL, ${lot.riskAmt} ${accCcy} Risk)`:'';
+
+  return `📊 FX SIGNAL — ${info.l}
+━━━━━━━━━━━━━━━━━━
+🔹 ${dir} ${info.l}
+📍 Entry: ${sc.entry}
+🛑 SL: ${sc.sl}
+🎯 TP1: ${sc.tp1}
+🎯 TP2: ${sc.tp2}
+📐 R:R: ${sc.rr}
+⚖️ Risk: ${risk}%${equity?` (${parseFloat(equity).toLocaleString()} ${accCcy})`:''}\
+${lotLine}
+📊 TF: ${sc.entryTF}
+📈 Prob: ${sc.probability}%
+💡 Setup: ${sc.name}
+🕐 ${ts} UTC
+━━━━━━━━━━━━━━━━━━
+#${info.l.replace('/','').toLowerCase()} #forex #signal`;
+}
+
+function buildMT5Command(sc){
+  const info=SYMS[G?._sym||SYM]||si();
+  const risk=gk('fx_risk')||'1.0';
+  const dir=sc.direction==='Long'?'BUY':'SELL';
+  const lot=calcLot(G?._sym||SYM,sc.entry,sc.sl);
+
+  return JSON.stringify({
+    action:dir,
+    symbol:SYM,
+    entry:parseFloat(sc.entry)||0,
+    sl:parseFloat(sc.sl)||0,
+    tp1:parseFloat(sc.tp1)||0,
+    tp2:parseFloat(sc.tp2)||0,
+    lots:lot.lots,
+    risk_pct:parseFloat(risk)||1.0,
+    risk_amount:lot.riskAmt,
+    sl_pips:lot.slPips,
+    pip_value:lot.pipVal,
+    timeframe:sc.entryTF,
+    setup:sc.name,
+    rr:sc.rr,
+    probability:sc.probability,
+    timestamp:new Date().toISOString()
+  },null,2);
+}
+
+async function sendToTelegram(msg){
+  const token=gk('tg_bot_token'),chatId=gk('tg_chat_id');
+  if(!token||!chatId)throw new Error('Telegram Bot Token + Chat ID required (Settings)');
+  const url=`https://api.telegram.org/bot${token}/sendMessage`;
+  const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:chatId,text:msg,parse_mode:'Markdown'})});
+  const d=await r.json();
+  if(!d.ok)throw new Error('Telegram: '+(d.description||'Error'));
+  return d;
+}
+
+async function sendToWebhook(sc){
+  const url=gk('fx_webhook');
+  if(!url)return null;
+  const payload=buildMT5Command(sc);
+  const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:payload});
+  if(!r.ok)throw new Error('Webhook: HTTP '+r.status);
+  return await r.json().catch(()=>({ok:true}));
+}
+
+async function sendSignal(idx){
+  if(!G||!G.scenarios[idx])return;
+  const sc=G.scenarios[idx];
+  const msg=buildSignalMsg(sc);
+  const hasTg=gk('tg_bot_token')&&gk('tg_chat_id');
+  const hasWh=gk('fx_webhook');
+
+  if(!hasTg&&!hasWh){
+    // Fallback: copy to clipboard
+    try{await navigator.clipboard.writeText(msg);showToast('📋 Signal copied!');}
+    catch(e){prompt('Signal (copy):',msg);}
+    return;
+  }
+
+  setStatus('📤 Signal...');
+  try{
+    if(hasTg)await sendToTelegram(msg);
+    if(hasWh)await sendToWebhook(sc);
+    showToast('✅ Signal sent!');setStatus('');
+  }catch(e){showErr('Signal: '+e.message);}
+}
+
+function sendSignalFromOverlay(){
+  if(!currentOvScenario||!G)return;
+  const idx=G.scenarios.indexOf(currentOvScenario);
+  if(idx>=0)sendSignal(idx);
+  else{
+    // Direct send if not found by reference
+    const msg=buildSignalMsg(currentOvScenario);
+    navigator.clipboard.writeText(msg).then(()=>showToast('📋 Signal copied!')).catch(()=>prompt('Signal:',msg));
+  }
+}
+
+async function testTelegram(){
+  try{await sendToTelegram('🔔 FX Dashboard — Telegram connection test OK!\n'+new Date().toISOString());showToast('✅ Telegram OK!');}
+  catch(e){showErr('Telegram: '+e.message);}
+}
+
+function showToast(msg){
+  let t=document.getElementById('toast');
+  if(!t){t=document.createElement('div');t.id='toast';t.style.cssText='position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#22c55e;color:#fff;padding:12px 24px;border-radius:10px;font-size:13px;font-weight:700;z-index:99999;box-shadow:0 8px 24px #0006;transition:opacity .3s';document.body.appendChild(t);}
+  t.textContent=msg;t.style.opacity='1';
+  setTimeout(()=>{t.style.opacity='0';},2500);
+}
+
 // ═══ INIT ═══
 renderSessions();renderGlossar();renderStrategies();renderTopPairs();
 renderKeyField('massiveDisplay','massive_api_key','Massive Key...');
 renderKeyField('anthropicDisplay','anthropic_api_key','sk-ant-...');
 renderKeyField('avDisplay','av_api_key','AV Key...');
+renderKeyField('tgTokenDisplay','tg_bot_token','123456:ABC-DEF...');
+renderKeyField('tgChatDisplay','tg_chat_id','-100123456789');
+renderKeyField('webhookDisplay','fx_webhook','https://...');
+document.getElementById('riskInput').value=gk('fx_risk')||'1.0';
+document.getElementById('equityInput').value=gk('fx_equity')||'';
+document.getElementById('accCcySelect').value=gk('fx_acc_ccy')||'USD';
 checkKeys();selectSymbol(SYM);renderWL();
 document.getElementById('langSel').value=LANG;
 translatePage();
