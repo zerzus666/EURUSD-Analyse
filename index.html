@@ -1,974 +1,341 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EUR/USD Analyse | Massive.com</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #0f172a;
-      color: #f1f5f9;
-      min-height: 100vh;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-    a { color: #3b82f6; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-
-    /* ── Header ── */
-    #header {
-      background: #1e293b;
-      border-bottom: 1px solid #334155;
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    #header-left .title {
-      font-size: 20px;
-      font-weight: 700;
-      color: #f1f5f9;
-    }
-    #header-left .subtitle {
-      font-size: 12px;
-      color: #94a3b8;
-      margin-top: 2px;
-    }
-    #header-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    #last-updated {
-      font-size: 12px;
-      color: #94a3b8;
-    }
-    button {
-      cursor: pointer;
-      border: none;
-      border-radius: 6px;
-      padding: 7px 14px;
-      font-size: 13px;
-      font-weight: 500;
-      transition: opacity 0.15s;
-    }
-    button:hover:not(:disabled) { opacity: 0.85; }
-    button:disabled { cursor: not-allowed; opacity: 0.4; }
-    #btn-settings {
-      background: #334155;
-      color: #f1f5f9;
-    }
-    #btn-start {
-      background: #6366f1;
-      color: #fff;
-    }
-    #btn-retry {
-      background: #6366f1;
-      color: #fff;
-      display: none;
-    }
-    #btn-rerun {
-      background: #334155;
-      color: #f1f5f9;
-      display: none;
-    }
-
-    /* ── Settings panel ── */
-    #settings-panel {
-      display: none;
-      background: #1e293b;
-      border-bottom: 1px solid #334155;
-      padding: 16px 20px;
-    }
-    #settings-panel.open { display: block; }
-    .settings-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    @media (max-width: 600px) {
-      .settings-grid { grid-template-columns: 1fr; }
-    }
-    .settings-field label {
-      display: block;
-      font-size: 12px;
-      color: #94a3b8;
-      margin-bottom: 6px;
-      font-weight: 500;
-    }
-    .settings-field a {
-      font-size: 11px;
-      margin-left: 6px;
-    }
-    .key-display {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    .key-mask {
-      font-family: monospace;
-      font-size: 13px;
-      background: #0f172a;
-      border: 1px solid #334155;
-      border-radius: 4px;
-      padding: 6px 10px;
-      color: #94a3b8;
-      flex: 1;
-      min-width: 120px;
-    }
-    .settings-input {
-      flex: 1;
-      background: #0f172a;
-      border: 1px solid #334155;
-      border-radius: 4px;
-      padding: 7px 10px;
-      color: #f1f5f9;
-      font-size: 13px;
-      outline: none;
-      min-width: 0;
-    }
-    .settings-input:focus { border-color: #6366f1; }
-    .btn-save {
-      background: #22c55e;
-      color: #fff;
-      padding: 6px 12px;
-      font-size: 12px;
-    }
-    .btn-delete {
-      background: #ef4444;
-      color: #fff;
-      padding: 6px 12px;
-      font-size: 12px;
-    }
-
-    /* ── Status bar ── */
-    #status-bar {
-      padding: 10px 20px;
-      font-size: 13px;
-      display: none;
-      align-items: center;
-      gap: 8px;
-    }
-    #status-bar.show { display: flex; }
-    #status-bar.error { color: #ef4444; }
-    #status-bar.info { color: #94a3b8; }
-
-    /* ── Main content ── */
-    #main {
-      padding: 20px;
-      max-width: 1400px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    /* ── KPI row ── */
-    #kpi-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-    }
-    @media (max-width: 700px) {
-      #kpi-row { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 380px) {
-      #kpi-row { grid-template-columns: 1fr; }
-    }
-    .kpi-card {
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 8px;
-      padding: 16px;
-    }
-    .kpi-label {
-      font-size: 11px;
-      color: #94a3b8;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 8px;
-    }
-    .kpi-value {
-      font-size: 26px;
-      font-weight: 700;
-      color: #f1f5f9;
-    }
-    .kpi-value.trend {
-      font-size: 18px;
-      font-weight: 600;
-    }
-    .kpi-value.bullish { color: #22c55e; }
-    .kpi-value.bearish { color: #ef4444; }
-    .kpi-value.neutral { color: #eab308; }
-    .kpi-value.empty { color: #334155; }
-
-    /* ── Two-column row ── */
-    #two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    @media (max-width: 750px) {
-      #two-col { grid-template-columns: 1fr; }
-    }
-
-    /* ── Cards ── */
-    .card {
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 8px;
-      padding: 16px;
-    }
-    .card-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: #94a3b8;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 12px;
-    }
-
-    /* ── Key levels ── */
-    .level-section { margin-bottom: 12px; }
-    .level-section:last-child { margin-bottom: 0; }
-    .level-section-label {
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 8px;
-    }
-    .level-section-label.resistance { color: #ef4444; }
-    .level-section-label.support { color: #22c55e; }
-    .pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-    .pill {
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 500;
-      font-family: monospace;
-    }
-    .pill.resistance {
-      background: rgba(239,68,68,0.15);
-      color: #ef4444;
-      border: 1px solid rgba(239,68,68,0.3);
-    }
-    .pill.support {
-      background: rgba(34,197,94,0.15);
-      color: #22c55e;
-      border: 1px solid rgba(34,197,94,0.3);
-    }
-
-    /* ── Fundamental ── */
-    .bias-badge {
-      display: inline-block;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
-    .bias-badge.bullish { background: rgba(34,197,94,0.2); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
-    .bias-badge.bearish { background: rgba(239,68,68,0.2); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
-    .bias-badge.neutral { background: rgba(234,179,8,0.2); color: #eab308; border: 1px solid rgba(234,179,8,0.3); }
-    .fund-summary {
-      font-size: 13px;
-      color: #f1f5f9;
-      margin-bottom: 10px;
-      line-height: 1.6;
-    }
-    .key-events {
-      list-style: none;
-    }
-    .key-events li {
-      font-size: 12px;
-      color: #94a3b8;
-      padding: 4px 0;
-      padding-left: 14px;
-      position: relative;
-    }
-    .key-events li::before {
-      content: '•';
-      position: absolute;
-      left: 0;
-      color: #6366f1;
-    }
-
-    /* ── Scenarios table ── */
-    #scenarios-card {
-      overflow-x: auto;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 12px;
-    }
-    th {
-      text-align: left;
-      padding: 8px 10px;
-      color: #94a3b8;
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      border-bottom: 1px solid #334155;
-      white-space: nowrap;
-    }
-    td {
-      padding: 10px 10px;
-      border-bottom: 1px solid #1e293b;
-      vertical-align: middle;
-    }
-    tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
-    tr:last-child td { border-bottom: none; }
-
-    .dir-badge {
-      display: inline-block;
-      padding: 3px 8px;
-      border-radius: 4px;
-      font-size: 11px;
-      font-weight: 600;
-    }
-    .dir-badge.long { background: rgba(34,197,94,0.2); color: #22c55e; }
-    .dir-badge.short { background: rgba(239,68,68,0.2); color: #ef4444; }
-
-    .conf-badge {
-      display: inline-block;
-      padding: 3px 8px;
-      border-radius: 4px;
-      font-size: 11px;
-      font-weight: 600;
-    }
-    .conf-badge.hoch { background: rgba(34,197,94,0.2); color: #22c55e; }
-    .conf-badge.mittel { background: rgba(234,179,8,0.2); color: #eab308; }
-    .conf-badge.niedrig { background: rgba(239,68,68,0.2); color: #ef4444; }
-
-    .prob-bar-wrap { min-width: 60px; }
-    .prob-num { font-size: 12px; font-weight: 600; margin-bottom: 3px; }
-    .prob-bar-bg {
-      height: 3px;
-      background: #334155;
-      border-radius: 2px;
-      overflow: hidden;
-    }
-    .prob-bar-fill { height: 100%; border-radius: 2px; }
-    .prob-high { color: #22c55e; }
-    .prob-mid { color: #eab308; }
-    .prob-low { color: #ef4444; }
-    .fill-high { background: #22c55e; }
-    .fill-mid { background: #eab308; }
-    .fill-low { background: #ef4444; }
-
-    td.entry { color: #eab308; font-family: monospace; font-weight: 600; }
-    td.sl { color: #ef4444; font-family: monospace; font-weight: 600; }
-    td.tp { color: #22c55e; font-family: monospace; font-weight: 600; }
-    td.rr { color: #6366f1; font-weight: 600; }
-    td.num { color: #94a3b8; }
-
-    /* ── Summary card ── */
-    #summary-card {
-      border-left: 3px solid #6366f1;
-    }
-    #summary-text {
-      font-size: 13px;
-      color: #f1f5f9;
-      line-height: 1.7;
-    }
-
-    /* ── Footer ── */
-    #footer {
-      text-align: center;
-      padding: 16px 20px;
-      font-size: 12px;
-      color: #475569;
-      border-top: 1px solid #1e293b;
-    }
-
-    /* ── Results section (hidden until data) ── */
-    #results { display: none; }
-    #results.show { display: contents; }
-
-    /* ── Placeholder ── */
-    .placeholder {
-      text-align: center;
-      padding: 60px 20px;
-      color: #475569;
-    }
-    .placeholder-icon { font-size: 48px; margin-bottom: 16px; }
-    .placeholder-text { font-size: 15px; }
-    .placeholder-hint { font-size: 12px; margin-top: 8px; }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>EUR/USD Analyse | Massive.com</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh;font-size:14px}
+a{color:#3b82f6}
+#header{background:#1e293b;border-bottom:1px solid #334155;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;position:sticky;top:0;z-index:100}
+#header h1{font-size:18px;font-weight:800;color:#f1f5f9}
+#header p{font-size:11px;color:#64748b;margin-top:2px}
+.hbtns{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.btn{border:none;border-radius:8px;color:#fff;padding:9px 16px;cursor:pointer;font-size:13px;font-weight:600}
+.btn:disabled{opacity:0.5;cursor:not-allowed}
+.btn-gray{background:#334155}
+.btn-purple{background:#6366f1}
+.btn-green{background:#22c55e}
+.btn-red{background:#ef4444}
+#main{padding:20px;max-width:1400px;margin:0 auto}
+.card{background:#1e293b;border-radius:12px;padding:20px;margin-bottom:14px;border:1px solid #334155}
+.card-warn{border-color:#eab30844}
+.card-err{border-color:#ef444455}
+.card-accent{border-left:4px solid #6366f1}
+input[type=password],input[type=text]{background:#0f172a;border:1px solid #475569;border-radius:8px;color:#e2e8f0;padding:9px 13px;font-size:13px;width:100%}
+.row{display:flex;gap:10px;align-items:center}
+.row input{flex:1}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.kpi{background:#1e293b;border-radius:12px;padding:14px;border:1px solid #334155;text-align:center}
+.kpi-label{font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.kpi-val{font-size:20px;font-weight:800}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.level-pill{border-radius:6px;padding:5px 10px;margin-bottom:3px;font-size:13px}
+.res-pill{background:#ef444411;border:1px solid #ef444422;color:#fca5a5}
+.sup-pill{background:#22c55e11;border:1px solid #22c55e22;color:#86efac}
+.badge{border-radius:6px;padding:3px 10px;font-size:12px;font-weight:700;display:inline-block}
+table{width:100%;border-collapse:collapse}
+th{background:#0f172a;padding:9px 11px;text-align:left;font-size:11px;color:#94a3b8;font-weight:700;border-bottom:1px solid #334155;white-space:nowrap}
+td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-align:top}
+tr:nth-child(even){background:#ffffff04}
+.prob-bar{height:3px;background:#334155;border-radius:3px;margin-top:3px}
+.prob-fill{height:100%;border-radius:3px}
+#status{color:#94a3b8;font-size:13px;padding:10px 0}
+@media(max-width:700px){.kpi-grid{grid-template-columns:1fr 1fr}.two-col{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 
-<!-- ── Header ── -->
 <div id="header">
-  <div id="header-left">
-    <div class="title">EUR/USD Live-Analyse</div>
-    <div class="subtitle">Massive.com · Claude AI · D1 / H4 / H1</div>
+  <div>
+    <h1>EUR/USD Live-Analyse</h1>
+    <p id="updated">Massive.com · Claude AI · D1 / H4 / H1</p>
   </div>
-  <div id="header-right">
-    <span id="last-updated"></span>
-    <button id="btn-rerun" onclick="rerun()" title="Neu analysieren">↺ Neu analysieren</button>
-    <button id="btn-settings" onclick="toggleSettings()">⚙️ Einstellungen</button>
-    <button id="btn-start" onclick="startAnalysis()" disabled>▶ Analyse starten</button>
+  <div class="hbtns">
+    <button class="btn btn-gray" onclick="toggleSettings()">⚙️ Einstellungen</button>
+    <button class="btn btn-purple" id="startBtn" onclick="runAnalysis()">▶ Analyse starten</button>
   </div>
 </div>
 
-<!-- ── Settings panel ── -->
-<div id="settings-panel">
-  <div class="settings-grid">
-    <!-- Massive.com Key -->
-    <div class="settings-field">
-      <label>
-        Massive.com API Key
-        <a href="https://massive.com/dashboard/keys" target="_blank" rel="noopener">🔗 Dashboard</a>
-      </label>
-      <div id="massive-key-display" class="key-display"></div>
-    </div>
-    <!-- Anthropic Key -->
-    <div class="settings-field">
-      <label>
-        Anthropic API Key
-        <a href="https://console.anthropic.com" target="_blank" rel="noopener">🔗 Console</a>
-      </label>
-      <div id="anthropic-key-display" class="key-display"></div>
-    </div>
-  </div>
-</div>
-
-<!-- ── Status bar ── -->
-<div id="status-bar"></div>
-
-<!-- ── Main ── -->
 <div id="main">
 
-  <!-- placeholder shown when no data yet -->
-  <div id="placeholder" class="placeholder">
-    <div class="placeholder-icon">📊</div>
-    <div class="placeholder-text">Noch keine Analyse vorhanden</div>
-    <div class="placeholder-hint">API-Keys eingeben und „Analyse starten" klicken</div>
+  <!-- Settings -->
+  <div class="card" id="settingsPanel" style="display:none">
+    <p style="font-size:13px;color:#94a3b8;margin-bottom:14px;font-weight:700">⚙️ API Keys (werden lokal im Browser gespeichert)</p>
+    <div style="margin-bottom:12px">
+      <label style="font-size:11px;color:#94a3b8;font-weight:700;display:block;margin-bottom:5px">MASSIVE.COM API KEY</label>
+      <div id="massiveDisplay"></div>
+      <p style="font-size:11px;color:#475569;margin-top:4px">Key erhältlich: <a href="https://massive.com/dashboard/keys" target="_blank">massive.com/dashboard/keys</a></p>
+    </div>
+    <div>
+      <label style="font-size:11px;color:#94a3b8;font-weight:700;display:block;margin-bottom:5px">ANTHROPIC API KEY</label>
+      <div id="anthropicDisplay"></div>
+      <p style="font-size:11px;color:#475569;margin-top:4px">Key erhältlich: <a href="https://console.anthropic.com/keys" target="_blank">console.anthropic.com/keys</a></p>
+    </div>
   </div>
 
-  <!-- Results (hidden until analysis done) -->
-  <div id="results">
+  <!-- Error -->
+  <div class="card card-err" id="errorBox" style="display:none">
+    <p id="errorMsg" style="color:#ef4444;font-size:13px"></p>
+    <button class="btn btn-gray" style="margin-top:10px" onclick="runAnalysis()">↺ Nochmal versuchen</button>
+  </div>
 
-    <!-- KPI row -->
-    <div id="kpi-row">
-      <div class="kpi-card">
-        <div class="kpi-label">Letzter Kurs</div>
-        <div class="kpi-value" id="kpi-price">—</div>
+  <!-- Status -->
+  <div id="status"></div>
+
+  <!-- Results (hidden until done) -->
+  <div id="results" style="display:none">
+
+    <!-- KPIs -->
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-label">Letzter Kurs</div><div class="kpi-val" id="kpiPrice" style="color:#f1f5f9"></div></div>
+      <div class="kpi"><div class="kpi-label">D1 Trend</div><div class="kpi-val" id="kpiD1"></div></div>
+      <div class="kpi"><div class="kpi-label">H4 Trend</div><div class="kpi-val" id="kpiH4"></div></div>
+      <div class="kpi"><div class="kpi-label">H1 Trend</div><div class="kpi-val" id="kpiH1"></div></div>
+    </div>
+
+    <!-- Levels + Fundamental -->
+    <div class="two-col">
+      <div class="card">
+        <p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:12px">📊 Key Levels</p>
+        <p style="font-size:10px;color:#ef4444;font-weight:700;margin-bottom:5px">RESISTANCE</p>
+        <div id="resistance"></div>
+        <p style="font-size:10px;color:#22c55e;font-weight:700;margin:10px 0 5px">SUPPORT</p>
+        <div id="support"></div>
       </div>
-      <div class="kpi-card">
-        <div class="kpi-label">D1 Trend</div>
-        <div class="kpi-value trend empty" id="kpi-d1">—</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">H4 Trend</div>
-        <div class="kpi-value trend empty" id="kpi-h4">—</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">H1 Trend</div>
-        <div class="kpi-value trend empty" id="kpi-h1">—</div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <p style="font-size:13px;font-weight:700;color:#94a3b8">🌐 Fundamentale Lage</p>
+          <span id="biasBadge" class="badge"></span>
+        </div>
+        <p id="fundSummary" style="font-size:13px;color:#cbd5e1;line-height:1.6;margin-bottom:10px"></p>
+        <p style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:5px">KATALYSATOREN</p>
+        <div id="keyEvents"></div>
       </div>
     </div>
 
-    <!-- Two column -->
-    <div id="two-col">
-      <!-- Key levels -->
-      <div class="card">
-        <div class="card-title">📍 Key Levels</div>
-        <div class="level-section">
-          <div class="level-section-label resistance">Resistance</div>
-          <div class="pills" id="pills-resistance"></div>
-        </div>
-        <div class="level-section">
-          <div class="level-section-label support">Support</div>
-          <div class="pills" id="pills-support"></div>
-        </div>
+    <!-- Scenarios Table -->
+    <div class="card">
+      <p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:14px">🎯 Trade-Szenarien</p>
+      <div style="overflow-x:auto">
+        <table>
+          <thead><tr>
+            <th>#</th><th>Szenario</th><th>Dir.</th><th>Entry TF</th><th>Higher TFs</th>
+            <th>Entry</th><th>SL</th><th>TP1</th><th>TP2</th><th>R:R</th>
+            <th>Timing</th><th>Entry Signal</th><th>Exit Signal</th><th>Wahrsch.</th><th>Konfidenz</th>
+          </tr></thead>
+          <tbody id="scenarioBody"></tbody>
+        </table>
       </div>
-      <!-- Fundamentale Lage -->
-      <div class="card">
-        <div class="card-title">🌍 Fundamentale Lage</div>
-        <div id="bias-wrap"></div>
-        <p class="fund-summary" id="fund-summary"></p>
-        <ul class="key-events" id="key-events"></ul>
-      </div>
-    </div>
-
-    <!-- Scenarios -->
-    <div class="card" id="scenarios-card">
-      <div class="card-title">📈 Trade-Szenarien</div>
-      <table id="scenarios-table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Szenario</th>
-            <th>Dir.</th>
-            <th>Entry TF</th>
-            <th>Higher TFs</th>
-            <th>Entry</th>
-            <th>SL</th>
-            <th>TP1</th>
-            <th>TP2</th>
-            <th>R:R</th>
-            <th>Timing</th>
-            <th>Entry Signal</th>
-            <th>Exit Signal</th>
-            <th>Wahrsch.</th>
-            <th>Konfidenz</th>
-          </tr>
-        </thead>
-        <tbody id="scenarios-body"></tbody>
-      </table>
     </div>
 
     <!-- Summary -->
-    <div class="card" id="summary-card">
-      <div class="card-title">💬 Zusammenfassung</div>
-      <p id="summary-text"></p>
+    <div class="card card-accent">
+      <p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:8px">📋 Zusammenfassung</p>
+      <p id="summary" style="font-size:14px;color:#cbd5e1;line-height:1.7"></p>
     </div>
 
-  </div><!-- /#results -->
-</div><!-- /#main -->
+    <p style="text-align:center;font-size:11px;color:#334155;margin-top:8px">⚠️ Keine Finanzberatung. Alle Entscheidungen liegen in deiner Verantwortung.</p>
+  </div>
 
-<!-- ── Footer ── -->
-<div id="footer">
-  ⚠️ Keine Finanzberatung. Alle Entscheidungen liegen in deiner Verantwortung.
 </div>
 
 <script>
-// ─── Storage helpers ───────────────────────────────────────────────────────
-const MASSIVE_KEY  = 'massive_api_key';
-const ANTHROPIC_KEY = 'anthropic_api_key';
+const fmt = d => d.toISOString().split('T')[0];
+const ago = n => { const d=new Date(); d.setDate(d.getDate()-n); return fmt(d); };
+const today = () => fmt(new Date());
 
-function getKey(name) { return localStorage.getItem(name) || ''; }
-function setKey(name, val) { localStorage.setItem(name, val); }
-function delKey(name) { localStorage.removeItem(name); }
+// Key storage
+function getKey(k){ return localStorage.getItem(k)||''; }
+function setKey(k,v){ localStorage.setItem(k,v); }
+function delKey(k){ localStorage.removeItem(k); }
+function maskKey(k){ return k ? k.slice(0,6)+'•••'+k.slice(-4) : ''; }
 
-function maskKey(k) {
-  if (!k) return '';
-  if (k.length <= 10) return k.slice(0,2) + '••••••••';
-  return k.slice(0,6) + '••••••••' + k.slice(-4);
-}
-
-// ─── Settings UI ──────────────────────────────────────────────────────────
-function renderKeyField(containerId, storageKey) {
-  const container = document.getElementById(containerId);
-  const saved = getKey(storageKey);
-  container.innerHTML = '';
-
-  if (saved) {
-    const span = document.createElement('span');
-    span.className = 'key-mask';
-    span.textContent = maskKey(saved);
-
-    const btnDel = document.createElement('button');
-    btnDel.className = 'btn-delete';
-    btnDel.textContent = 'Löschen';
-    btnDel.onclick = () => { delKey(storageKey); renderKeyField(containerId, storageKey); updateStartButton(); };
-
-    container.appendChild(span);
-    container.appendChild(btnDel);
+function renderKeyField(containerId, storageKey, placeholder) {
+  const el = document.getElementById(containerId);
+  const val = getKey(storageKey);
+  if(val) {
+    el.innerHTML = `<div class="row">
+      <input type="text" value="${maskKey(val)}" disabled style="color:#22c55e;flex:1">
+      <button class="btn btn-red" onclick="delKey('${storageKey}');renderKeyField('${containerId}','${storageKey}','${placeholder}');checkKeys()">Löschen</button>
+    </div>`;
   } else {
-    const input = document.createElement('input');
-    input.type = 'password';
-    input.className = 'settings-input';
-    input.placeholder = storageKey === MASSIVE_KEY ? 'Massive.com API Key…' : 'Anthropic API Key…';
-    input.autocomplete = 'off';
-
-    const btnSave = document.createElement('button');
-    btnSave.className = 'btn-save';
-    btnSave.textContent = 'Speichern';
-    btnSave.onclick = () => {
-      const v = input.value.trim();
-      if (!v) return;
-      setKey(storageKey, v);
-      renderKeyField(containerId, storageKey);
-      updateStartButton();
-    };
-
-    container.appendChild(input);
-    container.appendChild(btnSave);
+    el.innerHTML = `<div class="row">
+      <input type="password" id="inp_${storageKey}" placeholder="${placeholder}" style="flex:1">
+      <button class="btn btn-green" onclick="saveKeyField('${storageKey}','inp_${storageKey}','${containerId}','${placeholder}')">Speichern</button>
+    </div>`;
   }
 }
 
-function renderSettings() {
-  renderKeyField('massive-key-display', MASSIVE_KEY);
-  renderKeyField('anthropic-key-display', ANTHROPIC_KEY);
+function saveKeyField(storageKey, inputId, containerId, placeholder) {
+  const v = document.getElementById(inputId).value.trim();
+  if(!v) return;
+  setKey(storageKey, v);
+  renderKeyField(containerId, storageKey, placeholder);
+  checkKeys();
+}
+
+function checkKeys() {
+  const ok = getKey('massive_api_key') && getKey('anthropic_api_key');
+  document.getElementById('startBtn').disabled = !ok;
 }
 
 function toggleSettings() {
-  const panel = document.getElementById('settings-panel');
-  panel.classList.toggle('open');
+  const p = document.getElementById('settingsPanel');
+  p.style.display = p.style.display==='none' ? 'block' : 'none';
 }
 
-function updateStartButton() {
-  const btn = document.getElementById('btn-start');
-  btn.disabled = !(getKey(MASSIVE_KEY) && getKey(ANTHROPIC_KEY));
+function setStatus(msg) {
+  document.getElementById('status').textContent = msg;
 }
 
-// ─── Date helpers ─────────────────────────────────────────────────────────
-function toYMD(d) {
-  const y = d.getFullYear();
-  const m = String(d.getMonth()+1).padStart(2,'0');
-  const dd = String(d.getDate()).padStart(2,'0');
-  return `${y}-${m}-${dd}`;
+function showError(msg) {
+  document.getElementById('errorMsg').textContent = msg;
+  document.getElementById('errorBox').style.display = 'block';
+  setStatus('');
 }
 
-function daysAgo(n) {
-  const d = new Date();
-  d.setDate(d.getDate() - n);
-  return toYMD(d);
+function hideError() {
+  document.getElementById('errorBox').style.display = 'none';
 }
 
-function today() { return toYMD(new Date()); }
-
-function epochToDisplay(ms) {
-  const d = new Date(ms);
-  const y = d.getUTCFullYear();
-  const mo = String(d.getUTCMonth()+1).padStart(2,'0');
-  const dy = String(d.getUTCDate()).padStart(2,'0');
-  const h  = String(d.getUTCHours()).padStart(2,'0');
-  const mi = String(d.getUTCMinutes()).padStart(2,'0');
-  return `${y}-${mo}-${dy} ${h}:${mi}`;
+function dirColor(v='') {
+  return /bull|long|aufwärts|up|steig/i.test(v) ? '#22c55e' :
+         /bear|short|abwärts|down|fall/i.test(v) ? '#ef4444' : '#eab308';
+}
+function confColor(c) {
+  return c==='Hoch'?'#22c55e':c==='Mittel'?'#eab308':'#ef4444';
 }
 
-// ─── Status helpers ────────────────────────────────────────────────────────
-function showStatus(msg, isError) {
-  const bar = document.getElementById('status-bar');
-  bar.textContent = msg;
-  bar.className = 'show ' + (isError ? 'error' : 'info');
-  if (isError) {
-    document.getElementById('btn-retry').style.display = 'inline-block';
-  }
+async function fetchOHLC(path) {
+  const key = getKey('massive_api_key');
+  const url = `https://api.massive.com${path}&apiKey=${key}`;
+  const r = await fetch(url);
+  const j = await r.json();
+  if(j.status==='ERROR') throw new Error('Massive API: '+j.error);
+  return j.results || [];
 }
 
-function clearStatus() {
-  const bar = document.getElementById('status-bar');
-  bar.className = '';
-  bar.textContent = '';
-}
-
-// ─── Fetch OHLC ───────────────────────────────────────────────────────────
-async function fetchOHLC(multiplier, timespan, from, to, limit, apiKey) {
-  const url = `https://api.massive.com/v2/aggs/ticker/C:EURUSD/range/${multiplier}/${timespan}/${from}/${to}?adjusted=true&sort=desc&limit=${limit}&apiKey=${encodeURIComponent(apiKey)}`;
-  const resp = await fetch(url);
-  if (!resp.ok) throw new Error(`HTTP ${resp.status} beim Abrufen von ${timespan}-Daten`);
-  const data = await resp.json();
-  if (data.status === 'ERROR') throw new Error(data.error || `Massive API Fehler (${timespan})`);
-  return data.results || [];
-}
-
-function formatBars(bars) {
-  return bars.map(b => ({
-    t: epochToDisplay(b.t),
-    o: b.o.toFixed(5),
-    h: b.h.toFixed(5),
-    l: b.l.toFixed(5),
-    c: b.c.toFixed(5)
+function fmtBars(bars, n=50) {
+  return (bars||[]).slice(0,n).map(b=>({
+    t: new Date(b.t).toISOString().slice(0,10),
+    o: b.o?.toFixed(5), h: b.h?.toFixed(5),
+    l: b.l?.toFixed(5), c: b.c?.toFixed(5)
   }));
 }
 
-// ─── Claude analysis ──────────────────────────────────────────────────────
-async function analyzeWithClaude(d1, h4, h1, lastPrice, anthropicKey) {
-  const todayStr = today();
-  const d1json = JSON.stringify(formatBars(d1));
-  const h4json = h4.length ? JSON.stringify(formatBars(h4)) : '[]';
-  const h1json = h1.length ? JSON.stringify(formatBars(h1)) : '[]';
+async function runAnalysis() {
+  hideError();
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('startBtn').disabled = true;
 
-  let dataNote = '';
-  if (!h4.length && !h1.length) dataNote = '\n\nHinweis: Nur D1-Daten verfügbar (H4/H1 nicht im Plan enthalten).';
-  else if (!h4.length) dataNote = '\n\nHinweis: H4-Daten nicht verfügbar.';
-  else if (!h1.length) dataNote = '\n\nHinweis: H1-Daten nicht verfügbar.';
-
-  const prompt = `You are a professional Forex analyst. Today is ${todayStr}.
-
-EUR/USD OHLC data (newest first):
-D1 (${d1.length} candles): ${d1json}
-H4 (${h4.length} candles): ${h4json}  
-H1 (${h1.length} candles): ${h1json}
-Last price: ${lastPrice}${dataNote}
-
-Reply ONLY with a valid JSON object, no markdown, no backticks:
-{"lastPrice":"","trend":{"d1":"","h4":"","h1":""},"fundamental":{"summary":"","bias":"Bullish","keyEvents":["",""]},"keyLevels":{"resistance":["","",""],"support":["","",""]},"scenarios":[{"id":1,"name":"","direction":"Long","setup":"","entryTF":"H1","higherTFs":["H4","D1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","entrySignal":"","exitSignal":"","probability":55,"confidence":"Hoch"},{"id":2,"name":"","direction":"Short","setup":"","entryTF":"H1","higherTFs":["H4","D1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","entrySignal":"","exitSignal":"","probability":45,"confidence":"Mittel"},{"id":3,"name":"","direction":"Long","setup":"","entryTF":"H4","higherTFs":["D1","W1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","entrySignal":"","exitSignal":"","probability":40,"confidence":"Niedrig"}],"summary":""}`;
-
-  const resp = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 2000,
-      messages: [{ role: 'user', content: prompt }]
-    })
-  });
-
-  if (!resp.ok) {
-    const txt = await resp.text().catch(() => '');
-    throw new Error(`Anthropic API Fehler: HTTP ${resp.status}. ${txt.slice(0,200)}`);
-  }
-  const data = await resp.json();
-  const rawText = data.content && data.content[0] && data.content[0].text ? data.content[0].text : '';
-
-  let parsed;
   try {
-    parsed = JSON.parse(rawText);
-  } catch {
-    const match = rawText.match(/\{[\s\S]*\}/);
-    if (!match) throw new Error('Konnte JSON aus Claude-Antwort nicht extrahieren.');
-    try {
-      parsed = JSON.parse(match[0]);
-    } catch (e2) {
-      throw new Error('JSON-Parsing der Claude-Antwort fehlgeschlagen: ' + e2.message);
-    }
+    setStatus('📡 Lade D1-Daten...');
+    const d1 = await fetchOHLC(`/v2/aggs/ticker/C:EURUSD/range/1/day/${ago(100)}/${today()}?adjusted=true&sort=desc&limit=60`);
+    if(!d1.length) throw new Error('Keine D1-Daten. Bitte API Key prüfen.');
+
+    setStatus('📡 Lade H4-Daten...');
+    let h4 = [];
+    try { h4 = await fetchOHLC(`/v2/aggs/ticker/C:EURUSD/range/4/hour/${ago(35)}/${today()}?adjusted=true&sort=desc&limit=80`); } catch(e){}
+
+    setStatus('📡 Lade H1-Daten...');
+    let h1 = [];
+    try { h1 = await fetchOHLC(`/v2/aggs/ticker/C:EURUSD/range/1/hour/${ago(10)}/${today()}?adjusted=true&sort=desc&limit=120`); } catch(e){}
+
+    const lastPrice = (h1[0]?.c || d1[0]?.c)?.toFixed(5) ?? 'n/a';
+    setStatus('🤖 Claude analysiert...');
+
+    const prompt = `Du bist ein professioneller Forex-Analyst. Heute ist ${today()}. Aktueller EUR/USD Kurs: ${lastPrice}.
+
+D1 (${d1.length} Kerzen): ${JSON.stringify(fmtBars(d1,50))}
+H4 (${h4.length} Kerzen): ${JSON.stringify(fmtBars(h4,60))}
+H1 (${h1.length} Kerzen): ${JSON.stringify(fmtBars(h1,80))}
+
+Antworte NUR mit validem JSON ohne Markdown oder Backticks:
+{"lastPrice":"${lastPrice}","trend":{"d1":"","h4":"","h1":""},"fundamental":{"summary":"","bias":"Bullish","keyEvents":["",""]},"keyLevels":{"resistance":["","",""],"support":["","",""]},"scenarios":[{"id":1,"name":"","direction":"Long","setup":"","entryTF":"H1","higherTFs":["H4","D1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","entrySignal":"","exitSignal":"","probability":55,"confidence":"Hoch"},{"id":2,"name":"","direction":"Short","setup":"","entryTF":"H1","higherTFs":["H4","D1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","entrySignal":"","exitSignal":"","probability":45,"confidence":"Mittel"},{"id":3,"name":"","direction":"Long","setup":"","entryTF":"H4","higherTFs":["D1","W1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","entrySignal":"","exitSignal":"","probability":40,"confidence":"Niedrig"}],"summary":""}`;
+
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': getKey('anthropic_api_key'), 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 2000, messages: [{ role: 'user', content: prompt }] })
+    });
+
+    const aiD = await res.json();
+    if(!res.ok) throw new Error('Claude API: '+(aiD.error?.message||res.status));
+    const text = aiD.content?.filter(b=>b.type==='text').map(b=>b.text).join('')||'';
+    const m = text.match(/\{[\s\S]*\}/);
+    if(!m) throw new Error('Kein JSON in Antwort: '+text.slice(0,200));
+    const a = JSON.parse(m[0]);
+
+    renderResults(a);
+    setStatus('');
+    document.getElementById('updated').textContent = 'Letzte Analyse: '+new Date().toLocaleTimeString('de-DE');
+    document.getElementById('results').style.display = 'block';
+    document.getElementById('results').scrollIntoView({behavior:'smooth'});
+
+  } catch(e) {
+    showError('❌ '+e.message);
+  } finally {
+    checkKeys();
   }
-  return parsed;
 }
 
-// ─── Render results ────────────────────────────────────────────────────────
-function trendClass(t) {
-  if (!t) return 'empty';
-  const lower = t.toLowerCase();
-  if (lower.includes('bull') || lower.includes('aufwärts') || lower.includes('long') || lower.includes('steigend')) return 'bullish';
-  if (lower.includes('bear') || lower.includes('abwärts') || lower.includes('short') || lower.includes('fallend')) return 'bearish';
-  return 'neutral';
-}
-
-function biasClass(b) {
-  if (!b) return 'neutral';
-  const lower = b.toLowerCase();
-  if (lower.includes('bull')) return 'bullish';
-  if (lower.includes('bear')) return 'bearish';
-  return 'neutral';
-}
-
-function probClass(p) {
-  if (p >= 65) return { num: 'prob-high', fill: 'fill-high' };
-  if (p >= 50) return { num: 'prob-mid', fill: 'fill-mid' };
-  return { num: 'prob-low', fill: 'fill-low' };
-}
-
-function confClass(c) {
-  if (!c) return 'mittel';
-  const lower = c.toLowerCase();
-  if (lower === 'hoch' || lower === 'high') return 'hoch';
-  if (lower === 'niedrig' || lower === 'low') return 'niedrig';
-  return 'mittel';
-}
-
-function renderResults(data) {
-  // KPI
-  document.getElementById('kpi-price').textContent = data.lastPrice || '—';
-  document.getElementById('kpi-price').className = 'kpi-value';
-
-  const trend = data.trend || {};
-  ['d1','h4','h1'].forEach(tf => {
-    const el = document.getElementById('kpi-' + tf);
-    const v = trend[tf] || '—';
+function renderResults(a) {
+  // KPIs
+  document.getElementById('kpiPrice').textContent = a.lastPrice;
+  ['D1','H4','H1'].forEach(tf => {
+    const el = document.getElementById('kpi'+tf);
+    const v = a.trend?.[tf.toLowerCase()]||'';
     el.textContent = v;
-    el.className = 'kpi-value trend ' + (v === '—' ? 'empty' : trendClass(v));
+    el.style.color = dirColor(v);
+    el.style.fontSize = '14px';
   });
 
-  // Key levels
-  const levels = data.keyLevels || {};
-  const resistance = levels.resistance || [];
-  const support = levels.support || [];
-
-  const pillsR = document.getElementById('pills-resistance');
-  pillsR.innerHTML = '';
-  resistance.forEach(r => {
-    const p = document.createElement('span');
-    p.className = 'pill resistance';
-    p.textContent = r;
-    pillsR.appendChild(p);
-  });
-
-  const pillsS = document.getElementById('pills-support');
-  pillsS.innerHTML = '';
-  support.forEach(s => {
-    const p = document.createElement('span');
-    p.className = 'pill support';
-    p.textContent = s;
-    pillsS.appendChild(p);
-  });
+  // Levels
+  document.getElementById('resistance').innerHTML = (a.keyLevels?.resistance||[]).map(l=>`<div class="level-pill res-pill">${l}</div>`).join('');
+  document.getElementById('support').innerHTML = (a.keyLevels?.support||[]).map(l=>`<div class="level-pill sup-pill">${l}</div>`).join('');
 
   // Fundamental
-  const fund = data.fundamental || {};
-  const biasVal = fund.bias || 'Neutral';
-  const biasWrap = document.getElementById('bias-wrap');
-  biasWrap.innerHTML = `<span class="bias-badge ${biasClass(biasVal)}">${biasVal}</span>`;
-
-  document.getElementById('fund-summary').textContent = fund.summary || '';
-
-  const evList = document.getElementById('key-events');
-  evList.innerHTML = '';
-  (fund.keyEvents || []).forEach(ev => {
-    const li = document.createElement('li');
-    li.textContent = ev;
-    evList.appendChild(li);
-  });
+  const bias = a.fundamental?.bias||'Neutral';
+  const bc = dirColor(bias);
+  document.getElementById('biasBadge').textContent = bias;
+  document.getElementById('biasBadge').style.cssText = `background:${bc}22;color:${bc};border:1px solid ${bc}44`;
+  document.getElementById('fundSummary').textContent = a.fundamental?.summary||'';
+  document.getElementById('keyEvents').innerHTML = (a.fundamental?.keyEvents||[]).map(e=>`<div style="font-size:12px;color:#94a3b8;padding:3px 0;border-bottom:1px solid #33415544">• ${e}</div>`).join('');
 
   // Scenarios
-  const tbody = document.getElementById('scenarios-body');
-  tbody.innerHTML = '';
-  (data.scenarios || []).forEach(sc => {
-    const pClass = probClass(sc.probability || 0);
-    const dirClass = (sc.direction || '').toLowerCase() === 'short' ? 'short' : 'long';
-    const cClass = confClass(sc.confidence);
-    const higherTFs = Array.isArray(sc.higherTFs) ? sc.higherTFs.join(', ') : (sc.higherTFs || '');
-    const probPct = sc.probability || 0;
+  const tbody = document.getElementById('scenarioBody');
+  tbody.innerHTML = (a.scenarios||[]).map(sc => {
+    const dc = sc.direction==='Long'?'#22c55e':'#ef4444';
+    const cc = confColor(sc.confidence);
+    const pc = sc.probability>=65?'#22c55e':sc.probability>=50?'#eab308':'#ef4444';
+    return `<tr>
+      <td style="color:#64748b;font-weight:700">${sc.id}</td>
+      <td style="font-weight:700;color:#f1f5f9;white-space:nowrap">${sc.name}</td>
+      <td><span class="badge" style="background:${dc}22;color:${dc};border:1px solid ${dc}44">${sc.direction}</span></td>
+      <td style="color:#a78bfa;font-weight:700">${sc.entryTF}</td>
+      <td style="color:#94a3b8">${(sc.higherTFs||[]).join(', ')}</td>
+      <td style="color:#fbbf24;font-weight:700">${sc.entry}</td>
+      <td style="color:#ef4444">${sc.sl}</td>
+      <td style="color:#22c55e">${sc.tp1}</td>
+      <td style="color:#22c55e">${sc.tp2}</td>
+      <td style="color:#6366f1;font-weight:700">${sc.rr}</td>
+      <td style="color:#94a3b8;white-space:nowrap">${sc.timing}</td>
+      <td style="color:#cbd5e1;max-width:130px">${sc.entrySignal}</td>
+      <td style="color:#cbd5e1;max-width:130px">${sc.exitSignal}</td>
+      <td><div style="font-weight:800;font-size:14px;color:${pc}">${sc.probability}%</div><div class="prob-bar"><div class="prob-fill" style="width:${sc.probability}%;background:${pc}"></div></div></td>
+      <td><span class="badge" style="background:${cc}22;color:${cc};border:1px solid ${cc}44">${sc.confidence}</span></td>
+    </tr>`;
+  }).join('');
 
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td class="num">${sc.id || ''}</td>
-      <td>${escHtml(sc.name || '')}</td>
-      <td><span class="dir-badge ${dirClass}">${escHtml(sc.direction || '')}</span></td>
-      <td>${escHtml(sc.entryTF || '')}</td>
-      <td>${escHtml(higherTFs)}</td>
-      <td class="entry">${escHtml(sc.entry || '')}</td>
-      <td class="sl">${escHtml(sc.sl || '')}</td>
-      <td class="tp">${escHtml(sc.tp1 || '')}</td>
-      <td class="tp">${escHtml(sc.tp2 || '')}</td>
-      <td class="rr">${escHtml(sc.rr || '')}</td>
-      <td>${escHtml(sc.timing || '')}</td>
-      <td>${escHtml(sc.entrySignal || '')}</td>
-      <td>${escHtml(sc.exitSignal || '')}</td>
-      <td>
-        <div class="prob-bar-wrap">
-          <div class="prob-num ${pClass.num}">${probPct}%</div>
-          <div class="prob-bar-bg"><div class="prob-bar-fill ${pClass.fill}" style="width:${Math.min(100,probPct)}%"></div></div>
-        </div>
-      </td>
-      <td><span class="conf-badge ${cClass}">${escHtml(sc.confidence || '')}</span></td>
-    `;
-    tbody.appendChild(tr);
-  });
-
-  // Summary
-  document.getElementById('summary-text').textContent = data.summary || '';
-
-  // Show results
-  document.getElementById('placeholder').style.display = 'none';
-  document.getElementById('results').classList.add('show');
-
-  // Update timestamp
-  const now = new Date();
-  document.getElementById('last-updated').textContent = 'Stand: ' + now.toLocaleString('de-DE');
-
-  // Show rerun button
-  document.getElementById('btn-rerun').style.display = 'inline-block';
-  document.getElementById('btn-start').style.display = 'none';
-
-  // Scroll to results
-  setTimeout(() => {
-    document.getElementById('kpi-row').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 100);
+  document.getElementById('summary').textContent = a.summary||'';
 }
 
-function escHtml(s) {
-  return String(s)
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;');
-}
-
-// ─── Main analysis flow ────────────────────────────────────────────────────
-async function startAnalysis() {
-  const massiveKey = getKey(MASSIVE_KEY);
-  const anthropicKey = getKey(ANTHROPIC_KEY);
-  if (!massiveKey || !anthropicKey) {
-    showStatus('❌ Bitte zuerst beide API-Keys in den Einstellungen speichern.', true);
-    return;
-  }
-
-  document.getElementById('btn-start').disabled = true;
-  document.getElementById('btn-rerun').disabled = true;
-  document.getElementById('btn-retry').style.display = 'none';
-  clearStatus();
-
-  const toDate = today();
-  let d1 = [], h4 = [], h1 = [];
-
-  // Fetch D1
-  try {
-    showStatus('📡 Lade D1-Daten…');
-    d1 = await fetchOHLC(1, 'day', daysAgo(100), toDate, 60, massiveKey);
-  } catch(e) {
-    showStatus('❌ D1-Fehler: ' + e.message, true);
-    document.getElementById('btn-start').disabled = false;
-    document.getElementById('btn-rerun').disabled = false;
-    return;
-  }
-
-  // Fetch H4 (non-fatal if empty)
-  try {
-    showStatus('📡 Lade H4-Daten…');
-    h4 = await fetchOHLC(4, 'hour', daysAgo(35), toDate, 80, massiveKey);
-  } catch {
-    h4 = [];
-  }
-
-  // Fetch H1 (non-fatal if empty)
-  try {
-    showStatus('📡 Lade H1-Daten…');
-    h1 = await fetchOHLC(1, 'hour', daysAgo(10), toDate, 120, massiveKey);
-  } catch {
-    h1 = [];
-  }
-
-  const lastBar = d1[0] || (h1[0]) || null;
-  const lastPrice = lastBar ? lastBar.c.toFixed(5) : '?';
-
-  // Claude analysis
-  try {
-    showStatus('🤖 Claude analysiert…');
-    const result = await analyzeWithClaude(d1, h4, h1, lastPrice, anthropicKey);
-    clearStatus();
-    renderResults(result);
-  } catch(e) {
-    showStatus('❌ Analyse-Fehler: ' + e.message, true);
-  }
-
-  document.getElementById('btn-start').disabled = false;
-  document.getElementById('btn-rerun').disabled = false;
-}
-
-function rerun() {
-  document.getElementById('btn-start').style.display = '';
-  document.getElementById('btn-rerun').style.display = 'none';
-  startAnalysis();
-}
-
-// ─── Retry button (injected into status bar) ──────────────────────────────
-(function injectRetryBtn() {
-  const bar = document.getElementById('status-bar');
-  const btn = document.createElement('button');
-  btn.id = 'btn-retry';
-  btn.textContent = 'Erneut versuchen';
-  btn.style.cssText = 'background:#6366f1;color:#fff;padding:5px 12px;font-size:12px;display:none;margin-left:8px;';
-  btn.onclick = () => { document.getElementById('btn-retry').style.display='none'; startAnalysis(); };
-  bar.appendChild(btn);
-})();
-
-// ─── Init ─────────────────────────────────────────────────────────────────
-renderSettings();
-updateStartButton();
+// Init
+renderKeyField('massiveDisplay','massive_api_key','Massive.com API Key...');
+renderKeyField('anthropicDisplay','anthropic_api_key','sk-ant-api03-...');
+checkKeys();
 </script>
 </body>
 </html>
