@@ -162,25 +162,25 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
 <div>
 <p style="font-size:22px;font-weight:800;color:#f1f5f9;margin-bottom:4px" id="heroTitle">Forex Analyse Dashboard</p>
-<p style="font-size:13px;color:#64748b" id="heroSub">Massive.com + Alpha Vantage + Claude AI · Multi-Timeframe Analyse</p>
+<p style="font-size:13px;color:#64748b" id="heroSub">Massive.com + Alpha Vantage + Claude AI</p>
 </div>
 <div style="display:flex;gap:8px">
-<button class="btn btn-purple btn-lg" onclick="goPage('analyse')" title="Zur Analyse-Seite">>&#9654; Analyse starten<#9654; <span data-t="startAnalysis">Analyse starten</span></button>
-<button class="btn btn-amber btn-lg" onclick="goPage('news')" title="Fundamentalnachrichten laden">&#128240; News</button>
+<button class="btn btn-purple btn-lg" onclick="goPage('analyse')">&#9654; <span data-t="startAnalysis">Analyse starten</span></button>
+<button class="btn btn-amber btn-lg" onclick="goPage('news')">&#128240; <span data-t="news">News</span></button>
 </div></div></div>
 
 <!-- Sessions -->
 <div class="card" style="margin-bottom:16px">
-<p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:10px">>&#127758; Forex Sessions<#127758; <span data-t="sessions">Forex Sessions</span></p>
+<p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:10px">&#127758; <span data-t="sessions">Forex Sessions</span></p>
 <div id="sessionsGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px"></div>
 <p id="sessionHint" style="font-size:12px;color:#64748b;margin-top:8px"></p>
 </div>
 
-<!-- Top Paare Quick-Analyse -->
+<!-- Top Paare -->
 <div class="card" style="margin-bottom:16px">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
-<p style="font-size:14px;font-weight:800;color:#f1f5f9">>&#128293; Top-Paare · One-Click Analyse<#128293; <span data-t="topPairs">Top-Paare · One-Click Analyse</span></p>
-<button class="btn btn-cyan btn-sm" id="scanHomeBtn" onclick="scanTopPairs()" title="Alle Top-Paare scannen (Kurs + RSI via Alpha Vantage)">>&#8635; Scan alle</button>#8635; <span data-t="scanTP">Scan alle</span></button>
+<p style="font-size:14px;font-weight:800;color:#f1f5f9">&#128293; <span data-t="topPairs">Top-Paare</span></p>
+<button class="btn btn-cyan btn-sm" id="scanHomeBtn" onclick="scanTopPairs()">&#8635; <span data-t="scanTP">Scan alle</span></button>
 </div>
 <div class="tp-grid" id="topPairsGrid"></div>
 </div>
@@ -188,19 +188,19 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <!-- Wirtschaftskalender -->
 <div class="card" style="margin-bottom:16px">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
-<p style="font-size:14px;font-weight:800;color:#f1f5f9">>&#128197; Wirtschaftskalender<#128197; <span data-t="calendar">Wirtschaftskalender</span></p>
-<button class="btn btn-purple btn-sm" onclick="loadCalendar()" id="calBtn" title="Wirtschaftskalender via Claude AI laden">>&#8635; Laden</button>#8635; <span data-t="loadCal">Laden</span></button>
+<p style="font-size:14px;font-weight:800;color:#f1f5f9">&#128197; <span data-t="calendar">Wirtschaftskalender</span></p>
+<button class="btn btn-purple btn-sm" onclick="loadCalendar()" id="calBtn">&#8635; <span data-t="loadCal">Laden</span></button>
 </div>
-<div id="calendarBody"><p style="font-size:12px;color:#475569"><span data-t="calHint">Klicke "Laden" um den Kalender via Claude AI zu erzeugen.</span></p></div>
+<div id="calendarBody"><p style="font-size:12px;color:#475569"><span data-t="calHint">Klicke Laden um den Kalender zu erzeugen.</span></p></div>
 </div>
 
-<!-- Marktübersicht -->
+<!-- Marktlage -->
 <div class="card">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-<p style="font-size:14px;font-weight:800;color:#f1f5f9">>&#127760; Marktlage &amp; Sentiment<#127760; <span data-t="market">Marktlage &amp; Sentiment</span></p>
-<button class="btn btn-purple btn-sm" onclick="loadMarketOverview()" id="moBtn" title="Fundamentale Marktanalyse via Claude AI erstellen">>&#8635; Laden</button>#8635; <span data-t="loadCal">Laden</span></button>
+<p style="font-size:14px;font-weight:800;color:#f1f5f9">&#127760; <span data-t="market">Marktlage</span></p>
+<button class="btn btn-purple btn-sm" onclick="loadMarketOverview()" id="moBtn">&#8635; <span data-t="loadCal">Laden</span></button>
 </div>
-<div id="marketOverview"><p style="font-size:12px;color:#475569"><span data-t="marketHint">Klicke "Laden" für eine aktuelle Markteinschätzung via Claude AI.</span></p></div>
+<div id="marketOverview"><p style="font-size:12px;color:#475569"><span data-t="marketHint">Klicke Laden fuer Marktanalyse.</span></p></div>
 </div>
 </div>
 
@@ -212,18 +212,18 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <!-- Watchlist -->
 <div class="card card-wl">
 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:10px">
-<p style="font-size:14px;font-weight:800;color:#22d3ee"<span data-t="watchlist">Watchlist</span></p>
+<p style="font-size:14px;font-weight:800;color:#22d3ee"><span data-t="watchlist">Watchlist</span></p>
 <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
 <select id="symSelect" onchange="selectSymbol(this.value)" style="min-width:130px" title="Symbol auswaehlen">
 <optgroup label="Majors"><option value="EURUSD">EUR/USD</option><option value="GBPUSD">GBP/USD</option><option value="USDJPY">USD/JPY</option><option value="USDCHF">USD/CHF</option><option value="AUDUSD">AUD/USD</option><option value="USDCAD">USD/CAD</option><option value="NZDUSD">NZD/USD</option></optgroup>
 <optgroup label="Crosses"><option value="EURGBP">EUR/GBP</option><option value="EURJPY">EUR/JPY</option><option value="GBPJPY">GBP/JPY</option><option value="EURCHF">EUR/CHF</option><option value="CADJPY">CAD/JPY</option></optgroup>
 <optgroup label="Metalle"><option value="XAUUSD">XAU/USD</option><option value="XAGUSD">XAG/USD</option></optgroup></select>
-<button class="btn btn-cyan btn-sm" onclick="addToWL()" title="Symbol zur Watchlist hinzufuegen"><span data-t="addWL">+ Watchlist</span></button>
-<button class="btn btn-amber btn-sm" id="avBtn" onclick="runAVAnalysis()" disabled title="Technische Indikatoren laden (RSI, MACD, EMA)">>&#128202; Indikatoren<#128202; <span data-t="indicators">Indikatoren</span></button>
-<button class="btn btn-purple" id="startBtn" onclick="runAnalysis()" disabled title="Vollanalyse starten (D1/H4/H1/M15 + Claude AI)">&#9654; Analyse</button>
+<button class="btn btn-cyan btn-sm" onclick="addToWL()"><span data-t="addWL">+ Watchlist</span></button>
+<button class="btn btn-amber btn-sm" id="avBtn" onclick="runAVAnalysis()" disabled>&#128202; <span data-t="indicators">Indikatoren</span></button>
+<button class="btn btn-purple" id="startBtn" onclick="runAnalysis()" disabled>&#9654; <span data-t="analyze">Analyse</span></button>
 </div></div>
 <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
-<span style="font-size:11px;color:#64748b"><span data-t="activeLbl">Aktiv</span>:/span>
+<span style="font-size:11px;color:#64748b"><span data-t="activeLbl">Aktiv</span>:</span>
 <span id="activeSym" style="font-size:16px;font-weight:800;color:#22d3ee">EUR/USD</span>
 <span id="activePrice" style="font-size:14px;color:#94a3b8"></span></div>
 <div class="sym-quick" id="quickBtns"></div>
@@ -268,15 +268,15 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <div class="page" id="page_news">
 <div class="card" style="margin-bottom:16px">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-<p style="font-size:16px;font-weight:800;color:#f1f5f9">>&#128240; Fundamentalnachrichten<#128240; <span data-t="fundNews">Fundamentalnachrichten</span></p>
-<button class="btn btn-purple" onclick="loadNews()" id="newsBtn" title="Aktuelle Forex-Nachrichten via Claude AI laden">>&#8635; News laden<#8635; <span data-t="loadNews">News laden</span></button>
+<p style="font-size:16px;font-weight:800;color:#f1f5f9">&#128240; <span data-t="fundNews">Fundamentalnachrichten</span></p>
+<button class="btn btn-purple" onclick="loadNews()" id="newsBtn">&#8635; <span data-t="loadNews">News laden</span></button>
 </div>
-<div id="newsBody"><p style="font-size:12px;color:#475569"><span data-t="newsHint">Klicke "News laden" um aktuelle Forex-Fundamentalnachrichten zu erzeugen.</span></p></div>
+<div id="newsBody"><p style="font-size:12px;color:#475569"><span data-t="newsHint">Klicke News laden.</span></p></div>
 </div>
 <div class="card">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-<p style="font-size:16px;font-weight:800;color:#f1f5f9">>&#128197; Wirtschaftskalender (diese Woche)<#128197; <span data-t="calendar">Wirtschaftskalender</span> <span data-t="thisWeek">(diese Woche)</span></p>
-<button class="btn btn-purple btn-sm" onclick="loadCalendar()" title="Kalender laden">&#8635;</button>
+<p style="font-size:16px;font-weight:800;color:#f1f5f9">&#128197; <span data-t="calendar">Wirtschaftskalender</span> <span data-t="thisWeek">(diese Woche)</span></p>
+<button class="btn btn-purple btn-sm" onclick="loadCalendar()">&#8635;</button>
 </div>
 <div id="calendarBody2"><p style="font-size:12px;color:#475569"><span data-t="calHint">Kalender wird geladen.</span></p></div>
 </div>
@@ -286,13 +286,13 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <!-- PAGE: WIKI                                   -->
 <!-- ════════════════════════════════════════════ -->
 <div class="page" id="page_wiki">
-<p style="font-size:18px;font-weight:800;color:#f1f5f9;margin-bottom:6px">>&#128218; Forex Wiki<#128218; <span data-t="wikiTitle">Forex Wiki</span></p>
-<p style="font-size:12px;color:#64748b;margin-bottom:20px"><span data-t="wikiSub">Glossar, Strategien und Grundlagen für Forex-Trading</span></p>
+<p style="font-size:18px;font-weight:800;color:#f1f5f9;margin-bottom:6px">&#128218; <span data-t="wikiTitle">Forex Wiki</span></p>
+<p style="font-size:12px;color:#64748b;margin-bottom:20px"><span data-t="wikiSub">Glossar, Strategien und Grundlagen</span></p>
 
-<p style="font-size:14px;font-weight:700;color:#6366f1;margin-bottom:12px">>&#128214; Glossar<#128214; <span data-t="glossar">Glossar</span></p>
+<p style="font-size:14px;font-weight:700;color:#6366f1;margin-bottom:12px">&#128214; <span data-t="glossar">Glossar</span></p>
 <div id="glossar" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px"></div>
 
-<p style="font-size:14px;font-weight:700;color:#6366f1;margin-bottom:12px">>&#128736; Trading-Strategien<#128736; <span data-t="strategies">Trading-Strategien</span></p>
+<p style="font-size:14px;font-weight:700;color:#6366f1;margin-bottom:12px">&#128736; <span data-t="strategies">Trading-Strategien</span></p>
 <div id="strategies"></div>
 </div>
 
@@ -308,7 +308,7 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <script>
 // ═══ I18N — FULL PAGE TRANSLATION ═══
 const TR={
-de:{indicators:'Indikatoren',analyze:'Analyse',reset:'Neu',watchlist:'Watchlist',scanAll:'Scan alle',sessions:'Forex Sessions',active:'AKTIV',closed:'—',chart:'Chart',keyLevels:'Key Levels',bias:'Bias',scenarios:'Szenarien',summary:'Zusammenfassung',glossar:'Glossar',deep:'KI-Tiefenanalyse',close:'Schliessen',noAdvice:'<span data-t="noAdvice">Keine Finanzberatung.</span>',home:'Home',news:'News',wiki:'Wiki',calendar:'Wirtschaftskalender',market:'Marktlage & Sentiment',loadNews:'News laden',loadCal:'Laden',topPairs:'Top-Paare · One-Click Analyse',scanTP:'Scan alle',heroTitle:'Forex Analyse Dashboard',heroSub:'Massive.com + Alpha Vantage + Claude AI · Multi-Timeframe Analyse',startAnalysis:'Analyse starten',apiKeys:'API Keys',progress:'Fortschritt',activeLbl:'Aktiv',addWL:'+ Watchlist',fundNews:'Fundamentalnachrichten',thisWeek:'(diese Woche)',calHint:'<span data-t="calHint">Klicke "Laden" um den Kalender via Claude AI zu erzeugen.</span>',newsHint:'<span data-t="newsHint">Klicke "News laden" um aktuelle Forex-Fundamentalnachrichten zu erzeugen.</span>',marketHint:'<span data-t="marketHint">Klicke "Laden" für eine aktuelle Markteinschätzung via Claude AI.</span>',wikiTitle:'Forex Wiki',wikiSub:'<span data-t="wikiSub">Glossar, Strategien und Grundlagen für Forex-Trading</span>',strategies:'Trading-Strategien',rules:'REGELN',resistance:'RESISTANCE',support:'SUPPORT',ccy1:'Währung 1',ccy2:'Währung 2',macro:'Makro',sessionTiming:'Session-Timing',rec:'EMPFEHLUNG',bestFor:'BEST FOR',avoid:'VERMEIDEN',prob:'Wahrsch.',conf:'Konfidenz',entry:'Entry',clI:'Antworte auf Deutsch.',deepH:'**Warum jetzt?** **Einstieg** **Risiko** **Gefahren** **Fazit**',overview:'Übersicht',confluence:'Confluence',beginner:'Anfänger',intermediate:'Mittel',advanced:'Fortgeschritten'},
+de:{indicators:'Indikatoren',analyze:'Analyse',reset:'Neu',watchlist:'Watchlist',scanAll:'Scan alle',sessions:'Forex Sessions',active:'AKTIV',closed:'—',chart:'Chart',keyLevels:'Key Levels',bias:'Bias',scenarios:'Szenarien',summary:'Zusammenfassung',glossar:'Glossar',deep:'KI-Tiefenanalyse',close:'Schliessen',noAdvice:'Keine Finanzberatung.',home:'Home',news:'News',wiki:'Wiki',calendar:'Wirtschaftskalender',market:'Marktlage & Sentiment',loadNews:'News laden',loadCal:'Laden',topPairs:'Top-Paare · One-Click Analyse',scanTP:'Scan alle',heroTitle:'Forex Analyse Dashboard',heroSub:'Massive.com + Alpha Vantage + Claude AI · Multi-Timeframe Analyse',startAnalysis:'Analyse starten',apiKeys:'API Keys',progress:'Fortschritt',activeLbl:'Aktiv',addWL:'+ Watchlist',fundNews:'Fundamentalnachrichten',thisWeek:'(diese Woche)',calHint:'Klicke "Laden" um den Kalender via Claude AI zu erzeugen.',newsHint:'Klicke "News laden" um aktuelle Forex-Fundamentalnachrichten zu erzeugen.',marketHint:'Klicke "Laden" für eine aktuelle Markteinschätzung via Claude AI.',wikiTitle:'Forex Wiki',wikiSub:'Glossar, Strategien und Grundlagen für Forex-Trading',strategies:'Trading-Strategien',rules:'REGELN',resistance:'RESISTANCE',support:'SUPPORT',ccy1:'Währung 1',ccy2:'Währung 2',macro:'Makro',sessionTiming:'Session-Timing',rec:'EMPFEHLUNG',bestFor:'BEST FOR',avoid:'VERMEIDEN',prob:'Wahrsch.',conf:'Konfidenz',entry:'Entry',clI:'Antworte auf Deutsch.',deepH:'**Warum jetzt?** **Einstieg** **Risiko** **Gefahren** **Fazit**',overview:'Übersicht',confluence:'Confluence',beginner:'Anfänger',intermediate:'Mittel',advanced:'Fortgeschritten'},
 en:{indicators:'Indicators',analyze:'Analyze',reset:'Reset',watchlist:'Watchlist',scanAll:'Scan all',sessions:'Forex Sessions',active:'ACTIVE',closed:'—',chart:'Chart',keyLevels:'Key Levels',bias:'Bias',scenarios:'Scenarios',summary:'Summary',glossar:'Glossary',deep:'AI Deep Analysis',close:'Close',noAdvice:'Not financial advice.',home:'Home',news:'News',wiki:'Wiki',calendar:'Economic Calendar',market:'Market Overview & Sentiment',loadNews:'Load News',loadCal:'Load',topPairs:'Top Pairs · One-Click Analysis',scanTP:'Scan all',heroTitle:'Forex Analysis Dashboard',heroSub:'Massive.com + Alpha Vantage + Claude AI · Multi-Timeframe Analysis',startAnalysis:'Start Analysis',apiKeys:'API Keys',progress:'Progress',activeLbl:'Active',addWL:'+ Watchlist',fundNews:'Fundamental News',thisWeek:'(this week)',calHint:'Click "Load" to generate the calendar via Claude AI.',newsHint:'Click "Load News" to generate current forex news.',marketHint:'Click "Load" for a current market assessment via Claude AI.',wikiTitle:'Forex Wiki',wikiSub:'Glossary, strategies and fundamentals for forex trading',strategies:'Trading Strategies',rules:'RULES',resistance:'RESISTANCE',support:'SUPPORT',ccy1:'Currency 1',ccy2:'Currency 2',macro:'Macro',sessionTiming:'Session Timing',rec:'RECOMMENDATION',bestFor:'BEST FOR',avoid:'AVOID',prob:'Prob.',conf:'Confidence',entry:'Entry',clI:'Respond in English.',deepH:'**Why now?** **Entry** **Risk management** **What can go wrong?** **Conclusion**',overview:'Overview',confluence:'Confluence',beginner:'Beginner',intermediate:'Intermediate',advanced:'Advanced'},
 fr:{indicators:'Indicateurs',analyze:'Analyser',reset:'Réinitialiser',watchlist:'Liste de suivi',scanAll:'Scanner tout',sessions:'Sessions Forex',active:'ACTIF',closed:'—',chart:'Graphique',keyLevels:'Niveaux clés',bias:'Biais',scenarios:'Scénarios',summary:'Résumé',glossar:'Glossaire',deep:'Analyse IA approfondie',close:'Fermer',noAdvice:'Pas un conseil financier.',home:'Accueil',news:'Actualités',wiki:'Wiki',calendar:'Calendrier économique',market:'Aperçu du marché',loadNews:'Charger les news',loadCal:'Charger',topPairs:'Top Paires · Analyse en un clic',scanTP:'Scanner tout',heroTitle:'Dashboard Analyse Forex',heroSub:'Massive.com + Alpha Vantage + Claude IA · Analyse Multi-Timeframe',startAnalysis:'Lancer l\'analyse',apiKeys:'Clés API',progress:'Progression',activeLbl:'Actif',addWL:'+ Suivi',fundNews:'Nouvelles fondamentales',thisWeek:'(cette semaine)',calHint:'Cliquez "Charger" pour générer le calendrier via Claude IA.',newsHint:'Cliquez "Charger" pour générer les actualités forex.',marketHint:'Cliquez "Charger" pour un aperçu du marché via Claude IA.',wikiTitle:'Wiki Forex',wikiSub:'Glossaire, stratégies et fondamentaux du trading forex',strategies:'Stratégies de trading',rules:'RÈGLES',resistance:'RÉSISTANCE',support:'SUPPORT',ccy1:'Devise 1',ccy2:'Devise 2',macro:'Macro',sessionTiming:'Timing des sessions',rec:'RECOMMANDATION',bestFor:'IDÉAL POUR',avoid:'ÉVITER',prob:'Prob.',conf:'Confiance',entry:'Entrée',clI:'Réponds en français.',deepH:'**Pourquoi maintenant?** **Entrée** **Risque** **Dangers** **Conclusion**',overview:'Aperçu',confluence:'Confluence',beginner:'Débutant',intermediate:'Intermédiaire',advanced:'Avancé'},
 es:{indicators:'Indicadores',analyze:'Analizar',reset:'Reiniciar',watchlist:'Lista de seguimiento',scanAll:'Escanear todo',sessions:'Sesiones Forex',active:'ACTIVO',closed:'—',chart:'Gráfico',keyLevels:'Niveles clave',bias:'Sesgo',scenarios:'Escenarios',summary:'Resumen',glossar:'Glosario',deep:'Análisis IA profundo',close:'Cerrar',noAdvice:'No es asesoría financiera.',home:'Inicio',news:'Noticias',wiki:'Wiki',calendar:'Calendario económico',market:'Resumen del mercado',loadNews:'Cargar noticias',loadCal:'Cargar',topPairs:'Top Pares · Análisis en un clic',scanTP:'Escanear',heroTitle:'Dashboard Análisis Forex',heroSub:'Massive.com + Alpha Vantage + Claude IA · Análisis Multi-Timeframe',startAnalysis:'Iniciar análisis',apiKeys:'Claves API',progress:'Progreso',activeLbl:'Activo',addWL:'+ Seguimiento',fundNews:'Noticias fundamentales',thisWeek:'(esta semana)',calHint:'Haz clic en "Cargar" para generar el calendario con Claude IA.',newsHint:'Haz clic en "Cargar" para generar noticias forex actuales.',marketHint:'Haz clic en "Cargar" para un análisis de mercado con Claude IA.',wikiTitle:'Wiki Forex',wikiSub:'Glosario, estrategias y fundamentos del trading forex',strategies:'Estrategias de trading',rules:'REGLAS',resistance:'RESISTENCIA',support:'SOPORTE',ccy1:'Divisa 1',ccy2:'Divisa 2',macro:'Macro',sessionTiming:'Timing de sesiones',rec:'RECOMENDACIÓN',bestFor:'IDEAL PARA',avoid:'EVITAR',prob:'Prob.',conf:'Confianza',entry:'Entrada',clI:'Responde en español.',deepH:'**¿Por qué ahora?** **Entrada** **Riesgo** **Peligros** **Conclusión**',overview:'Resumen',confluence:'Confluencia',beginner:'Principiante',intermediate:'Intermedio',advanced:'Avanzado'},
@@ -497,7 +497,7 @@ async function runAnalysis(){hideErr();document.getElementById('results').style.
     setProg('ps_ai','active');setStatus('Claude AI...');
     const text=await callClaude(`Forex analyst. ${T('clI')} ${now()}. ${info.l}: ${lp}.\nD1(${d1.length}):${JSON.stringify(fmtBars(d1,40))}\nH4(${h4.length}):${JSON.stringify(fmtBars(h4,50))}\nH1(${h1.length}):${JSON.stringify(fmtBars(h1,60))}\nM15(${m15.length}):${JSON.stringify(fmtBars(m15,80))}${avC}\nJSON ONLY:{"lastPrice":"${lp}","trend":{"d1":"","h4":"","h1":"","m15":""},"fundamental":{"summary":"","bias":"","ecb":"","fed":"","macro":"","keyEvents":[{"date":"","event":"","impact":"hoch"}]},"keyLevels":{"resistance":["","",""],"support":["","",""]},"sessionTiming":[{"session":"London","recommendation":"","bestFor":"","avoid":""},{"session":"New York","recommendation":"","bestFor":"","avoid":""},{"session":"Overlap","recommendation":"","bestFor":"","avoid":""}],"scenarios":[{"id":1,"name":"","direction":"Long","setup":"","entryTF":"M15","higherTFs":["H1","H4"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","bestSession":"","entrySignal":"","exitSignal":"","probability":55,"confidence":"Hoch"},{"id":2,"name":"","direction":"Short","setup":"","entryTF":"H1","higherTFs":["H4","D1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","bestSession":"","entrySignal":"","exitSignal":"","probability":45,"confidence":"Mittel"},{"id":3,"name":"","direction":"","setup":"","entryTF":"H4","higherTFs":["D1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","bestSession":"","entrySignal":"","exitSignal":"","probability":40,"confidence":"Niedrig"}],"summary":""}`,2000);
     setProg('ps_ai','done');
-    const mt=text.match(/\{[\s\S]*\}/);if(!mt)throw new Error('No JSON');G=JSON.parse(mt[0]);G._sym=SYM;
+    G=safeJSON(text,'object');G._sym=SYM;
     setProg('ps_chart','active');renderResults(G);
     const bSc=G.scenarios[0]||{};const tfK=bSc.entryTF==='M15'?'m15':bSc.entryTF==='H4'?'h4':bSc.entryTF==='D1'?'d1':'h1';
     const cBars=(rawBars[tfK]||rawBars.h1||[]).slice(-80).map(b=>({t:new Date(b.t).toISOString().slice(0,16).replace('T',' '),o:b.o,h:b.h,l:b.l,c:b.c}));
@@ -533,12 +533,54 @@ function closeOverlay(){document.getElementById('overlay').style.display='none';
 document.getElementById('overlay').addEventListener('click',e=>{if(e.target===document.getElementById('overlay'))closeOverlay();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeOverlay();});
 
+// ═══ SAFE JSON PARSER (handles Claude's imperfect JSON) ═══
+function safeJSON(raw, type){
+  // type: 'array' or 'object'
+  let s=raw;
+  // Strip markdown fences
+  s=s.replace(/```json\s*/gi,'').replace(/```\s*/g,'');
+  // Extract the JSON structure
+  let m;
+  if(type==='array') m=s.match(/\[[\s\S]*\]/);
+  else m=s.match(/\{[\s\S]*\}/);
+  if(!m) throw new Error('No JSON found in response');
+  s=m[0];
+  // Try direct parse first
+  try{return JSON.parse(s);}catch(e1){
+    // Fix common issues: control chars in strings
+    s=s.replace(/[\x00-\x1f]/g,c=>c==='\n'?'\\n':c==='\t'?'\\t':'');
+    try{return JSON.parse(s);}catch(e2){
+      // More aggressive: replace unescaped quotes inside values
+      // Strategy: rebuild by processing char by char
+      let fixed='',inStr=false,prevCh='';
+      for(let i=0;i<s.length;i++){
+        const ch=s[i];
+        if(ch==='"'&&prevCh!=='\\'){
+          if(!inStr){inStr=true;fixed+=ch;}
+          else{
+            // Look ahead: is this the end of a JSON string value?
+            const after=s.slice(i+1).trimStart();
+            if(after[0]===':'||after[0]===','||after[0]==='}'||after[0]===']'||after.startsWith('//')){
+              inStr=false;fixed+=ch;
+            }else{
+              // It's an unescaped quote inside a string — escape it
+              fixed+='\\"';
+            }
+          }
+        }else{fixed+=ch;}
+        prevCh=ch;
+      }
+      try{return JSON.parse(fixed);}catch(e3){
+        throw new Error('JSON parse failed: '+e1.message);
+      }
+    }
+  }
+}
+
 // ═══ HOME: CALENDAR ═══
 async function loadCalendar(){if(!gk('anthropic_api_key')){toggleSettings();return;}document.getElementById('calBtn').disabled=true;setStatus('Kalender...');
-  try{const t=await callClaude(`${T('clI')} Create a forex economic calendar for this week (${now()}). JSON array, 8-12 events:
-[{"date":"2026-03-18","time":"14:30 UTC","event":"US Retail Sales","impact":"high","symbols":["EURUSD","GBPUSD","USDJPY"]},...]
-JSON ONLY, no markdown.`,600);
-    const m=t.match(/\[[\s\S]*\]/);if(!m)throw new Error('No JSON');const ev=JSON.parse(m[0]);
+  try{const t=await callClaude(`${T('clI')} Create a forex economic calendar for this week (${now()}). Return ONLY a JSON array with 8-12 events. Use simple ASCII text, no special quotes or characters. Each object: {"date":"YYYY-MM-DD","time":"HH:MM UTC","event":"Event name","impact":"high","symbols":["EURUSD"]}. Impact must be: high, medium, or low. Return ONLY the JSON array, nothing else.`,600);
+    const ev=safeJSON(t,'array');
     const html=ev.map(e=>{const ic=e.impact==='high'?'impact-high':e.impact==='medium'?'impact-med':'impact-low';
       return`<div class="cal-row"><div class="cal-date">${e.date||''}<br><span style="color:#94a3b8">${e.time||''}</span></div><div class="cal-event">${e.event||''}</div><div class="cal-impact ${ic}">${(e.impact||'').toUpperCase()}</div><div class="cal-syms">${(e.symbols||[]).join(', ')}</div></div>`;}).join('');
     document.getElementById('calendarBody').innerHTML=html;document.getElementById('calendarBody2').innerHTML=html;setStatus('');
@@ -553,10 +595,8 @@ async function loadMarketOverview(){if(!gk('anthropic_api_key')){toggleSettings(
 
 // ═══ NEWS PAGE ═══
 async function loadNews(){if(!gk('anthropic_api_key')){toggleSettings();return;}document.getElementById('newsBtn').disabled=true;setStatus('News...');
-  try{const t=await callClaude(`${T('clI')} Create 5 fictional but realistic forex news items for today ${now()}. JSON array:
-[{"time":"08:30 UTC","title":"Fed signals...","body":"Text 2-3 sentences.","impact":"bullish USD","symbols":["EURUSD","USDJPY"]},...]
-JSON ONLY.`,800);
-    const m=t.match(/\[[\s\S]*\]/);if(!m)throw new Error('No JSON');const news=JSON.parse(m[0]);
+  try{const t=await callClaude(`${T('clI')} Create 5 realistic forex news items for today ${now()}. Return ONLY a JSON array. Use simple ASCII text only, avoid special quotes or apostrophes in strings. Each object: {"time":"HH:MM UTC","title":"Short headline","body":"2 sentences max, plain text.","impact":"bullish USD","symbols":["EURUSD","USDJPY"]}. Return ONLY the JSON array, nothing else.`,800);
+    const news=safeJSON(t,'array');
     document.getElementById('newsBody').innerHTML=news.map(n=>{const col=/bull/i.test(n.impact)?'#22c55e':/bear/i.test(n.impact)?'#ef4444':'#eab308';
       return`<div class="news-card"><div class="news-time">${n.time||''} · ${pill(col,n.impact||'')}</div><div class="news-title">${n.title||''}</div><div class="news-body">${n.body||''}</div><div style="margin-top:8px;font-size:11px;color:#a78bfa">${(n.symbols||[]).join(', ')}</div></div>`;}).join('');
     setStatus('');
