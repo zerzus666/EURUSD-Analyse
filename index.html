@@ -2,6 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8"/>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Forex Analyse Dashboard</title>
 <style>
@@ -118,15 +119,15 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <div class="hbtns">
 <select id="langSel" onchange="setLang(this.value)" style="background:#334155;border:1px solid #475569;border-radius:8px;color:#e2e8f0;padding:6px 8px;font-size:11px;cursor:pointer" title="Language">
 <option value="de">DE</option><option value="en">EN</option><option value="fr">FR</option><option value="es">ES</option><option value="it">IT</option></select>
-<button class="btn btn-gray btn-sm" onclick="toggleSettings()" title="API Keys">&#9881; Keys</button>
+<button class="btn btn-gray btn-sm" onclick="toggleSettings()" title="API Keys">⚙ Keys</button>
 </div></div>
 
 <!-- NAV -->
 <div id="nav">
-<button class="nav-btn active" onclick="goPage('home')" data-page="home" title="Start-Dashboard mit Marktübersicht">&#127968; Home</button>
-<button class="nav-btn" onclick="goPage('analyse')" data-page="analyse" title="Technische Analyse + Claude AI">&#128202; Analyse</button>
-<button class="nav-btn" onclick="goPage('news')" data-page="news" title="Fundamentalnachrichten + Wirtschaftskalender">&#128240; News</button>
-<button class="nav-btn" onclick="goPage('wiki')" data-page="wiki" title="Glossar, Strategien & Lerninhalte">&#128218; Wiki</button>
+<button class="nav-btn active" onclick="goPage('home')" data-page="home" title="Start-Dashboard mit Marktübersicht">🏠 Home</button>
+<button class="nav-btn" onclick="goPage('analyse')" data-page="analyse" title="Technische Analyse + Claude AI">📊 Analyse</button>
+<button class="nav-btn" onclick="goPage('news')" data-page="news" title="Fundamentalnachrichten + Wirtschaftskalender">📰 News</button>
+<button class="nav-btn" onclick="goPage('wiki')" data-page="wiki" title="Glossar, Strategien & Lerninhalte">📚 Wiki</button>
 </div>
 
 <!-- Settings (global) -->
@@ -165,13 +166,13 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <p style="font-size:13px;color:#64748b" id="heroSub">Massive.com + Alpha Vantage + Claude AI</p>
 </div>
 <div style="display:flex;gap:8px">
-<button class="btn btn-purple btn-lg" onclick="goPage('analyse')">&#9654; <span data-t="startAnalysis">Analyse starten</span></button>
-<button class="btn btn-amber btn-lg" onclick="goPage('news')">&#128240; <span data-t="news">News</span></button>
+<button class="btn btn-purple btn-lg" onclick="goPage('analyse')">▶ <span data-t="startAnalysis">Analyse starten</span></button>
+<button class="btn btn-amber btn-lg" onclick="goPage('news')">📰 <span data-t="news">News</span></button>
 </div></div></div>
 
 <!-- Sessions -->
 <div class="card" style="margin-bottom:16px">
-<p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:10px">&#127758; <span data-t="sessions">Forex Sessions</span></p>
+<p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:10px">🌎 <span data-t="sessions">Forex Sessions</span></p>
 <div id="sessionsGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px"></div>
 <p id="sessionHint" style="font-size:12px;color:#64748b;margin-top:8px"></p>
 </div>
@@ -179,8 +180,8 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <!-- Top Paare -->
 <div class="card" style="margin-bottom:16px">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
-<p style="font-size:14px;font-weight:800;color:#f1f5f9">&#128293; <span data-t="topPairs">Top-Paare</span></p>
-<button class="btn btn-cyan btn-sm" id="scanHomeBtn" onclick="scanTopPairs()">&#8635; <span data-t="scanTP">Scan alle</span></button>
+<p style="font-size:14px;font-weight:800;color:#f1f5f9">🔥 <span data-t="topPairs">Top-Paare</span></p>
+<button class="btn btn-cyan btn-sm" id="scanHomeBtn" onclick="scanTopPairs()">↻ <span data-t="scanTP">Scan alle</span></button>
 </div>
 <div class="tp-grid" id="topPairsGrid"></div>
 </div>
@@ -188,8 +189,8 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <!-- Wirtschaftskalender -->
 <div class="card" style="margin-bottom:16px">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
-<p style="font-size:14px;font-weight:800;color:#f1f5f9">&#128197; <span data-t="calendar">Wirtschaftskalender</span></p>
-<button class="btn btn-purple btn-sm" onclick="loadCalendar()" id="calBtn">&#8635; <span data-t="loadCal">Laden</span></button>
+<p style="font-size:14px;font-weight:800;color:#f1f5f9">📅 <span data-t="calendar">Wirtschaftskalender</span></p>
+<button class="btn btn-purple btn-sm" onclick="loadCalendar()" id="calBtn">↻ <span data-t="loadCal">Laden</span></button>
 </div>
 <div id="calendarBody"><p style="font-size:12px;color:#475569"><span data-t="calHint">Klicke Laden um den Kalender zu erzeugen.</span></p></div>
 </div>
@@ -197,8 +198,8 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <!-- Marktlage -->
 <div class="card">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-<p style="font-size:14px;font-weight:800;color:#f1f5f9">&#127760; <span data-t="market">Marktlage</span></p>
-<button class="btn btn-purple btn-sm" onclick="loadMarketOverview()" id="moBtn">&#8635; <span data-t="loadCal">Laden</span></button>
+<p style="font-size:14px;font-weight:800;color:#f1f5f9">🌐 <span data-t="market">Marktlage</span></p>
+<button class="btn btn-purple btn-sm" onclick="loadMarketOverview()" id="moBtn">↻ <span data-t="loadCal">Laden</span></button>
 </div>
 <div id="marketOverview"><p style="font-size:12px;color:#475569"><span data-t="marketHint">Klicke Laden fuer Marktanalyse.</span></p></div>
 </div>
@@ -219,8 +220,8 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <optgroup label="Crosses"><option value="EURGBP">EUR/GBP</option><option value="EURJPY">EUR/JPY</option><option value="GBPJPY">GBP/JPY</option><option value="EURCHF">EUR/CHF</option><option value="CADJPY">CAD/JPY</option></optgroup>
 <optgroup label="Metalle"><option value="XAUUSD">XAU/USD</option><option value="XAGUSD">XAG/USD</option></optgroup></select>
 <button class="btn btn-cyan btn-sm" onclick="addToWL()"><span data-t="addWL">+ Watchlist</span></button>
-<button class="btn btn-amber btn-sm" id="avBtn" onclick="runAVAnalysis()" disabled>&#128202; <span data-t="indicators">Indikatoren</span></button>
-<button class="btn btn-purple" id="startBtn" onclick="runAnalysis()" disabled>&#9654; <span data-t="analyze">Analyse</span></button>
+<button class="btn btn-amber btn-sm" id="avBtn" onclick="runAVAnalysis()" disabled>📊 <span data-t="indicators">Indikatoren</span></button>
+<button class="btn btn-purple" id="startBtn" onclick="runAnalysis()" disabled>▶ <span data-t="analyze">Analyse</span></button>
 </div></div>
 <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
 <span style="font-size:11px;color:#64748b"><span data-t="activeLbl">Aktiv</span>:</span>
@@ -233,9 +234,9 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <div id="avSection" style="display:none"><div class="card card-av">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px">
 <div><p style="font-size:14px;font-weight:800;color:#fbbf24"><span id="avSymLabel">EUR/USD</span> Indikatoren</p></div>
-<div style="display:flex;gap:6px;align-items:center"><span id="avTime" style="font-size:11px;color:#475569"></span><button class="btn btn-amber btn-sm" onclick="runAVAnalysis()" title="Neu laden">&#8635;</button></div></div>
+<div style="display:flex;gap:6px;align-items:center"><span id="avTime" style="font-size:11px;color:#475569"></span><button class="btn btn-amber btn-sm" onclick="runAVAnalysis()" title="Neu laden">↻</button></div></div>
 <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:16px"><span id="avPrice" style="font-size:28px;font-weight:800;color:#f1f5f9">&mdash;</span><span id="avPriceVsEma" style="font-size:12px;font-weight:700"></span><span id="avBidAsk" style="font-size:12px;color:#64748b">&mdash;</span></div>
-<div class="av-tab-row"><button class="av-tab active" data-avt="overview" onclick="switchAVTab('overview')">Uebersicht</button><button class="av-tab" data-avt="macd" onclick="switchAVTab('macd')">MACD</button><button class="av-tab" data-avt="rsi" onclick="switchAVTab('rsi')">RSI</button><button class="av-tab" data-avt="confluence" onclick="switchAVTab('confluence')">Confluence</button></div>
+<div class="av-tab-row"><button class="av-tab active" data-avt="overview" onclick="switchAVTab('overview')"><span data-t="overview">Übersicht</span></button><button class="av-tab" data-avt="macd" onclick="switchAVTab('macd')">MACD</button><button class="av-tab" data-avt="rsi" onclick="switchAVTab('rsi')">RSI</button><button class="av-tab" data-avt="confluence" onclick="switchAVTab('confluence')"><span data-t="confluence">Confluence</span></button></div>
 <div id="avTab_overview"><div class="g4" style="margin-bottom:16px"><div class="av-mini"><div class="av-mini-label">MACD</div><div class="av-mini-val" id="avMacdVal">&mdash;</div><div class="av-mini-sub" id="avMacdSub"></div></div><div class="av-mini"><div class="av-mini-label">RSI H1</div><div class="av-mini-val" id="avRsiH1Val">&mdash;</div><div class="av-mini-sub" id="avRsiH1Sub"></div></div><div class="av-mini"><div class="av-mini-label">RSI M15</div><div class="av-mini-val" id="avRsiM15Val">&mdash;</div><div class="av-mini-sub" id="avRsiM15Sub"></div></div><div class="av-mini"><div class="av-mini-label">Confluence</div><div class="av-mini-val" id="avConfVal">&mdash;</div><div class="av-mini-sub" id="avConfSub"></div></div></div>
 <div class="g2"><div><div style="font-size:11px;color:#64748b;margin-bottom:6px;font-weight:700">HISTOGRAM</div><div id="avHistChart" style="height:60px;background:#0f172a;border-radius:8px;padding:4px"></div></div><div><div style="font-size:11px;color:#64748b;margin-bottom:6px;font-weight:700">RSI H1</div><div id="avRsiMiniChart" style="height:60px;background:#0f172a;border-radius:8px;padding:4px"></div></div></div>
 <div id="avSignals" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px"></div></div>
@@ -254,12 +255,13 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <canvas id="mainChart" width="1360" height="560" style="width:100%;height:auto;border-radius:8px;background:#0f172a"></canvas>
 <div style="display:flex;gap:14px;margin-top:8px;font-size:10px;color:#64748b;flex-wrap:wrap"><span><span style="display:inline-block;width:8px;height:8px;background:#22c55e;border-radius:2px;vertical-align:middle;margin-right:3px"></span>Bull</span><span><span style="display:inline-block;width:8px;height:8px;background:#ef4444;border-radius:2px;vertical-align:middle;margin-right:3px"></span>Bear</span><span style="color:#fbbf24">— Entry</span><span style="color:#ef4444">-- SL</span><span style="color:#22c55e">-- TP</span><span style="color:#ef444488">-- R</span><span style="color:#22c55e88">-- S</span></div></div>
 <div class="g5"><div class="kpi"><div class="kpi-label">Kurs</div><div class="kpi-val" id="kpiPrice" style="color:#f1f5f9;font-size:20px"></div></div><div class="kpi"><div class="kpi-label">D1</div><div class="kpi-val" id="kpiD1"></div></div><div class="kpi"><div class="kpi-label">H4</div><div class="kpi-val" id="kpiH4"></div></div><div class="kpi"><div class="kpi-label">H1</div><div class="kpi-val" id="kpiH1"></div></div><div class="kpi"><div class="kpi-label">M15</div><div class="kpi-val" id="kpiM15"></div></div></div>
-<div class="g2"><div class="card"><p style="font-size:10px;color:#ef4444;font-weight:700;margin-bottom:5px">RESISTANCE</p><div id="resistance"></div><p style="font-size:10px;color:#22c55e;font-weight:700;margin:10px 0 5px">SUPPORT</p><div id="support"></div></div>
+<div class="g2"><div class="card"><p style="font-size:10px;color:#ef4444;font-weight:700;margin-bottom:5px"><span data-t="resistance">RESISTANCE</span></p><div id="resistance"></div><p style="font-size:10px;color:#22c55e;font-weight:700;margin:10px 0 5px"><span data-t="support">SUPPORT</span></p><div id="support"></div></div>
 <div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><p style="font-size:13px;font-weight:700;color:#94a3b8">Bias</p><span id="biasBadge" class="badge"></span></div><p id="fundSummary" style="font-size:13px;color:#cbd5e1;line-height:1.6;margin-bottom:10px"></p><div id="keyEvents"></div></div></div>
-<div class="card"><div class="g3"><div><p style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:6px">CCY 1</p><p id="fundECB" style="font-size:12px;color:#cbd5e1;line-height:1.6"></p></div><div><p style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:6px">CCY 2</p><p id="fundFED" style="font-size:12px;color:#cbd5e1;line-height:1.6"></p></div><div><p style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:6px">Makro</p><p id="fundMacro" style="font-size:12px;color:#cbd5e1;line-height:1.6"></p></div></div></div>
-<div class="card"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:14px">Session-Timing</p><div id="sessionTiming"></div></div>
+<div class="card"><div class="g3"><div><p style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:6px"><span data-t="ccy1">CCY 1</span></p><p id="fundECB" style="font-size:12px;color:#cbd5e1;line-height:1.6"></p></div><div><p style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:6px"><span data-t="ccy2">CCY 2</span></p><p id="fundFED" style="font-size:12px;color:#cbd5e1;line-height:1.6"></p></div><div><p style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:6px"><span data-t="macro">Makro</span></p><p id="fundMacro" style="font-size:12px;color:#cbd5e1;line-height:1.6"></p></div></div></div>
+<div class="card"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:14px"><span data-t="sessionTiming">Session-Timing</span></p><div id="sessionTiming"></div></div>
 <div class="card"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:14px"><span data-t="scenarios">Trade-Szenarien</span></p><div style="overflow-x:auto"><table><thead><tr><th>#</th><th>Szenario</th><th>Dir.</th><th>TF</th><th>Entry</th><th>SL</th><th>TP1</th><th>TP2</th><th>R:R</th><th>Session</th><th>Prob.</th><th>Konf.</th></tr></thead><tbody id="scenarioBody"></tbody></table></div></div>
 <div class="card card-accent"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:8px"><span data-t="summary">Zusammenfassung</span></p><p id="summary" style="font-size:14px;color:#cbd5e1;line-height:1.7"></p></div>
+<p style="text-align:center;font-size:11px;color:#334155;margin:12px 0"><span data-t="noAdvice">Keine Finanzberatung.</span></p>
 </div></div>
 
 <!-- ════════════════════════════════════════════ -->
@@ -268,15 +270,15 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <div class="page" id="page_news">
 <div class="card" style="margin-bottom:16px">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-<p style="font-size:16px;font-weight:800;color:#f1f5f9">&#128240; <span data-t="fundNews">Fundamentalnachrichten</span></p>
-<button class="btn btn-purple" onclick="loadNews()" id="newsBtn">&#8635; <span data-t="loadNews">News laden</span></button>
+<p style="font-size:16px;font-weight:800;color:#f1f5f9">📰 <span data-t="fundNews">Fundamentalnachrichten</span></p>
+<button class="btn btn-purple" onclick="loadNews()" id="newsBtn">↻ <span data-t="loadNews">News laden</span></button>
 </div>
 <div id="newsBody"><p style="font-size:12px;color:#475569"><span data-t="newsHint">Klicke News laden.</span></p></div>
 </div>
 <div class="card">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-<p style="font-size:16px;font-weight:800;color:#f1f5f9">&#128197; <span data-t="calendar">Wirtschaftskalender</span> <span data-t="thisWeek">(diese Woche)</span></p>
-<button class="btn btn-purple btn-sm" onclick="loadCalendar()">&#8635;</button>
+<p style="font-size:16px;font-weight:800;color:#f1f5f9">📅 <span data-t="calendar">Wirtschaftskalender</span> <span data-t="thisWeek">(diese Woche)</span></p>
+<button class="btn btn-purple btn-sm" onclick="loadCalendar()">↻</button>
 </div>
 <div id="calendarBody2"><p style="font-size:12px;color:#475569"><span data-t="calHint">Kalender wird geladen.</span></p></div>
 </div>
@@ -286,24 +288,24 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 <!-- PAGE: WIKI                                   -->
 <!-- ════════════════════════════════════════════ -->
 <div class="page" id="page_wiki">
-<p style="font-size:18px;font-weight:800;color:#f1f5f9;margin-bottom:6px">&#128218; <span data-t="wikiTitle">Forex Wiki</span></p>
+<p style="font-size:18px;font-weight:800;color:#f1f5f9;margin-bottom:6px">📚 <span data-t="wikiTitle">Forex Wiki</span></p>
 <p style="font-size:12px;color:#64748b;margin-bottom:20px"><span data-t="wikiSub">Glossar, Strategien und Grundlagen</span></p>
 
-<p style="font-size:14px;font-weight:700;color:#6366f1;margin-bottom:12px">&#128214; <span data-t="glossar">Glossar</span></p>
+<p style="font-size:14px;font-weight:700;color:#6366f1;margin-bottom:12px">📖 <span data-t="glossar">Glossar</span></p>
 <div id="glossar" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px"></div>
 
-<p style="font-size:14px;font-weight:700;color:#6366f1;margin-bottom:12px">&#128736; <span data-t="strategies">Trading-Strategien</span></p>
+<p style="font-size:14px;font-weight:700;color:#6366f1;margin-bottom:12px">🛠 <span data-t="strategies">Trading-Strategien</span></p>
 <div id="strategies"></div>
 </div>
 
 <!-- OVERLAY -->
 <div id="overlay"><div id="ovBox">
-<div id="ovHeader"><div style="flex:1"><div id="ovTitle"></div><div id="ovSub"></div></div><div style="display:flex;gap:8px;align-items:center"><span id="ovStatus" style="font-size:12px;color:#94a3b8"></span><button class="btn btn-gray" onclick="closeOverlay()" title="Schliessen">&#10005;</button></div></div>
+<div id="ovHeader"><div style="flex:1"><div id="ovTitle"></div><div id="ovSub"></div></div><div style="display:flex;gap:8px;align-items:center"><span id="ovStatus" style="font-size:12px;color:#94a3b8"></span><button class="btn btn-gray" onclick="closeOverlay()">✕</button></div></div>
 <div style="padding:16px 20px;background:#0a0e1a;border-bottom:1px solid #1f2937"><canvas id="ovChart" width="1360" height="500" style="width:100%;height:auto;border-radius:8px"></canvas></div>
 <div id="ovBody">
 <div class="card card-accent" style="margin-bottom:14px"><p style="font-size:13px;font-weight:700;color:#94a3b8;margin-bottom:10px"><span data-t="deep">KI-Tiefenanalyse</span></p><div id="deepText" style="font-size:13px;color:#cbd5e1;line-height:1.8"></div></div>
 <div class="card" style="margin-bottom:14px"><table><tbody id="ovParamTable"></tbody></table></div>
-<div class="g2" style="margin-bottom:24px"><div class="card"><p style="font-size:10px;color:#ef4444;font-weight:700;margin-bottom:8px">RESISTANCE</p><div id="ovRes"></div></div><div class="card"><p style="font-size:10px;color:#22c55e;font-weight:700;margin-bottom:8px">SUPPORT</p><div id="ovSup"></div></div></div>
+<div class="g2" style="margin-bottom:24px"><div class="card"><p style="font-size:10px;color:#ef4444;font-weight:700;margin-bottom:8px"><span data-t="resistance">RESISTANCE</span></p><div id="ovRes"></div></div><div class="card"><p style="font-size:10px;color:#22c55e;font-weight:700;margin-bottom:8px"><span data-t="support">SUPPORT</span></p><div id="ovSup"></div></div></div>
 </div></div></div>
 <script>
 // ═══ I18N — FULL PAGE TRANSLATION ═══
@@ -343,10 +345,10 @@ function setLang(l){
 
 function translatePage(){
   // Nav buttons
-  document.querySelectorAll('.nav-btn[data-page="home"]').forEach(e=>e.innerHTML='&#127968; '+T('home'));
-  document.querySelectorAll('.nav-btn[data-page="analyse"]').forEach(e=>e.innerHTML='&#128202; '+T('analyze'));
-  document.querySelectorAll('.nav-btn[data-page="news"]').forEach(e=>e.innerHTML='&#128240; '+T('news'));
-  document.querySelectorAll('.nav-btn[data-page="wiki"]').forEach(e=>e.innerHTML='&#128218; '+T('wiki'));
+  document.querySelectorAll('.nav-btn[data-page="home"]').forEach(e=>e.innerHTML='🏠 '+T('home'));
+  document.querySelectorAll('.nav-btn[data-page="analyse"]').forEach(e=>e.innerHTML='📊 '+T('analyze'));
+  document.querySelectorAll('.nav-btn[data-page="news"]').forEach(e=>e.innerHTML='📰 '+T('news'));
+  document.querySelectorAll('.nav-btn[data-page="wiki"]').forEach(e=>e.innerHTML='📚 '+T('wiki'));
   // Hero
   const ht=document.getElementById('heroTitle');if(ht)ht.textContent=T('heroTitle');
   const hs=document.getElementById('heroSub');if(hs)hs.textContent=T('heroSub');
@@ -395,7 +397,7 @@ function rmWL(s,e){e.stopPropagation();wl=wl.filter(x=>x!==s);localStorage.setIt
 function renderWL(){
   document.getElementById('quickBtns').innerHTML=wl.map(s=>{const i=SYMS[s];return i?`<button class="${s===SYM?'active':''}" onclick="selectSymbol('${s}')" title="${i.l}">${i.l}</button>`:''}).join('');
   document.getElementById('wlGrid').innerHTML=wl.map(s=>{const i=SYMS[s];if(!i)return'';const p=wlD[s],a=s===SYM;
-    return`<div class="wl-card${a?' active':''}" onclick="selectSymbol('${s}')"><button class="wl-remove" onclick="rmWL('${s}',event)" title="Entfernen">&#10005;</button><div style="font-size:15px;font-weight:800;color:#f1f5f9">${i.l}</div><div style="font-size:13px;color:#94a3b8;margin-top:4px">${p?p.toFixed(i.d):'—'}</div>${wlD[s+'_r']?`<div style="font-size:11px;margin-top:4px;color:${wlD[s+'_r']>60?'#22c55e':wlD[s+'_r']<40?'#ef4444':'#eab308'}">RSI: ${wlD[s+'_r'].toFixed(1)}</div>`:''}<div style="display:flex;gap:6px;margin-top:8px"><button class="btn btn-amber btn-sm" onclick="event.stopPropagation();selectSymbol('${s}');goPage('analyse');runAVAnalysis()" title="Indikatoren ${i.l}">&#128202;</button><button class="btn btn-purple btn-sm" onclick="event.stopPropagation();selectSymbol('${s}');goPage('analyse');runAnalysis()" title="Vollanalyse ${i.l}">&#9654;</button></div></div>`;}).join('');
+    return`<div class="wl-card${a?' active':''}" onclick="selectSymbol('${s}')"><button class="wl-remove" onclick="rmWL('${s}',event)" title="Entfernen">✕</button><div style="font-size:15px;font-weight:800;color:#f1f5f9">${i.l}</div><div style="font-size:13px;color:#94a3b8;margin-top:4px">${p?p.toFixed(i.d):'—'}</div>${wlD[s+'_r']?`<div style="font-size:11px;margin-top:4px;color:${wlD[s+'_r']>60?'#22c55e':wlD[s+'_r']<40?'#ef4444':'#eab308'}">RSI: ${wlD[s+'_r'].toFixed(1)}</div>`:''}<div style="display:flex;gap:6px;margin-top:8px"><button class="btn btn-amber btn-sm" onclick="event.stopPropagation();selectSymbol('${s}');goPage('analyse');runAVAnalysis()" title="Indikatoren ${i.l}">📊</button><button class="btn btn-purple btn-sm" onclick="event.stopPropagation();selectSymbol('${s}');goPage('analyse');runAnalysis()" title="Vollanalyse ${i.l}">▶</button></div></div>`;}).join('');
 }
 
 // ═══ TOP PAIRS (HOME) ═══
@@ -405,7 +407,7 @@ function renderTopPairs(){
       <div class="tp-sym">${i.l}</div>
       <div class="tp-price">${p?p.toFixed(i.d):'—'}</div>
       ${r?`<div class="tp-rsi" style="color:${r>60?'#22c55e':r<40?'#ef4444':'#eab308'}">RSI ${r.toFixed(1)}</div>`:'<div class="tp-rsi" style="color:#475569">—</div>'}
-      <button class="btn btn-purple btn-sm" style="width:100%" onclick="event.stopPropagation();selectSymbol('${s}');goPage('analyse');runAnalysis()">&#9654; ${T('analyze')}</button>
+      <button class="btn btn-purple btn-sm" style="width:100%" onclick="event.stopPropagation();selectSymbol('${s}');goPage('analyse');runAnalysis()">▶ ${T('analyze')}</button>
     </div>`;}).join('');
 }
 async function scanTopPairs(){if(!gk('av_api_key')){toggleSettings();return;}document.getElementById('scanHomeBtn').disabled=true;
@@ -420,7 +422,7 @@ const SESS=[{n:'Tokio',o:0,c:9,col:'#3b82f6'},{n:'London',o:7,c:16,col:'#22c55e'
 function renderSessions(){const h=new Date().getUTCHours()+new Date().getUTCMinutes()/60;let hi=[];document.getElementById('sessionsGrid').innerHTML=SESS.map(s=>{const on=h>=s.o&&h<s.c,m=on?((s.c-h+24)%24*60|0):((s.o-h+24)%24*60|0);if(on)hi.push(s.n);return`<div style="background:${on?s.col+'22':'#0f172a'};border:1px solid ${on?s.col+'66':'#334155'};border-radius:8px;padding:12px;text-align:center"><div style="font-size:11px;font-weight:700;color:${on?s.col:'#64748b'}">${s.n}</div><div style="font-size:10px;color:#64748b">${String(s.o).padStart(2,'0')}–${String(s.c).padStart(2,'0')}</div><div style="font-size:11px;font-weight:800;color:${on?s.col:'#475569'};margin:4px 0">${on?T('active'):T('closed')}</div></div>`;}).join('');document.getElementById('sessionHint').textContent=hi.length?hi.join(', ')+' '+T('active').toLowerCase():new Date().toUTCString().slice(17,22)+' UTC';setTimeout(renderSessions,60000);}
 // ═══ CHART ENGINE ═══
 function drawChart(cid,bars,opts){const cvs=document.getElementById(cid);if(!cvs||!bars.length)return;const ctx=cvs.getContext('2d');const W=cvs.width,H=cvs.height;const PAD={t:30,b:30,l:10,r:90};const cW=W-PAD.l-PAD.r,cH=H-PAD.t-PAD.b;ctx.clearRect(0,0,W,H);ctx.fillStyle='#0a0e1a';ctx.fillRect(0,0,W,H);
-  let cMin=Infinity,cMax=-Infinity;bars.forEach(b=>{if(b.h>cMax)cMax=b.h;if(b.l<cMin)cMin=b.l;});const cR=cMax-cMin||.001;const mE=cR*.4;let pMn=cMin,pMx=cMax;
+  let cMin=Infinity,cMax=-Infinity;bars.forEach(b=>{if(b.h>cMax)cMax=b.h;if(b.l<cMin)cMin=b.l;});const cR=cMax-cMin||.001;const mE=cR*.25;let pMn=cMin,pMx=cMax;
   [...(opts.resistance||[]),...(opts.support||[]),...[opts.entry,opts.sl,opts.tp1,opts.tp2].filter(Boolean)].forEach(l=>{const v=parseFloat(l);if(isNaN(v))return;if(v>cMax&&v<=cMax+mE)pMx=Math.max(pMx,v);if(v<cMin&&v>=cMin-mE)pMn=Math.min(pMn,v);});
   const p8=(pMx-pMn)*.08;pMn-=p8;pMx+=p8;const pR=pMx-pMn;const yOf=p=>PAD.t+cH*(1-(p-pMn)/pR);
   const n=bars.length,bW=Math.max(2,Math.floor(cW/n*.7)),gap=cW/n;const dec=opts.dec||5;
@@ -500,7 +502,7 @@ async function runAnalysis(){hideErr();document.getElementById('results').style.
     G=safeJSON(text,'object');G._sym=SYM;
     setProg('ps_chart','active');renderResults(G);
     const bSc=G.scenarios[0]||{};const tfK=bSc.entryTF==='M15'?'m15':bSc.entryTF==='H4'?'h4':bSc.entryTF==='D1'?'d1':'h1';
-    const cBars=(rawBars[tfK]||rawBars.h1||[]).slice(-80).map(b=>({t:new Date(b.t).toISOString().slice(0,16).replace('T',' '),o:b.o,h:b.h,l:b.l,c:b.c}));
+    const cBars=(rawBars[tfK]||rawBars.h1||[]).slice(-150).map(b=>({t:new Date(b.t).toISOString().slice(0,16).replace('T',' '),o:b.o,h:b.h,l:b.l,c:b.c}));
     if(cBars.length){document.getElementById('chartTitle').textContent=info.l+' · '+bSc.name;document.getElementById('chartTF').textContent=bSc.entryTF+' · '+cBars.length+' bars · '+new Date().toLocaleTimeString('de-DE');drawChart('mainChart',cBars,{dec:si().d,resistance:G.keyLevels?.resistance,support:G.keyLevels?.support,entry:bSc.entry,sl:bSc.sl,tp1:bSc.tp1,tp2:bSc.tp2,direction:bSc.direction,scenario:bSc.name});}
     setProg('ps_chart','done');setStatus('');document.getElementById('results').style.display='block';setTimeout(hideProg,2000);
   }catch(e){showErr(e.message);hideProg();}finally{checkKeys();}}
@@ -511,7 +513,7 @@ function renderResults(a){document.getElementById('kpiPrice').textContent=a.last
   const b=a.fundamental?.bias||'Neutral';document.getElementById('biasBadge').innerHTML=pill(dc(b),b);document.getElementById('fundSummary').textContent=a.fundamental?.summary||'';
   document.getElementById('keyEvents').innerHTML=(a.fundamental?.keyEvents||[]).map(e=>{const ev=typeof e==='string'?{date:'',event:e,impact:'mittel'}:e;const c=ev.impact==='hoch'||ev.impact==='high'?'#ef4444':'#eab308';return`<div style="display:flex;gap:10px;padding:5px 0;border-bottom:1px solid #33415544"><span style="font-size:11px;color:#64748b;min-width:80px">${ev.date||''}</span><span style="font-size:12px;color:#cbd5e1;flex:1">${ev.event||''}</span><span style="font-size:10px;font-weight:700;color:${c};background:${c}22;padding:2px 8px;border-radius:5px">${(ev.impact||'').toUpperCase()}</span></div>`;}).join('');
   document.getElementById('fundECB').textContent=a.fundamental?.ecb||'';document.getElementById('fundFED').textContent=a.fundamental?.fed||'';document.getElementById('fundMacro').textContent=a.fundamental?.macro||'';
-  document.getElementById('sessionTiming').innerHTML=(a.sessionTiming||[]).map(s=>`<div style="background:#0f172a;border-radius:8px;padding:12px;margin-bottom:8px;border:1px solid #334155"><p style="font-size:12px;font-weight:700;color:#6366f1;margin-bottom:6px">${s.session}</p><div class="g3"><div><p style="font-size:10px;color:#22c55e;font-weight:700">REC</p><p style="font-size:12px;color:#cbd5e1">${s.recommendation||''}</p></div><div><p style="font-size:10px;color:#3b82f6;font-weight:700">BEST</p><p style="font-size:12px;color:#cbd5e1">${s.bestFor||''}</p></div><div><p style="font-size:10px;color:#ef4444;font-weight:700">AVOID</p><p style="font-size:12px;color:#cbd5e1">${s.avoid||''}</p></div></div></div>`).join('');
+  document.getElementById('sessionTiming').innerHTML=(a.sessionTiming||[]).map(s=>`<div style="background:#0f172a;border-radius:8px;padding:12px;margin-bottom:8px;border:1px solid #334155"><p style="font-size:12px;font-weight:700;color:#6366f1;margin-bottom:6px">${s.session}</p><div class="g3"><div><p style="font-size:10px;color:#22c55e;font-weight:700">${T('rec')}</p><p style="font-size:12px;color:#cbd5e1">${s.recommendation||''}</p></div><div><p style="font-size:10px;color:#3b82f6;font-weight:700">${T('bestFor')}</p><p style="font-size:12px;color:#cbd5e1">${s.bestFor||''}</p></div><div><p style="font-size:10px;color:#ef4444;font-weight:700">${T('avoid')}</p><p style="font-size:12px;color:#cbd5e1">${s.avoid||''}</p></div></div></div>`).join('');
   document.getElementById('scenarioBody').innerHTML=(a.scenarios||[]).map((s,i)=>{const d=s.direction==='Long'?'#22c55e':'#ef4444',p=pc(s.probability),c=cc(s.confidence);return`<tr class="sc-row" onclick="openScenario(${i})"><td style="color:#64748b;font-weight:700">${s.id}</td><td style="font-weight:700;color:#f1f5f9">${s.name}</td><td>${pill(d,s.direction)}</td><td style="color:#a78bfa;font-weight:700">${s.entryTF}</td><td style="color:#fbbf24;font-weight:700">${s.entry}</td><td style="color:#ef4444">${s.sl}</td><td style="color:#22c55e">${s.tp1}</td><td style="color:#22c55e">${s.tp2}</td><td style="color:#6366f1;font-weight:700">${s.rr}</td><td style="font-size:11px">${s.bestSession||''}</td><td><div style="font-weight:800;color:${p}">${s.probability}%</div><div class="prob-bar"><div class="prob-fill" style="width:${s.probability}%;background:${p}"></div></div></td><td>${pill(c,s.confidence)}</td></tr>`;}).join('');
   document.getElementById('summary').textContent=a.summary||'';}
 
@@ -522,7 +524,7 @@ function openScenario(i){if(!G)return;const s=G.scenarios[i],inf=SYMS[G._sym||SY
   document.getElementById('ovRes').innerHTML=(G.keyLevels?.resistance||[]).map(l=>`<div class="level-pill res-pill">${l}</div>`).join('');
   document.getElementById('ovSup').innerHTML=(G.keyLevels?.support||[]).map(l=>`<div class="level-pill sup-pill">${l}</div>`).join('');
   document.getElementById('overlay').style.display='block';document.body.style.overflow='hidden';document.getElementById('overlay').scrollTop=0;
-  const tfK=s.entryTF==='M15'?'m15':s.entryTF==='H4'?'h4':'h1';const cB=(rawBars[tfK]||rawBars.h1||[]).slice(-80).map(b=>({t:new Date(b.t).toISOString().slice(0,16).replace('T',' '),o:b.o,h:b.h,l:b.l,c:b.c}));
+  const tfK=s.entryTF==='M15'?'m15':s.entryTF==='H4'?'h4':'h1';const cB=(rawBars[tfK]||rawBars.h1||[]).slice(-150).map(b=>({t:new Date(b.t).toISOString().slice(0,16).replace('T',' '),o:b.o,h:b.h,l:b.l,c:b.c}));
   if(cB.length)drawChart('ovChart',cB,{dec:inf.d,resistance:G.keyLevels?.resistance,support:G.keyLevels?.support,entry:s.entry,sl:s.sl,tp1:s.tp1,tp2:s.tp2,direction:s.direction,scenario:s.name});
   loadDeep(s,inf);}
 async function loadDeep(s,inf){const el=document.getElementById('deepText');document.getElementById('ovStatus').innerHTML='<span class="spin"></span>';el.innerHTML='<span class="spin"></span>';
@@ -578,7 +580,7 @@ function safeJSON(raw, type){
 }
 
 // ═══ HOME: CALENDAR ═══
-async function loadCalendar(){if(!gk('anthropic_api_key')){toggleSettings();return;}document.getElementById('calBtn').disabled=true;setStatus('Kalender...');
+async function loadCalendar(){if(!gk('anthropic_api_key')){toggleSettings();return;}document.getElementById('calBtn').disabled=true;setStatus(T('calendar')+'...');
   try{const t=await callClaude(`${T('clI')} Create a forex economic calendar for this week (${now()}). Return ONLY a JSON array with 8-12 events. Use simple ASCII text, no special quotes or characters. Each object: {"date":"YYYY-MM-DD","time":"HH:MM UTC","event":"Event name","impact":"high","symbols":["EURUSD"]}. Impact must be: high, medium, or low. Return ONLY the JSON array, nothing else.`,600);
     const ev=safeJSON(t,'array');
     const html=ev.map(e=>{const ic=e.impact==='high'?'impact-high':e.impact==='medium'?'impact-med':'impact-low';
@@ -587,14 +589,14 @@ async function loadCalendar(){if(!gk('anthropic_api_key')){toggleSettings();retu
   }catch(e){showErr(e.message);}document.getElementById('calBtn').disabled=false;}
 
 // ═══ HOME: MARKET OVERVIEW ═══
-async function loadMarketOverview(){if(!gk('anthropic_api_key')){toggleSettings();return;}document.getElementById('moBtn').disabled=true;setStatus('Marktanalyse...');
+async function loadMarketOverview(){if(!gk('anthropic_api_key')){toggleSettings();return;}document.getElementById('moBtn').disabled=true;setStatus(T('market')+'...');
   try{const t=await callClaude(`${T('clI')} Write a concise forex market overview for today ${now()}. Cover: USD strength/weakness, EUR outlook, key central bank stance, risk sentiment. 200 words max. Use **bold** for headers.`,500);
     document.getElementById('marketOverview').innerHTML=t.replace(/\*\*(.*?)\*\*/g,'<strong style="color:#f1f5f9;display:block;margin-top:10px;margin-bottom:4px">$1</strong>').replace(/\n/g,'<br>');
     setStatus('');
   }catch(e){showErr(e.message);}document.getElementById('moBtn').disabled=false;}
 
 // ═══ NEWS PAGE ═══
-async function loadNews(){if(!gk('anthropic_api_key')){toggleSettings();return;}document.getElementById('newsBtn').disabled=true;setStatus('News...');
+async function loadNews(){if(!gk('anthropic_api_key')){toggleSettings();return;}document.getElementById('newsBtn').disabled=true;setStatus(T('news')+'...');
   try{const t=await callClaude(`${T('clI')} Create 5 realistic forex news items for today ${now()}. Return ONLY a JSON array. Use simple ASCII text only, avoid special quotes or apostrophes in strings. Each object: {"time":"HH:MM UTC","title":"Short headline","body":"2 sentences max, plain text.","impact":"bullish USD","symbols":["EURUSD","USDJPY"]}. Return ONLY the JSON array, nothing else.`,800);
     const news=safeJSON(t,'array');
     document.getElementById('newsBody').innerHTML=news.map(n=>{const col=/bull/i.test(n.impact)?'#22c55e':/bear/i.test(n.impact)?'#ef4444':'#eab308';
