@@ -67,7 +67,7 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
 @keyframes sp{to{transform:rotate(360deg)}}
 
 /* ── KPI GRID ── */
-.kpi-grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}
+.kpi-grid5{display:grid;grid-template-columns:repeat(9,1fr);gap:8px;margin-bottom:16px}
 .kpi{background:#0a0a0a;border-radius:8px;padding:14px;border:1px solid #2a2a2a;text-align:center}
 .kpi-label{font-size:11px;color:#c0c0cc;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
 .kpi-val{font-size:18px;font-weight:700}
@@ -119,10 +119,11 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
 .sc-param-val{font-size:13px;padding:7px 0 7px 14px;border-bottom:1px solid #1a1a1a;vertical-align:middle}
 
 @media(max-width:900px){
-  .kpi-grid5{grid-template-columns:1fr 1fr 1fr}
+  .kpi-grid5{grid-template-columns:repeat(3,1fr)}
   .two-col,.three-col{grid-template-columns:1fr}
   .sym-grid{grid-template-columns:1fr}
   #header{padding:0 16px}
+  #settingsPanel .three-col-settings{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -144,7 +145,7 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
   <!-- SETTINGS -->
   <div class="card" id="settingsPanel" style="display:none">
     <p class="card-title">⚙️ API Keys</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
       <div>
         <label style="font-size:11px;color:#555555;font-weight:700;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em">Massive.com</label>
         <div id="massiveDisplay"></div>
@@ -154,6 +155,11 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
         <label style="font-size:11px;color:#555555;font-weight:700;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em">Anthropic</label>
         <div id="anthropicDisplay"></div>
         <p style="font-size:11px;color:#444444;margin-top:5px">→ <a href="https://console.anthropic.com/keys" target="_blank">console.anthropic.com/keys</a></p>
+      </div>
+      <div>
+        <label style="font-size:11px;color:#c9a84c;font-weight:700;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em">⭐ Alpha Vantage (H1/M15 + Indikatoren)</label>
+        <div id="avDisplay"></div>
+        <p style="font-size:11px;color:#444444;margin-top:5px">→ <a href="https://www.alphavantage.co/support/#api-key" target="_blank">alphavantage.co – kostenloser Key</a></p>
       </div>
     </div>
   </div>
@@ -332,7 +338,10 @@ function renderKeyField(cid, key, ph) {
     : `<div class="irow"><input type="password" id="i_${key}" placeholder="${ph}" style="flex:1"><button class="btn btn-green" style="white-space:nowrap" onclick="saveKF('${key}','i_${key}','${cid}','${ph}')">Speichern</button></div>`;
 }
 function saveKF(key,iid,cid,ph){ const v=document.getElementById(iid).value.trim(); if(!v)return; sk(key,v); renderKeyField(cid,key,ph); checkKeys(); }
-function checkKeys(){ document.getElementById('analyzeAllBtn').disabled=!(gk('massive_api_key')&&gk('anthropic_api_key')); }
+function checkKeys(){
+  const ok=gk('massive_api_key')&&gk('anthropic_api_key');
+  document.getElementById('analyzeAllBtn').disabled=!ok;
+}
 function toggleSettings(){ const p=document.getElementById('settingsPanel'); p.style.display=p.style.display==='none'?'block':'none'; }
 function toggleWatchlistEditor(){ const p=document.getElementById('watchlistEditor'); p.style.display=p.style.display==='none'?'block':'none'; renderWatchlistTags(); }
 function setStatus(msg){ document.getElementById('statusBar').innerHTML=msg?`<span class="spin"></span>${msg}`:''; }
@@ -390,7 +399,94 @@ function renderSessions(){
   setTimeout(renderSessions,60000);
 }
 
-// ─── API ───────────────────────────────────────────────────────────
+// ─── Alpha Vantage ─────────────────────────────────────────────────
+async function avFetch(fn, params){
+  const key=gk('av_api_key'); if(!key) return null;
+  const qs=Object.entries({...params,function:fn,apikey:key}).map(([k,v])=>`${k}=${v}`).join('&');
+  const r=await fetch(`https://www.alphavantage.co/query?${qs}`);
+  const j=await r.json();
+  if(j['Note']||j['Information']) return null; // rate limit / premium
+  return j;
+}
+
+function parseAVIntraday(j, interval){
+  if(!j) return [];
+  const key=`Time Series FX (${interval})`;
+  const ts=j[key]; if(!ts) return [];
+  return Object.entries(ts).slice(0,100).map(([t,v])=>({
+    t, o:parseFloat(v['1. open']), h:parseFloat(v['2. high']),
+    l:parseFloat(v['3. low']),    c:parseFloat(v['4. close'])
+  }));
+}
+
+// EMA helper
+function calcEMA(values, period){
+  const k=2/(period+1); let ema=values[0];
+  return values.map((v,i)=>{ if(i===0){ema=v;}else{ema=v*k+ema*(1-k);} return ema; });
+}
+
+// RSI helper
+function calcRSI(closes, period=14){
+  if(closes.length<period+1) return null;
+  let gains=0, losses=0;
+  for(let i=1;i<=period;i++){
+    const d=closes[i]-closes[i-1];
+    if(d>0) gains+=d; else losses+=Math.abs(d);
+  }
+  let avgGain=gains/period, avgLoss=losses/period;
+  for(let i=period+1;i<closes.length;i++){
+    const d=closes[i]-closes[i-1];
+    avgGain=(avgGain*(period-1)+(d>0?d:0))/period;
+    avgLoss=(avgLoss*(period-1)+(d<0?Math.abs(d):0))/period;
+  }
+  if(avgLoss===0) return 100;
+  return 100-(100/(1+avgGain/avgLoss));
+}
+
+// MACD helper (12,26,9)
+function calcMACD(closes){
+  if(closes.length<27) return null;
+  const rev=[...closes].reverse();
+  const ema12=calcEMA(rev,12), ema26=calcEMA(rev,26);
+  const macdLine=rev.map((_,i)=>ema12[i]-ema26[i]);
+  const signal=calcEMA(macdLine,9);
+  const last=macdLine.length-1;
+  return {
+    macd: macdLine[last], signal: signal[last],
+    hist: macdLine[last]-signal[last]
+  };
+}
+
+async function fetchAVIndicators(sym){
+  const [from,to]=sym.length===6?[sym.slice(0,3),sym.slice(3)]:['EUR','USD'];
+  const [h1Data, m15Data]=await Promise.allSettled([
+    avFetch('FX_INTRADAY',{from_symbol:from,to_symbol:to,interval:'60min',outputsize:'compact'}),
+    avFetch('FX_INTRADAY',{from_symbol:from,to_symbol:to,interval:'15min',outputsize:'compact'}),
+  ]);
+  const h1Bars=parseAVIntraday(h1Data.value,'60min');
+  const m15Bars=parseAVIntraday(m15Data.value,'15min');
+  const h1Closes=h1Bars.map(b=>b.c);
+  const m15Closes=m15Bars.map(b=>b.c);
+  return {
+    h1Bars, m15Bars,
+    rsiH1:  h1Closes.length>14  ? calcRSI(h1Closes).toFixed(1)  : null,
+    rsiM15: m15Closes.length>14 ? calcRSI(m15Closes).toFixed(1) : null,
+    macdH1: h1Closes.length>27  ? calcMACD(h1Closes)            : null,
+    macdM15:m15Closes.length>27 ? calcMACD(m15Closes)           : null,
+  };
+}
+
+function formatIndicators(ind){
+  if(!ind) return '';
+  const lines=[];
+  if(ind.rsiH1)  lines.push(`RSI H1: ${ind.rsiH1}${parseFloat(ind.rsiH1)>70?' (overbought)':parseFloat(ind.rsiH1)<30?' (oversold)':''}`);
+  if(ind.rsiM15) lines.push(`RSI M15: ${ind.rsiM15}${parseFloat(ind.rsiM15)>70?' (overbought)':parseFloat(ind.rsiM15)<30?' (oversold)':''}`);
+  if(ind.macdH1) lines.push(`MACD H1: Linie ${(ind.macdH1.macd*10000).toFixed(1)} pips, Signal ${(ind.macdH1.signal*10000).toFixed(1)} pips, Hist ${ind.macdH1.hist>0?'+':''}${(ind.macdH1.hist*10000).toFixed(1)} pips`);
+  if(ind.macdM15)lines.push(`MACD M15: Linie ${(ind.macdM15.macd*10000).toFixed(1)} pips, Signal ${(ind.macdM15.signal*10000).toFixed(1)} pips, Hist ${ind.macdM15.hist>0?'+':''}${(ind.macdM15.hist*10000).toFixed(1)} pips`);
+  return lines.join('\n');
+}
+
+// ─── Alpha Vantage ─────────────────────────────────────────────────
 const TV_SYM={'XAUUSD':'TVC:GOLD','XAGUSD':'TVC:SILVER','EURUSD':'FX:EURUSD','GBPUSD':'FX:GBPUSD','USDJPY':'FX:USDJPY','AUDUSD':'FX:AUDUSD','USDCHF':'FX:USDCHF','NZDUSD':'FX:NZDUSD','USDCAD':'FX:USDCAD','EURGBP':'FX:EURGBP','EURJPY':'FX:EURJPY','GBPJPY':'FX:GBPJPY'};
 const tvSym = s => TV_SYM[s]||'FX:'+s;
 const TF_MAP = {'M15':'15','H1':'60','H4':'240','D1':'D','W1':'W'};
@@ -467,14 +563,28 @@ async function analyzeSymbol(sym){
     const D1=r1.value||[], H4=r2.value||[], H1=r3.value||[], M15=r4.value||[];
     if(!D1.length) throw new Error('Keine D1-Daten');
     const lp=(M15[0]?.c||H1[0]?.c||D1[0]?.c)?.toFixed(5)?? 'n/a';
+
+    // Alpha Vantage Indikatoren (falls Key vorhanden)
+    let avInd=null;
+    if(gk('av_api_key')){
+      setCardStatus(sym,'📊 Lade AV-Indikatoren…',true);
+      try{ avInd=await fetchAVIndicators(sym); }catch{}
+    }
+
+    // H1/M15 Fallback aus Alpha Vantage wenn Massive leer
+    let H1final=H1, M15final=M15;
+    if(!H1.length && avInd?.h1Bars?.length)  H1final=avInd.h1Bars;
+    if(!M15.length && avInd?.m15Bars?.length) M15final=avInd.m15Bars;
+
     setCardStatus(sym,'🤖 Claude analysiert…',true);
+    const indText=avInd?formatIndicators(avInd):'';
     const text=await callClaude(`Professioneller Forex-Analyst. Heute: ${now()}. Symbol: ${sym}. Kurs: ${lp}.
 D1(${D1.length}): ${JSON.stringify(fmtBars(D1,35))}
 H4(${H4.length}): ${JSON.stringify(fmtBars(H4,40))}
-H1(${H1.length}): ${JSON.stringify(fmtBars(H1,50))}
-M15(${M15.length}): ${JSON.stringify(fmtBars(M15,60))}
+H1(${H1final.length}): ${JSON.stringify(fmtBars(H1final,50))}
+M15(${M15final.length}): ${JSON.stringify(fmtBars(M15final,60))}${indText?`\nTechnische Indikatoren (Alpha Vantage):\n${indText}`:''}
 Nur valides JSON, kein Markdown:
-{"lastPrice":"${lp}","symbol":"${sym}","trend":{"d1":"","h4":"","h1":"","m15":""},"fundamental":{"summary":"","bias":"Bullish","cb1":"","cb2":"","macro":"","keyEvents":[{"date":"","event":"","impact":"hoch"}]},"keyLevels":{"resistance":["","",""],"support":["","",""]},"sessionTiming":[{"session":"London 07:00-16:00 UTC","recommendation":"","bestFor":"","avoid":""},{"session":"New York 13:00-22:00 UTC","recommendation":"","bestFor":"","avoid":""},{"session":"Overlap 13:00-16:00 UTC","recommendation":"","bestFor":"","avoid":""}],"scenarios":[{"id":1,"name":"","direction":"Long","setup":"","entryTF":"M15","higherTFs":["H1","H4","D1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","bestSession":"","entrySignal":"","exitSignal":"","probability":55,"confidence":"Hoch"},{"id":2,"name":"","direction":"Short","setup":"","entryTF":"H1","higherTFs":["H4","D1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","bestSession":"","entrySignal":"","exitSignal":"","probability":45,"confidence":"Mittel"},{"id":3,"name":"","direction":"Long","setup":"","entryTF":"H4","higherTFs":["D1","W1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","bestSession":"","entrySignal":"","exitSignal":"","probability":40,"confidence":"Niedrig"}],"summary":""}`,2000);
+{"lastPrice":"${lp}","symbol":"${sym}","indicators":{"rsiH1":"${avInd?.rsiH1||''}","rsiM15":"${avInd?.rsiM15||''}","macdH1Signal":"${avInd?.macdH1?avInd.macdH1.hist>0?'Bullish':'Bearish':''}","macdM15Signal":"${avInd?.macdM15?avInd.macdM15.hist>0?'Bullish':'Bearish':''}"},"trend":{"d1":"","h4":"","h1":"","m15":""},"fundamental":{"summary":"","bias":"Bullish","cb1":"","cb2":"","macro":"","keyEvents":[{"date":"","event":"","impact":"hoch"}]},"keyLevels":{"resistance":["","",""],"support":["","",""]},"sessionTiming":[{"session":"London 07:00-16:00 UTC","recommendation":"","bestFor":"","avoid":""},{"session":"New York 13:00-22:00 UTC","recommendation":"","bestFor":"","avoid":""},{"session":"Overlap 13:00-16:00 UTC","recommendation":"","bestFor":"","avoid":""}],"scenarios":[{"id":1,"name":"","direction":"Long","setup":"","entryTF":"M15","higherTFs":["H1","H4","D1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","bestSession":"","entrySignal":"","exitSignal":"","probability":55,"confidence":"Hoch"},{"id":2,"name":"","direction":"Short","setup":"","entryTF":"H1","higherTFs":["H4","D1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","bestSession":"","entrySignal":"","exitSignal":"","probability":45,"confidence":"Mittel"},{"id":3,"name":"","direction":"Long","setup":"","entryTF":"H4","higherTFs":["D1","W1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","bestSession":"","entrySignal":"","exitSignal":"","probability":40,"confidence":"Niedrig"}],"summary":""}`,2000);
     const m=text.match(/\{[\s\S]*\}/);
     if(!m) throw new Error('Kein JSON');
     analysisCache[sym]=JSON.parse(m[0]);
@@ -523,13 +633,20 @@ async function reAnalyzeCurrent(){
 
 // ─── Overlay rendern ───────────────────────────────────────────────
 function renderOverlay(a){
-  // KPIs
+  // KPIs – inkl. Indikatoren falls vorhanden
+  const ind=a.indicators||{};
+  const rsiColor=v=>!v?'#c0c0cc':parseFloat(v)>70?'#f87171':parseFloat(v)<30?'#4ade80':'#c9a84c';
+  const macdColor=v=>v==='Bullish'?'#4ade80':v==='Bearish'?'#f87171':'#c0c0cc';
   document.getElementById('ovKPIs').innerHTML=[
-    {l:'Kurs',   v:a.lastPrice,    c:'#ffffff', big:true},
-    {l:'D1',     v:a.trend?.d1,    c:trendColor(a.trend?.d1)},
-    {l:'H4',     v:a.trend?.h4,    c:trendColor(a.trend?.h4)},
-    {l:'H1',     v:a.trend?.h1,    c:trendColor(a.trend?.h1)},
-    {l:'M15',    v:a.trend?.m15,   c:trendColor(a.trend?.m15)},
+    {l:'Kurs',   v:a.lastPrice,           c:'#ffffff', big:true},
+    {l:'D1',     v:a.trend?.d1,           c:trendColor(a.trend?.d1)},
+    {l:'H4',     v:a.trend?.h4,           c:trendColor(a.trend?.h4)},
+    {l:'H1',     v:a.trend?.h1,           c:trendColor(a.trend?.h1)},
+    {l:'M15',    v:a.trend?.m15,          c:trendColor(a.trend?.m15)},
+    {l:'RSI H1', v:ind.rsiH1||'—',        c:rsiColor(ind.rsiH1)},
+    {l:'RSI M15',v:ind.rsiM15||'—',       c:rsiColor(ind.rsiM15)},
+    {l:'MACD H1',v:ind.macdH1Signal||'—', c:macdColor(ind.macdH1Signal)},
+    {l:'MACD M15',v:ind.macdM15Signal||'—',c:macdColor(ind.macdM15Signal)},
   ].map(x=>`<div class="kpi">
     <div class="kpi-label">${x.l}</div>
     <div class="kpi-val" style="color:${x.c};font-size:${x.big?'24px':'15px'};font-family:${x.big?"'Playfair Display',serif":'Inter,sans-serif'}">${x.v||'—'}</div>
@@ -681,6 +798,7 @@ renderSessions();
 renderSymGrid();
 renderKeyField('massiveDisplay','massive_api_key','Massive.com API Key…');
 renderKeyField('anthropicDisplay','anthropic_api_key','sk-ant-api03-…');
+renderKeyField('avDisplay','av_api_key','Alpha Vantage API Key…');
 checkKeys();
 </script>
 <script src="https://s3.tradingview.com/tv.js"></script>
