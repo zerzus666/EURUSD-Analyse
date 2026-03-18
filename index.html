@@ -206,6 +206,33 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
 </div>
 
 <!-- ═══════════ OVERLAY ═══════════ -->
+<!-- AI Loading Circle -->
+<div id="aiLoader">
+  <div class="ai-circle">
+    <svg width="72" height="72" viewBox="0 0 72 72">
+      <!-- rotating stripes ring -->
+      <g class="ai-circle-stripes">
+        <circle cx="36" cy="36" r="30" fill="none" stroke="#c9a84c11" stroke-width="6"/>
+        <!-- tick marks -->
+        <g stroke="#c9a84c44" stroke-width="2" stroke-linecap="round">
+          <line x1="36" y1="8"  x2="36" y2="14"/>
+          <line x1="36" y1="58" x2="36" y2="64"/>
+          <line x1="8"  y1="36" x2="14" y2="36"/>
+          <line x1="58" y1="36" x2="64" y2="36"/>
+          <line x1="15" y1="15" x2="20" y2="20"/>
+          <line x1="52" y1="52" x2="57" y2="57"/>
+          <line x1="57" y1="15" x2="52" y2="20"/>
+          <line x1="20" y1="52" x2="15" y2="57"/>
+        </g>
+      </g>
+      <circle class="ai-circle-bg" cx="36" cy="36" r="26"/>
+      <circle class="ai-circle-fg" id="aiCircleFg" cx="36" cy="36" r="26"/>
+    </svg>
+    <div class="ai-circle-pct" id="aiCirclePct">0%</div>
+  </div>
+  <div class="ai-circle-label" id="aiCircleLabel">KI lädt…</div>
+</div>
+
 <div id="overlay">
   <div id="ovBox">
 
@@ -557,7 +584,32 @@ async function callClaude(prompt,maxTok=2000){
   return d.content?.filter(b=>b.type==='text').map(b=>b.text).join('')||'';
 }
 
-// ─── Claude Queue (verhindert parallele Calls / Overloaded) ────────
+// ─── AI Loading Circle ─────────────────────────────────────────────
+let aiTasksTotal=0, aiTasksDone=0;
+
+function aiCircleShow(total){
+  aiTasksTotal=total; aiTasksDone=0;
+  updateAiCircle(0,'KI startet…');
+  document.getElementById('aiLoader').style.display='flex';
+}
+function aiCircleStep(label){
+  aiTasksDone++;
+  const pct=Math.round((aiTasksDone/aiTasksTotal)*100);
+  updateAiCircle(pct, label||'KI analysiert…');
+  if(aiTasksDone>=aiTasksTotal) setTimeout(aiCircleHide,1000);
+}
+function aiCircleHide(){
+  document.getElementById('aiLoader').style.display='none';
+  aiTasksTotal=0; aiTasksDone=0;
+}
+function updateAiCircle(pct,label){
+  const circ=188; // 2*π*r ≈ 2*3.14159*30 ≈ 188
+  document.getElementById('aiCircleFg').style.strokeDashoffset=circ-(circ*pct/100);
+  document.getElementById('aiCircleFg').style.stroke=pct>=100?'#4ade80':'#c9a84c';
+  document.getElementById('aiCirclePct').textContent=pct+'%';
+  document.getElementById('aiCirclePct').style.color=pct>=100?'#4ade80':'#c9a84c';
+  document.getElementById('aiCircleLabel').textContent=label;
+}
 let claudeQueue=Promise.resolve();
 function callClaudeQueued(prompt,maxTok=2000){
   claudeQueue=claudeQueue.then(()=>
@@ -794,6 +846,8 @@ function renderOverlay(a){
       </div>
     </div>`).join('');
 
+  // Starte AI Circle: 2 Tasks (Tiefenanalyse + evtl. Szenario)
+  aiCircleShow(2);
   loadDeepAnalysis(a);
 
   document.getElementById('ovScenarios').innerHTML=(a.scenarios||[]).map((sc,i)=>{
@@ -897,18 +951,26 @@ function openScenarioDetail(idx){
   block.scrollIntoView({behavior:'smooth',block:'start'});
   const aiEl=document.getElementById('scDetailAI');
   aiEl.innerHTML='<span class="spin"></span> Claude analysiert…';
+  updateAiCircle(55,'Szenario-Analyse…');
   callClaudeQueued(`Forex-Trader Analyse auf Deutsch (~200 Wörter), **fett** für Überschriften.
 Szenario: ${sc.name} | ${sc.direction} | Entry ${sc.entry} | SL ${sc.sl} | TP1 ${sc.tp1} | R:R ${sc.rr}
 Markt: D1 ${a.trend?.d1} | H4 ${a.trend?.h4} | H1 ${a.trend?.h1} | M15 ${a.trend?.m15}
 Bias: ${a.fundamental?.bias}
 Abschnitte: **Warum jetzt?** | **Einstieg** | **Risiken** | **Fazit**`,600)
-    .then(t=>{ aiEl.innerHTML=t.replace(/\*\*(.*?)\*\*/g,'<strong style="color:#f0f0f8;display:block;margin-top:10px;margin-bottom:3px">$1</strong>').replace(/\n/g,'<br>'); })
-    .catch(e=>{ aiEl.innerHTML=`<span style="color:#f87171">${e.message}</span>`; });
+    .then(t=>{
+      aiEl.innerHTML=t.replace(/\*\*(.*?)\*\*/g,'<strong style="color:#f0f0f8;display:block;margin-top:10px;margin-bottom:3px">$1</strong>').replace(/\n/g,'<br>');
+      aiCircleStep('Szenario ✓');
+    })
+    .catch(e=>{
+      aiEl.innerHTML=`<span style="color:#f87171">${e.message}</span>`;
+      aiCircleStep('Fehler');
+    });
 }
 
 async function loadDeepAnalysis(a){
   const el=document.getElementById('deepText');
   el.innerHTML='<span class="spin"></span> Claude erstellt Tiefenanalyse…';
+  updateAiCircle(10,'Tiefenanalyse…');
   try{
     const text=await callClaudeQueued(`Forex-Analyst. Analysiere ${a.symbol} auf Deutsch (~250 Wörter). **fett** für Überschriften.
 Kurs: ${a.lastPrice} | Bias: ${a.fundamental?.bias}
@@ -917,7 +979,11 @@ Resistance: ${(a.keyLevels?.resistance||[]).join(', ')} | Support: ${(a.keyLevel
 Fundamental: ${a.fundamental?.summary}
 Abschnitte: **Marktlage** | **Beste Opportunität** | **Risiken** | **Fazit**`,700);
     el.innerHTML=text.replace(/\*\*(.*?)\*\*/g,'<strong style="color:#f0f0f8;display:block;margin-top:12px;margin-bottom:4px">$1</strong>').replace(/\n/g,'<br>');
-  }catch(e){ el.innerHTML=`<span style="color:#f87171">Fehler: ${e.message}</span>`; }
+    aiCircleStep('Tiefenanalyse ✓');
+  }catch(e){
+    el.innerHTML=`<span style="color:#f87171">Fehler: ${e.message}</span>`;
+    aiCircleStep('Fehler');
+  }
 }
 
 // ─── TradingView ───────────────────────────────────────────────────
@@ -930,7 +996,7 @@ function loadTVChart(sym,interval){
 function switchTF(tf){ currentTF=tf; updateTFBtns(tf); if(currentSymbol) loadTVChart(currentSymbol,tf); }
 function updateTFBtns(a){ document.querySelectorAll('.tf-btn').forEach(b=>b.classList.toggle('active',b.dataset.tf===a)); }
 function toggleTV(){ tvVisible=!tvVisible; document.getElementById('tvWrap').style.display=tvVisible?'block':'none'; document.getElementById('tvToggleBtn').textContent=tvVisible?'📉 Chart aus':'📈 Chart ein'; }
-function closeOverlay(){ document.getElementById('overlay').style.display='none'; document.body.style.overflow=''; }
+function closeOverlay(){ document.getElementById('overlay').style.display='none'; document.body.style.overflow=''; aiCircleHide(); }
 document.getElementById('overlay').addEventListener('click',e=>{ if(e.target===document.getElementById('overlay')) closeOverlay(); });
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeOverlay(); });
 
