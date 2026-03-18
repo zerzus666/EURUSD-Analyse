@@ -58,7 +58,7 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 #ovBox{background:#0f172a;min-height:100vh;width:100%}
 #ovHeader{background:#1e293b;border-bottom:1px solid #334155;padding:14px 20px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:10}
 #tvWrap{width:100%;height:520px;background:#1e293b;border-bottom:1px solid #334155}
-#ovBody{padding:20px;max-width:1400px;margin:0 auto}
+#ovBody{padding:20px;width:100%}
 .tf-btns{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
 .tf-btn{background:#1e293b;border:1px solid #334155;border-radius:7px;color:#94a3b8;padding:6px 14px;cursor:pointer;font-size:12px;font-weight:600;transition:all .15s}
 .tf-btn.active{background:#6366f122;border-color:#6366f1;color:#a5b4fc}
@@ -135,12 +135,12 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
   <div id="ovBox">
     <div id="ovHeader">
       <div style="flex:1">
-        <div id="ovTitle" style="font-size:18px;font-weight:800;color:#f1f5f9"></div>
-        <div id="ovSub" style="font-size:11px;color:#64748b;margin-top:3px"></div>
+        <div id="ovTitle" style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--white)"></div>
+        <div id="ovSub" style="font-size:11px;color:var(--gray2);margin-top:3px;letter-spacing:.03em"></div>
       </div>
       <div style="display:flex;gap:8px;align-items:center;flex-shrink:0">
         <button class="btn btn-gray" id="tvToggleBtn" onclick="toggleTV()">📉 Chart aus</button>
-        <button class="btn btn-amber" id="reAnalyzeBtn" onclick="reAnalyzeCurrent()">↺ Neu analysieren</button>
+        <button class="btn btn-gold" id="reAnalyzeBtn" onclick="reAnalyzeCurrent()">↺ Neu analysieren</button>
         <button class="btn btn-gray" onclick="closeOverlay()">✕</button>
       </div>
     </div>
