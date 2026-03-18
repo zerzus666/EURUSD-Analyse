@@ -3,151 +3,211 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Forex Screener</title>
+<title>FX Screener – AI-Powered Forex Analysis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh;font-size:14px}
-a{color:#3b82f6}
-#header{background:#1e293b;border-bottom:1px solid #334155;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;position:sticky;top:0;z-index:100}
+body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#ffffff;min-height:100vh;font-size:14px}
+a{color:#c9a84c;text-decoration:none}
+
+/* ── HEADER ── */
+#header{background:rgba(10,10,10,.97);backdrop-filter:blur(12px);border-bottom:1px solid #2a2a2a;padding:0 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;position:sticky;top:0;z-index:100;height:64px}
+.logo{display:flex;align-items:center;text-decoration:none}
+.logo-fx{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:#ffffff}
+.logo-sc{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:#c9a84c}
 .hbtns{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.btn{border:none;border-radius:8px;color:#fff;padding:8px 15px;cursor:pointer;font-size:13px;font-weight:600;transition:opacity .15s}
-.btn:disabled{opacity:.4;cursor:not-allowed}
-.btn:hover:not(:disabled){opacity:.82}
-.btn-gray{background:#334155}.btn-purple{background:#6366f1}.btn-green{background:#22c55e}.btn-red{background:#ef4444}.btn-blue{background:#3b82f6}.btn-amber{background:#d97706}
+
+/* ── BUTTONS ── */
+.btn{border:none;border-radius:6px;cursor:pointer;font-size:13px;font-weight:700;transition:all .15s;font-family:'Inter',sans-serif;padding:9px 18px;color:#ffffff;letter-spacing:.02em}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn:hover:not(:disabled){opacity:.82;transform:translateY(-1px)}
+.btn-gray{background:#1a1a1a;border:1px solid #333333}
+.btn-gold{background:#c9a84c;color:#0a0a0a}
+.btn-gold:hover:not(:disabled){background:#e8c96a;opacity:1}
+.btn-green{background:#4ade80;color:#0a0a0a}
+.btn-red{background:transparent;border:1px solid rgba(248,113,113,.3);color:#f87171}
+
+/* ── MAIN ── */
 #main{padding:20px;max-width:1600px;margin:0 auto}
-.card{background:#1e293b;border-radius:12px;padding:18px;margin-bottom:14px;border:1px solid #334155}
-.card-err{border-color:#ef444455}.card-accent{border-left:4px solid #6366f1}
-input[type=password],input[type=text]{background:#0f172a;border:1px solid #475569;border-radius:8px;color:#e2e8f0;padding:8px 12px;font-size:13px}
+
+/* ── CARDS ── */
+.card{background:#111111;border-radius:10px;padding:20px;margin-bottom:14px;border:1px solid #2a2a2a}
+.card-err{border-color:rgba(248,113,113,.25)}
+.card-accent{border-left:3px solid #c9a84c}
+.card-title{font-size:13px;font-weight:700;color:#c9a84c;text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px}
+.sub-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+
+/* ── INPUTS ── */
+input[type=password],input[type=text]{background:#1a1a1a;border:1px solid #333333;border-radius:6px;color:#ffffff;padding:9px 13px;font-size:13px;font-family:'Inter',sans-serif;width:100%}
+input:focus{outline:none;border-color:#c9a84c}
 .irow{display:flex;gap:8px;align-items:center}
-.badge{border-radius:6px;padding:2px 9px;font-size:11px;font-weight:700;display:inline-block}
-.level-pill{border-radius:6px;padding:4px 9px;margin-bottom:3px;font-size:12px}
-.res-pill{background:#ef444411;border:1px solid #ef444422;color:#fca5a5}
-.sup-pill{background:#22c55e11;border:1px solid #22c55e22;color:#86efac}
+.irow input{flex:1}
+
+/* ── LEVELS ── */
+.level-pill{border-radius:5px;padding:5px 11px;margin-bottom:4px;font-size:13px;font-weight:500}
+.res-pill{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.18);color:#fca5a5}
+.sup-pill{background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.18);color:#86efac}
+
+/* ── TABLE ── */
 table{width:100%;border-collapse:collapse}
-th{background:#0f172a;padding:9px 11px;text-align:left;font-size:11px;color:#94a3b8;font-weight:700;border-bottom:1px solid #334155;white-space:nowrap}
-td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-align:top}
+th{background:#0a0a0a;padding:10px 12px;text-align:left;font-size:11px;color:#555555;font-weight:700;border-bottom:1px solid #2a2a2a;white-space:nowrap;text-transform:uppercase;letter-spacing:.06em}
+td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-align:middle;color:#888888}
 .sc-row{cursor:pointer;transition:background .15s}
-.sc-row:hover td{background:#6366f118}
-.prob-bar{height:3px;background:#334155;border-radius:3px;margin-top:3px}
+.sc-row:hover td{background:rgba(201,168,76,.05);color:#ffffff}
+.prob-bar{height:3px;background:#222222;border-radius:3px;margin-top:4px}
 .prob-fill{height:100%;border-radius:3px}
-.spin{display:inline-block;width:13px;height:13px;border:2px solid #334155;border-top-color:#6366f1;border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:5px}
+
+/* ── SPINNER ── */
+.spin{display:inline-block;width:14px;height:14px;border:2px solid #2a2a2a;border-top-color:#c9a84c;border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:6px}
 @keyframes sp{to{transform:rotate(360deg)}}
 
-/* Symbol Grid */
-.sym-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:20px}
-.sym-card{background:#1e293b;border-radius:12px;padding:16px;border:1px solid #334155;cursor:pointer;transition:all .2s;position:relative}
-.sym-card:hover{border-color:#6366f1;transform:translateY(-2px);box-shadow:0 4px 20px #6366f122}
-.sym-card.analyzing{border-color:#eab308;opacity:.8}
-.sym-card.done{border-color:#334155}
-.sym-card.error{border-color:#ef444455}
-.sym-del{position:absolute;top:10px;right:10px;background:#334155;border:none;border-radius:6px;color:#94a3b8;padding:3px 8px;cursor:pointer;font-size:11px;opacity:0}
+/* ── KPI GRID ── */
+.kpi-grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}
+.kpi{background:#0a0a0a;border-radius:8px;padding:14px;border:1px solid #2a2a2a;text-align:center}
+.kpi-label{font-size:11px;color:#555555;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.kpi-val{font-size:18px;font-weight:700}
+
+/* ── SYMBOL GRID ── */
+.sym-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-bottom:20px}
+.sym-card{background:#111111;border-radius:10px;padding:18px;border:1px solid #2a2a2a;cursor:pointer;transition:all .2s;position:relative}
+.sym-card:hover{border-color:#c9a84c;transform:translateY(-2px);box-shadow:0 6px 24px rgba(201,168,76,.1)}
+.sym-card.analyzing{border-color:#c9a84c55;opacity:.7}
+.sym-card.error{border-color:rgba(248,113,113,.3)}
+.sym-del{position:absolute;top:10px;right:10px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:5px;color:#555555;padding:3px 8px;cursor:pointer;font-size:12px;opacity:0;transition:opacity .2s;font-family:'Inter',sans-serif}
 .sym-card:hover .sym-del{opacity:1}
-.sym-price{font-size:22px;font-weight:800;color:#f1f5f9;margin:6px 0 4px}
-.sym-change{font-size:12px;font-weight:700}
-.sym-trends{display:flex;gap:6px;margin:8px 0;flex-wrap:wrap}
-.sym-trend-pill{font-size:10px;font-weight:700;padding:3px 8px;border-radius:5px;background:#0f172a}
-.sym-levels{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}
-.sym-status{font-size:11px;color:#64748b;margin-top:6px}
+.sym-name{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#ffffff}
+.sym-price{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:#ffffff;margin:8px 0 6px}
+.sym-trends{display:flex;gap:5px;margin:8px 0;flex-wrap:wrap}
+.sym-tf{font-size:11px;font-weight:700;padding:3px 9px;border-radius:4px;background:#1a1a1a;border:1px solid #2a2a2a;letter-spacing:.04em}
+.sym-levels{margin-top:8px;display:flex;gap:5px;flex-wrap:wrap}
+.sym-lvl{font-size:11px;padding:2px 7px;border-radius:3px}
 
-/* Sessions bar */
-.sess-bar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
-.sess-pill{border-radius:20px;padding:5px 14px;font-size:11px;font-weight:700;border:1px solid transparent}
+/* ── SESSIONS ── */
+.sess-bar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.sess-pill{border-radius:20px;padding:6px 16px;font-size:12px;font-weight:600;border:1px solid transparent;letter-spacing:.03em}
 
-/* OVERLAY */
-#overlay{display:none;position:fixed;inset:0;background:#000b;z-index:9999;overflow-y:auto}
-#ovBox{background:#0f172a;min-height:100vh;width:100%}
-#ovHeader{background:#1e293b;border-bottom:1px solid #334155;padding:14px 20px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:10}
-#tvWrap{width:100%;height:520px;background:#1e293b;border-bottom:1px solid #334155}
-#ovBody{padding:20px;width:100%}
-.tf-btns{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
-.tf-btn{background:#1e293b;border:1px solid #334155;border-radius:7px;color:#94a3b8;padding:6px 14px;cursor:pointer;font-size:12px;font-weight:600;transition:all .15s}
-.tf-btn.active{background:#6366f122;border-color:#6366f1;color:#a5b4fc}
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+/* ── TF SWITCHER ── */
+.tf-btns{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;align-items:center}
+.tf-btn{background:#111111;border:1px solid #2a2a2a;border-radius:6px;color:#888888;padding:8px 18px;cursor:pointer;font-size:13px;font-weight:700;transition:all .15s;font-family:'Inter',sans-serif;letter-spacing:.04em}
+.tf-btn.active{background:rgba(201,168,76,.12);border-color:#c9a84c;color:#c9a84c}
+.tf-btn:hover{border-color:#444444;color:#ffffff}
+
+/* ── LAYOUT ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
 .three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-.kpi-grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px}
-.kpi{background:#0f172a;border-radius:10px;padding:12px;border:1px solid #334155;text-align:center}
-.kpi-label{font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
-.kpi-val{font-size:16px;font-weight:800}
-@media(max-width:700px){.kpi-grid5{grid-template-columns:1fr 1fr 1fr}.two-col,.three-col{grid-template-columns:1fr}.sym-grid{grid-template-columns:1fr}}
+
+/* ── OVERLAY ── */
+#overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:9999;overflow-y:auto}
+#ovBox{background:#0a0a0a;min-height:100vh;width:100%}
+#ovHeader{background:rgba(10,10,10,.98);border-bottom:1px solid #2a2a2a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:10}
+#ovTitleWrap{flex:1}
+#ovTitle{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#ffffff}
+#ovSub{font-size:12px;color:#555555;margin-top:3px;letter-spacing:.02em}
+#tvWrap{width:100%;background:#0a0a0a;border-bottom:1px solid #2a2a2a}
+#tvInner{width:100%;height:500px}
+#tv_chart{height:100%}
+#ovBody{padding:20px;width:100%}
+
+/* ── SCENARIO DETAIL ── */
+#scDetailBlock{display:none;margin-bottom:14px}
+.sc-param-key{color:#555555;font-size:12px;text-transform:uppercase;letter-spacing:.06em;padding:7px 0;border-bottom:1px solid #1a1a1a;width:140px;vertical-align:middle}
+.sc-param-val{font-size:13px;padding:7px 0 7px 14px;border-bottom:1px solid #1a1a1a;vertical-align:middle}
+
+@media(max-width:900px){
+  .kpi-grid5{grid-template-columns:1fr 1fr 1fr}
+  .two-col,.three-col{grid-template-columns:1fr}
+  .sym-grid{grid-template-columns:1fr}
+  #header{padding:0 16px}
+}
 </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <div id="header">
   <a href="#" class="logo"><span class="logo-fx">FX</span><span class="logo-sc">Screener</span></a>
   <div class="hbtns">
-    <span id="updated" style="font-size:11px;color:var(--gray2)">AI-Powered Forex Analysis</span>
+    <span id="updated" style="font-size:11px;color:#555555">AI-Powered Forex Analysis</span>
     <button class="btn btn-gray" onclick="toggleSettings()">⚙️ Keys</button>
     <button class="btn btn-gray" onclick="toggleWatchlistEditor()">✏️ Watchlist</button>
-    <button class="btn btn-gray" id="resetBtn" onclick="resetApp()" style="display:none">↺ Reset</button>
     <button class="btn btn-gold" id="analyzeAllBtn" onclick="analyzeAll()" disabled>⚡ Alle analysieren</button>
   </div>
 </div>
 
 <div id="main">
 
-  <!-- Settings -->
+  <!-- SETTINGS -->
   <div class="card" id="settingsPanel" style="display:none">
-    <p style="font-size:13px;color:#94a3b8;margin-bottom:14px;font-weight:700">⚙️ API Keys</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+    <p class="card-title">⚙️ API Keys</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
       <div>
-        <label style="font-size:11px;color:#94a3b8;font-weight:700;display:block;margin-bottom:5px">MASSIVE.COM</label>
+        <label style="font-size:11px;color:#555555;font-weight:700;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em">Massive.com</label>
         <div id="massiveDisplay"></div>
-        <p style="font-size:11px;color:#475569;margin-top:4px">→ <a href="https://massive.com/dashboard/keys" target="_blank">massive.com/dashboard/keys</a></p>
+        <p style="font-size:11px;color:#444444;margin-top:5px">→ <a href="https://massive.com/dashboard/keys" target="_blank">massive.com/dashboard/keys</a></p>
       </div>
       <div>
-        <label style="font-size:11px;color:#94a3b8;font-weight:700;display:block;margin-bottom:5px">ANTHROPIC</label>
+        <label style="font-size:11px;color:#555555;font-weight:700;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em">Anthropic</label>
         <div id="anthropicDisplay"></div>
-        <p style="font-size:11px;color:#475569;margin-top:4px">→ <a href="https://console.anthropic.com/keys" target="_blank">console.anthropic.com/keys</a></p>
+        <p style="font-size:11px;color:#444444;margin-top:5px">→ <a href="https://console.anthropic.com/keys" target="_blank">console.anthropic.com/keys</a></p>
       </div>
     </div>
   </div>
 
-  <!-- Watchlist Editor -->
+  <!-- WATCHLIST EDITOR -->
   <div class="card" id="watchlistEditor" style="display:none">
-    <p style="font-size:13px;color:#94a3b8;margin-bottom:14px;font-weight:700">✏️ Watchlist bearbeiten</p>
-    <p style="font-size:12px;color:#64748b;margin-bottom:10px">Verfügbare Symbole (Massive.com Pro): Forex-Paare als <code style="background:#0f172a;padding:2px 6px;border-radius:4px;color:#a78bfa">C:EURUSD</code>, Gold als <code style="background:#0f172a;padding:2px 6px;border-radius:4px;color:#a78bfa">C:XAUUSD</code></p>
+    <p class="card-title">✏️ Watchlist</p>
     <div class="irow" style="margin-bottom:12px">
-      <input type="text" id="newSymbolInput" placeholder="z.B. GBPUSD, USDJPY, XAUUSD …" style="flex:1">
+      <input type="text" id="newSymbolInput" placeholder="z.B. GBPUSD, USDJPY, XAUUSD"/>
       <button class="btn btn-green" onclick="addSymbol()">+ Hinzufügen</button>
     </div>
     <div id="watchlistTags" style="display:flex;gap:8px;flex-wrap:wrap"></div>
   </div>
 
-  <!-- Error -->
+  <!-- ERROR -->
   <div class="card card-err" id="errorBox" style="display:none">
-    <p id="errorMsg" style="color:#ef4444;font-size:13px"></p>
+    <p id="errorMsg" style="color:#f87171;font-size:13px"></p>
   </div>
 
-  <!-- Sessions Bar -->
-  <div style="margin-bottom:14px">
+  <!-- STATUS -->
+  <div id="statusBar" style="color:#888888;font-size:13px;padding:8px 0;min-height:28px"></div>
+
+  <!-- SESSIONS -->
+  <div class="card" style="padding:16px">
     <div class="sess-bar" id="sessBar"></div>
-    <p id="sessHint" style="font-size:11px;color:#64748b"></p>
+    <p id="sessHint" style="font-size:12px;color:#555555"></p>
   </div>
 
-  <!-- Symbol Grid -->
+  <!-- SYMBOL GRID -->
   <div class="sym-grid" id="symGrid"></div>
 
-</div>
+</div><!-- /main -->
 
-<!-- ═══════════════ DETAIL OVERLAY ═══════════════ -->
+<!-- ═══════════ OVERLAY ═══════════ -->
 <div id="overlay">
   <div id="ovBox">
+
+    <!-- Overlay Header -->
     <div id="ovHeader">
-      <div style="flex:1">
-        <div id="ovTitle" style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--white)"></div>
-        <div id="ovSub" style="font-size:11px;color:var(--gray2);margin-top:3px;letter-spacing:.03em"></div>
+      <div id="ovTitleWrap">
+        <div id="ovTitle">—</div>
+        <div id="ovSub"></div>
       </div>
       <div style="display:flex;gap:8px;align-items:center;flex-shrink:0">
         <button class="btn btn-gray" id="tvToggleBtn" onclick="toggleTV()">📉 Chart aus</button>
-        <button class="btn btn-gold" id="reAnalyzeBtn" onclick="reAnalyzeCurrent()">↺ Neu analysieren</button>
-        <button class="btn btn-gray" onclick="closeOverlay()">✕</button>
+        <button class="btn btn-gold" onclick="reAnalyzeCurrent()">↺ Neu analysieren</button>
+        <button class="btn btn-gray" onclick="closeOverlay()">✕ Schließen</button>
       </div>
     </div>
-    <div id="tvWrap"><div id="tv_chart" style="height:100%"></div></div>
+
+    <!-- TradingView -->
+    <div id="tvWrap"><div id="tvInner"><div id="tv_chart"></div></div></div>
+
     <div id="ovBody">
+
+      <!-- TF Switcher -->
       <div class="tf-btns">
-        <span style="font-size:11px;color:#64748b;align-self:center">TF:</span>
+        <span style="font-size:12px;color:#555555;font-weight:600">Timeframe:</span>
         <button class="tf-btn" data-tf="15"  onclick="switchTF('15')">M15</button>
         <button class="tf-btn" data-tf="60"  onclick="switchTF('60')">H1</button>
         <button class="tf-btn" data-tf="240" onclick="switchTF('240')">H4</button>
@@ -158,52 +218,10 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
       <!-- KPIs -->
       <div class="kpi-grid5" id="ovKPIs"></div>
 
-      <!-- Levels + Bias -->
-      <div class="two-col" style="margin-bottom:14px">
-        <div class="card">
-          <p style="font-size:12px;font-weight:700;color:#94a3b8;margin-bottom:10px">📊 Key Levels</p>
-          <p style="font-size:10px;color:#ef4444;font-weight:700;margin-bottom:4px">RESISTANCE</p>
-          <div id="ovRes"></div>
-          <p style="font-size:10px;color:#22c55e;font-weight:700;margin:8px 0 4px">SUPPORT</p>
-          <div id="ovSup"></div>
-        </div>
-        <div class="card">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-            <p style="font-size:12px;font-weight:700;color:#94a3b8">🌐 Fundamentaler Bias</p>
-            <span id="ovBias" class="badge"></span>
-          </div>
-          <p id="ovFundSummary" style="font-size:13px;color:#cbd5e1;line-height:1.6;margin-bottom:8px"></p>
-          <p style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:5px">EVENTS</p>
-          <div id="ovEvents"></div>
-        </div>
-      </div>
-
-      <!-- Fundamental Detail -->
-      <div class="card" style="margin-bottom:14px">
-        <p style="font-size:12px;font-weight:700;color:#94a3b8;margin-bottom:12px">📰 Fundamentalanalyse</p>
-        <div class="three-col">
-          <div><p style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:5px">ZENTRALBANK 1</p><p id="ovCB1" style="font-size:12px;color:#cbd5e1;line-height:1.6"></p></div>
-          <div><p style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:5px">ZENTRALBANK 2 / USD</p><p id="ovCB2" style="font-size:12px;color:#cbd5e1;line-height:1.6"></p></div>
-          <div><p style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:5px">MAKRO / SENTIMENT</p><p id="ovMacro" style="font-size:12px;color:#cbd5e1;line-height:1.6"></p></div>
-        </div>
-      </div>
-
-      <!-- Session Timing -->
-      <div class="card" style="margin-bottom:14px">
-        <p style="font-size:12px;font-weight:700;color:#94a3b8;margin-bottom:12px">⏰ Session-Timing</p>
-        <div id="ovSessionTiming"></div>
-      </div>
-
-      <!-- Deep Analysis -->
-      <div class="card card-accent" style="margin-bottom:14px">
-        <p style="font-size:12px;font-weight:700;color:#94a3b8;margin-bottom:8px">🤖 KI-Tiefenanalyse</p>
-        <div id="deepText" style="font-size:13px;color:#cbd5e1;line-height:1.8"><span class="spin"></span> Wird geladen…</div>
-      </div>
-
-      <!-- Scenarios -->
-      <div class="card" style="margin-bottom:14px">
-        <p style="font-size:12px;font-weight:700;color:#94a3b8;margin-bottom:4px">🎯 Trade-Szenarien</p>
-        <p style="font-size:11px;color:#6366f1;margin-bottom:12px">👆 Klicke auf ein Szenario für die Detailanalyse</p>
+      <!-- ① SZENARIEN -->
+      <div class="card" id="scenariosBlock">
+        <p class="card-title">🎯 Trade-Szenarien</p>
+        <p style="font-size:12px;color:#555555;margin-bottom:14px">👆 Klicke auf eine Zeile für die Detailansicht</p>
         <div style="overflow-x:auto">
           <table>
             <thead><tr>
@@ -217,110 +235,165 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
         </div>
       </div>
 
-      <!-- Summary -->
-      <div class="card card-accent" style="margin-bottom:24px">
-        <p style="font-size:12px;font-weight:700;color:#94a3b8;margin-bottom:6px">📋 Zusammenfassung</p>
-        <p id="ovSummary" style="font-size:13px;color:#cbd5e1;line-height:1.7"></p>
+      <!-- ② SZENARIO DETAIL (nach Klick) -->
+      <div id="scDetailBlock">
+        <div class="card card-accent">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+            <p id="scDetailTitle" style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#ffffff"></p>
+            <button class="btn btn-gray" style="font-size:12px" onclick="document.getElementById('scDetailBlock').style.display='none'">✕</button>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+            <table><tbody id="scDetailTable"></tbody></table>
+            <div>
+              <p class="sub-label" style="color:#c9a84c">KI-Analyse zum Szenario</p>
+              <div id="scDetailAI" style="font-size:13px;color:#888888;line-height:1.8"><span class="spin"></span> Wird geladen…</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <p style="text-align:center;font-size:11px;color:#334155;margin-bottom:24px">⚠️ Keine Finanzberatung.</p>
+
+      <!-- ③ KEY LEVELS + BIAS -->
+      <div class="two-col" id="twoColBlock">
+        <div class="card">
+          <p class="card-title">📊 Key Levels</p>
+          <p class="sub-label" style="color:#f87171">Resistance</p>
+          <div id="ovRes" style="margin-bottom:10px"></div>
+          <p class="sub-label" style="color:#4ade80">Support</p>
+          <div id="ovSup"></div>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+            <p class="card-title" style="margin-bottom:0">🌐 Fundamentaler Bias</p>
+            <span id="ovBias"></span>
+          </div>
+          <p id="ovFundSummary" style="font-size:13px;color:#888888;line-height:1.7;margin-bottom:12px"></p>
+          <p class="sub-label" style="color:#555555">Events</p>
+          <div id="ovEvents"></div>
+        </div>
+      </div>
+
+      <!-- ④ FUNDAMENTAL -->
+      <div class="card" id="fundBlock">
+        <p class="card-title">📰 Fundamentalanalyse</p>
+        <div class="three-col">
+          <div><p class="sub-label" style="color:#555555">Zentralbank 1</p><p id="ovCB1" style="font-size:13px;color:#888888;line-height:1.7"></p></div>
+          <div><p class="sub-label" style="color:#555555">Zentralbank 2 / USD</p><p id="ovCB2" style="font-size:13px;color:#888888;line-height:1.7"></p></div>
+          <div><p class="sub-label" style="color:#555555">Makro / Sentiment</p><p id="ovMacro" style="font-size:13px;color:#888888;line-height:1.7"></p></div>
+        </div>
+      </div>
+
+      <!-- ⑤ SESSION TIMING -->
+      <div class="card" id="sessBlock">
+        <p class="card-title">⏰ Session-Timing</p>
+        <div id="ovSessionTiming"></div>
+      </div>
+
+      <!-- ⑥ KI TIEFENANALYSE -->
+      <div class="card card-accent" id="deepBlock">
+        <p class="card-title">🤖 KI-Tiefenanalyse</p>
+        <div id="deepText" style="font-size:14px;color:#888888;line-height:1.9"><span class="spin"></span> Wird geladen…</div>
+      </div>
+
+      <!-- ⑦ ZUSAMMENFASSUNG -->
+      <div class="card card-accent" id="summaryBlock" style="margin-bottom:24px">
+        <p class="card-title">📋 Zusammenfassung</p>
+        <p id="ovSummary" style="font-size:14px;color:#888888;line-height:1.9"></p>
+      </div>
+
+      <p style="text-align:center;font-size:12px;color:#333333;margin-bottom:28px;padding-bottom:20px">⚠️ Keine Finanzberatung. Alle Handelsentscheidungen liegen in deiner Verantwortung.</p>
     </div>
   </div>
 </div>
 
 <script>
-// ─── Utils ─────────────────────────────────────────────────────────
-const fmt = d=>d.toISOString().split('T')[0];
-const ago = n=>{const d=new Date();d.setDate(d.getDate()-n);return fmt(d);};
-const now = ()=>fmt(new Date());
+// ─── Helpers ───────────────────────────────────────────────────────
+const fmt = d => d.toISOString().split('T')[0];
+const ago = n => { const d=new Date(); d.setDate(d.getDate()-n); return fmt(d); };
+const now = () => fmt(new Date());
+const trendColor = v => /bull|long|aufwärts|up|steig/i.test(v)?'#4ade80':/bear|short|abwärts|down|fall/i.test(v)?'#f87171':'#c9a84c';
+const confColor  = c => c==='Hoch'?'#4ade80':c==='Mittel'?'#c9a84c':'#f87171';
+const probColor  = p => p>=65?'#4ade80':p>=50?'#c9a84c':'#f87171';
+const badge      = (col,txt) => `<span style="background:${col}18;color:${col};border:1px solid ${col}33;border-radius:4px;padding:3px 10px;font-size:12px;font-weight:700">${txt}</span>`;
 
-// ─── Keys ──────────────────────────────────────────────────────────
-const gk=k=>localStorage.getItem(k)||'';
-const sk=(k,v)=>localStorage.setItem(k,v);
-const dk=k=>localStorage.removeItem(k);
-const mask=k=>k?k.slice(0,6)+'•••'+k.slice(-4):'';
+// ─── Key storage ───────────────────────────────────────────────────
+const gk = k => localStorage.getItem(k)||'';
+const sk = (k,v) => localStorage.setItem(k,v);
+const dk = k => localStorage.removeItem(k);
+const mask = k => k ? k.slice(0,6)+'•••'+k.slice(-4) : '';
 
-function renderKeyField(cid,key,ph){
-  const el=document.getElementById(cid),val=gk(key);
-  el.innerHTML=val
-    ?`<div class="irow"><input type="text" value="${mask(val)}" disabled style="color:#22c55e;flex:1;width:100%"><button class="btn btn-red" onclick="dk('${key}');renderKeyField('${cid}','${key}','${ph}');checkKeys()">✕</button></div>`
-    :`<div class="irow"><input type="password" id="i_${key}" placeholder="${ph}" style="flex:1;width:100%"><button class="btn btn-green" onclick="saveKF('${key}','i_${key}','${cid}','${ph}')">Speichern</button></div>`;
+function renderKeyField(cid, key, ph) {
+  const el=document.getElementById(cid), val=gk(key);
+  el.innerHTML = val
+    ? `<div class="irow"><input type="text" value="${mask(val)}" disabled style="color:#4ade80;flex:1"><button class="btn btn-red" style="padding:7px 12px;white-space:nowrap" onclick="dk('${key}');renderKeyField('${cid}','${key}','${ph}');checkKeys()">Löschen</button></div>`
+    : `<div class="irow"><input type="password" id="i_${key}" placeholder="${ph}" style="flex:1"><button class="btn btn-green" style="white-space:nowrap" onclick="saveKF('${key}','i_${key}','${cid}','${ph}')">Speichern</button></div>`;
 }
-function saveKF(key,iid,cid,ph){const v=document.getElementById(iid).value.trim();if(!v)return;sk(key,v);renderKeyField(cid,key,ph);checkKeys();}
-function checkKeys(){const ok=gk('massive_api_key')&&gk('anthropic_api_key');document.getElementById('analyzeAllBtn').disabled=!ok;}
-function toggleSettings(){const p=document.getElementById('settingsPanel');p.style.display=p.style.display==='none'?'block':'none';}
+function saveKF(key,iid,cid,ph){ const v=document.getElementById(iid).value.trim(); if(!v)return; sk(key,v); renderKeyField(cid,key,ph); checkKeys(); }
+function checkKeys(){ document.getElementById('analyzeAllBtn').disabled=!(gk('massive_api_key')&&gk('anthropic_api_key')); }
+function toggleSettings(){ const p=document.getElementById('settingsPanel'); p.style.display=p.style.display==='none'?'block':'none'; }
+function toggleWatchlistEditor(){ const p=document.getElementById('watchlistEditor'); p.style.display=p.style.display==='none'?'block':'none'; renderWatchlistTags(); }
+function setStatus(msg){ document.getElementById('statusBar').innerHTML=msg?`<span class="spin"></span>${msg}`:''; }
+function showErr(msg){ document.getElementById('errorMsg').textContent=msg; document.getElementById('errorBox').style.display='block'; setStatus(''); }
+function hideErr(){ document.getElementById('errorBox').style.display='none'; }
 
 // ─── Watchlist ─────────────────────────────────────────────────────
-const DEFAULT_WATCHLIST=['EURUSD','GBPUSD','USDJPY','XAUUSD','AUDUSD','USDCHF'];
-function loadWatchlist(){
-  const raw=localStorage.getItem('fx_watchlist');
-  return raw?JSON.parse(raw):[...DEFAULT_WATCHLIST];
-}
-function saveWatchlist(list){localStorage.setItem('fx_watchlist',JSON.stringify(list));}
+const DEFAULT=['EURUSD','GBPUSD','USDJPY','XAUUSD','AUDUSD','USDCHF'];
+let watchlist = JSON.parse(localStorage.getItem('fx_watchlist')||JSON.stringify(DEFAULT));
+let analysisCache = {};
+let currentSymbol = null;
 
-let watchlist=loadWatchlist();
-let analysisCache={}; // symbol -> analysis result
-let currentSymbol=null;
-
-function toggleWatchlistEditor(){
-  const p=document.getElementById('watchlistEditor');
-  p.style.display=p.style.display==='none'?'block':'none';
-  renderWatchlistTags();
-}
+function saveWatchlist(){ localStorage.setItem('fx_watchlist',JSON.stringify(watchlist)); }
 function renderWatchlistTags(){
-  document.getElementById('watchlistTags').innerHTML=watchlist.map(s=>`
-    <div style="display:flex;align-items:center;gap:5px;background:#0f172a;border:1px solid #334155;border-radius:8px;padding:5px 10px">
-      <span style="font-size:13px;font-weight:700;color:#f1f5f9">${s}</span>
-      <button onclick="removeSymbol('${s}')" style="background:none;border:none;color:#ef4444;cursor:pointer;font-size:13px">✕</button>
+  document.getElementById('watchlistTags').innerHTML = watchlist.map(s=>`
+    <div style="display:flex;align-items:center;gap:5px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:7px;padding:5px 10px">
+      <span style="font-size:13px;font-weight:700">${s}</span>
+      <button onclick="removeSymbol('${s}')" style="background:none;border:none;color:#f87171;cursor:pointer;font-size:14px;padding:0 2px">✕</button>
     </div>`).join('');
 }
 function addSymbol(){
   const raw=document.getElementById('newSymbolInput').value.trim().toUpperCase().replace(/[^A-Z]/g,'');
   if(!raw||watchlist.includes(raw)) return;
-  watchlist.push(raw);
-  saveWatchlist(watchlist);
+  watchlist.push(raw); saveWatchlist();
   document.getElementById('newSymbolInput').value='';
-  renderWatchlistTags();
-  renderSymGrid();
+  renderWatchlistTags(); renderSymGrid();
 }
 function removeSymbol(s){
-  watchlist=watchlist.filter(x=>x!==s);
-  saveWatchlist(watchlist);
-  delete analysisCache[s];
-  renderWatchlistTags();
-  renderSymGrid();
+  watchlist=watchlist.filter(x=>x!==s); saveWatchlist();
+  delete analysisCache[s]; renderWatchlistTags(); renderSymGrid();
 }
 
 // ─── Sessions ──────────────────────────────────────────────────────
-const SESS=[{n:'Tokio',o:0,c:9,col:'#3b82f6'},{n:'London',o:7,c:16,col:'#22c55e'},{n:'New York',o:13,c:22,col:'#f59e0b'},{n:'Overlap',o:13,c:16,col:'#ef4444'}];
+const SESS=[
+  {n:'Tokio',  o:0, c:9,  col:'#3b82f6'},
+  {n:'London', o:7, c:16, col:'#4ade80'},
+  {n:'New York',o:13,c:22,col:'#c9a84c'},
+  {n:'Overlap',o:13,c:16, col:'#f87171'},
+];
 function renderSessions(){
   const utcH=new Date().getUTCHours()+new Date().getUTCMinutes()/60;
   let hints=[];
   document.getElementById('sessBar').innerHTML=SESS.map(s=>{
     const on=utcH>=s.o&&utcH<s.c;
     const mins=on?((s.c-utcH+24)%24*60|0):((s.o-utcH+24)%24*60|0);
-    if(on)hints.push(`${s.n} aktiv`);
-    return `<div class="sess-pill" style="background:${on?s.col+'18':'#111111'};border-color:${on?s.col+'55':'#2a2a2a'};color:${on?s.col:'#555555'}">
-      ${on?'●':'○'} ${s.n} ${String(s.o).padStart(2,'0')}:00–${String(s.c).padStart(2,'0')}:00 UTC ${on?'<span style="font-size:10px">('+mins+' Min.)</span>':''}
+    if(on) hints.push(`${s.n} aktiv – ${mins} Min.`);
+    return `<div class="sess-pill" style="background:${on?s.col+'15':'#111111'};border-color:${on?s.col+'55':'#2a2a2a'};color:${on?s.col:'#555555'}">
+      ${on?'●':'○'} <strong>${s.n}</strong> &nbsp;${String(s.o).padStart(2,'0')}:00–${String(s.c).padStart(2,'0')}:00 UTC
+      ${on?`<span style="font-size:11px;opacity:.8"> · ${mins} Min.</span>`:''}
     </div>`;
   }).join('');
-  document.getElementById('sessHint').textContent=hints.length?'⚡ Aktiv: '+hints.join(', '):'Keine aktive Session · '+new Date().toUTCString().slice(17,22)+' UTC';
-  document.getElementById('sessHint').style.color='#555555';
+  const utcStr=new Date().toUTCString().slice(17,22)+' UTC';
+  document.getElementById('sessHint').textContent=hints.length?'⚡ '+hints.join(' · ')+' · '+utcStr:'Keine aktive Session · '+utcStr;
   setTimeout(renderSessions,60000);
 }
 
-// ─── OHLC + Claude ─────────────────────────────────────────────────
-const TV_SYM={
-  'EURUSD':'FX:EURUSD','GBPUSD':'FX:GBPUSD','USDJPY':'FX:USDJPY',
-  'XAUUSD':'TVC:GOLD','AUDUSD':'FX:AUDUSD','USDCHF':'FX:USDCHF',
-  'NZDUSD':'FX:NZDUSD','USDCAD':'FX:USDCAD','EURGBP':'FX:EURGBP',
-  'EURJPY':'FX:EURJPY','GBPJPY':'FX:GBPJPY','XAGUSD':'TVC:SILVER',
-};
-function tvSym(s){return TV_SYM[s]||'FX:'+s;}
+// ─── API ───────────────────────────────────────────────────────────
+const TV_SYM={'XAUUSD':'TVC:GOLD','XAGUSD':'TVC:SILVER','EURUSD':'FX:EURUSD','GBPUSD':'FX:GBPUSD','USDJPY':'FX:USDJPY','AUDUSD':'FX:AUDUSD','USDCHF':'FX:USDCHF','NZDUSD':'FX:NZDUSD','USDCAD':'FX:USDCAD','EURGBP':'FX:EURGBP','EURJPY':'FX:EURJPY','GBPJPY':'FX:GBPJPY'};
+const tvSym = s => TV_SYM[s]||'FX:'+s;
+const TF_MAP = {'M15':'15','H1':'60','H4':'240','D1':'D','W1':'W'};
 
-async function fetchOHLC(sym,mult,span,daysBack,limit){
-  const r=await fetch(`https://api.massive.com/v2/aggs/ticker/C:${sym}/range/${mult}/${span}/${ago(daysBack)}/${now()}?adjusted=true&sort=desc&limit=${limit}&apiKey=${gk('massive_api_key')}`);
+async function fetchOHLC(sym,mult,span,dBack,limit){
+  const r=await fetch(`https://api.massive.com/v2/aggs/ticker/C:${sym}/range/${mult}/${span}/${ago(dBack)}/${now()}?adjusted=true&sort=desc&limit=${limit}&apiKey=${gk('massive_api_key')}`);
   const j=await r.json();
-  if(j.status==='ERROR')throw new Error(j.error);
+  if(j.status==='ERROR') throw new Error('Massive: '+j.error);
   return j.results||[];
 }
 function fmtBars(bars,n=40){
@@ -333,79 +406,76 @@ async function callClaude(prompt,maxTok=2000){
     body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:maxTok,messages:[{role:'user',content:prompt}]})
   });
   const d=await r.json();
-  if(!r.ok)throw new Error(d.error?.message||r.status);
+  if(!r.ok) throw new Error(d.error?.message||r.status);
   return d.content?.filter(b=>b.type==='text').map(b=>b.text).join('')||'';
 }
 
 // ─── Symbol Grid ───────────────────────────────────────────────────
-// ─── Symbol Grid ───────────────────────────────────────────────────
 function renderSymGrid(){
   document.getElementById('symGrid').innerHTML=watchlist.map(s=>{
     const a=analysisCache[s];
-    const bc=a?dc(a.fundamental?.bias):'#555555';
-    return `<div class="sym-card ${a?'done':'idle'}" id="card_${s}" onclick="openSymbol('${s}')">
+    const bc=a?trendColor(a.fundamental?.bias):'#555555';
+    return `<div class="sym-card" id="card_${s}" onclick="openSymbol('${s}')">
       <button class="sym-del" onclick="event.stopPropagation();removeSymbol('${s}')">✕</button>
-      <div style="display:flex;align-items:center;justify-content:space-between">
-        <div>
-          <span style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:#ffffff">${s}</span>
-          ${a?`<span style="margin-left:8px;background:${bc}18;color:${bc};border:1px solid ${bc}33;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">${a.fundamental?.bias||''}</span>`:''}
-        </div>
-        ${a?`<button class="btn btn-gray" style="font-size:11px;padding:3px 9px" onclick="event.stopPropagation();analyzeSymbol('${s}')">↺</button>`:''}
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px">
+        <span class="sym-name">${s}</span>
+        ${a?`<div style="display:flex;gap:6px;align-items:center">
+          ${badge(bc,a.fundamental?.bias||'?')}
+          <button class="btn btn-gray" style="font-size:11px;padding:4px 10px" onclick="event.stopPropagation();analyzeSymbol('${s}')">↺</button>
+        </div>`:''}
       </div>
       <div class="sym-price">${a?a.lastPrice:'—'}</div>
-      ${a?`<div class="sym-trends">
+      ${a?`
+      <div class="sym-trends">
         ${['d1','h4','h1','m15'].map(tf=>{
-          const v=a.trend?.[tf]||''; const c=dc(v);
-          return `<span class="sym-trend-pill" style="color:${c};border-color:${c}33">${tf.toUpperCase()} ${v||'?'}</span>`;
+          const v=a.trend?.[tf]||''; const c=trendColor(v);
+          return `<span class="sym-tf" style="color:${c};border-color:${c}33">${tf.toUpperCase()}: ${v||'?'}</span>`;
         }).join('')}
       </div>
       <div class="sym-levels">
-        ${(a.keyLevels?.resistance||[]).slice(0,2).map(l=>`<span style="font-size:10px;color:#fca5a5;background:rgba(248,113,113,.08);padding:2px 6px;border-radius:3px">R ${l}</span>`).join('')}
-        ${(a.keyLevels?.support||[]).slice(0,2).map(l=>`<span style="font-size:10px;color:#86efac;background:rgba(74,222,128,.08);padding:2px 6px;border-radius:3px">S ${l}</span>`).join('')}
+        ${(a.keyLevels?.resistance||[]).slice(0,2).map(l=>`<span class="sym-lvl" style="color:#fca5a5;background:rgba(248,113,113,.08)">R ${l}</span>`).join('')}
+        ${(a.keyLevels?.support||[]).slice(0,2).map(l=>`<span class="sym-lvl" style="color:#86efac;background:rgba(74,222,128,.08)">S ${l}</span>`).join('')}
       </div>
-      <div class="sym-status" style="color:#555555;font-size:11px;margin-top:6px">✅ Analysiert · Klicken für Details</div>`
-      :`<div class="sym-status" id="status_${s}" style="color:#555555;font-size:11px;margin-top:6px">Noch nicht analysiert · Klicken zum Starten</div>`}
+      <p style="font-size:12px;color:#444444;margin-top:8px">✅ Analysiert · Klicken für Details</p>`
+      :`<p id="status_${s}" style="font-size:12px;color:#444444;margin-top:8px">Noch nicht analysiert · Klicken zum Starten</p>`}
     </div>`;
   }).join('');
 }
 
-function setCardStatus(sym,msg,isLoading=false){
+function setCardStatus(sym,msg,loading=false){
   const el=document.getElementById('status_'+sym);
-  if(el)el.innerHTML=isLoading?`<span class="spin"></span>${msg}`:msg;
+  if(el) el.innerHTML=loading?`<span class="spin"></span>${msg}`:msg;
   const card=document.getElementById('card_'+sym);
-  if(card){card.className='sym-card '+(isLoading?'analyzing':'idle');}
+  if(card) card.className='sym-card'+(loading?' analyzing':'');
 }
 
+// ─── Analyse ───────────────────────────────────────────────────────
 async function analyzeSymbol(sym){
   setCardStatus(sym,'📡 Lade Daten…',true);
   try{
-    const [d1,h4,h1,m15]=await Promise.allSettled([
+    const [r1,r2,r3,r4]=await Promise.allSettled([
       fetchOHLC(sym,1,'day',100,60),
       fetchOHLC(sym,4,'hour',35,80),
       fetchOHLC(sym,1,'hour',10,120),
       fetchOHLC(sym,15,'minute',5,200),
     ]);
-    const D1=d1.value||[],H4=h4.value||[],H1=h1.value||[],M15=m15.value||[];
-    if(!D1.length)throw new Error('Keine D1-Daten');
+    const D1=r1.value||[], H4=r2.value||[], H1=r3.value||[], M15=r4.value||[];
+    if(!D1.length) throw new Error('Keine D1-Daten');
     const lp=(M15[0]?.c||H1[0]?.c||D1[0]?.c)?.toFixed(5)?? 'n/a';
     setCardStatus(sym,'🤖 Claude analysiert…',true);
-
-    const text=await callClaude(`Du bist ein professioneller Forex-Analyst. Heute: ${now()}. Symbol: ${sym}. Kurs: ${lp}.
-D1 (${D1.length}): ${JSON.stringify(fmtBars(D1,35))}
-H4 (${H4.length}): ${JSON.stringify(fmtBars(H4,40))}
-H1 (${H1.length}): ${JSON.stringify(fmtBars(H1,50))}
-M15 (${M15.length}): ${JSON.stringify(fmtBars(M15,60))}
-
-Antworte NUR mit validem JSON, kein Markdown:
+    const text=await callClaude(`Professioneller Forex-Analyst. Heute: ${now()}. Symbol: ${sym}. Kurs: ${lp}.
+D1(${D1.length}): ${JSON.stringify(fmtBars(D1,35))}
+H4(${H4.length}): ${JSON.stringify(fmtBars(H4,40))}
+H1(${H1.length}): ${JSON.stringify(fmtBars(H1,50))}
+M15(${M15.length}): ${JSON.stringify(fmtBars(M15,60))}
+Nur valides JSON, kein Markdown:
 {"lastPrice":"${lp}","symbol":"${sym}","trend":{"d1":"","h4":"","h1":"","m15":""},"fundamental":{"summary":"","bias":"Bullish","cb1":"","cb2":"","macro":"","keyEvents":[{"date":"","event":"","impact":"hoch"}]},"keyLevels":{"resistance":["","",""],"support":["","",""]},"sessionTiming":[{"session":"London 07:00-16:00 UTC","recommendation":"","bestFor":"","avoid":""},{"session":"New York 13:00-22:00 UTC","recommendation":"","bestFor":"","avoid":""},{"session":"Overlap 13:00-16:00 UTC","recommendation":"","bestFor":"","avoid":""}],"scenarios":[{"id":1,"name":"","direction":"Long","setup":"","entryTF":"M15","higherTFs":["H1","H4","D1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","bestSession":"","entrySignal":"","exitSignal":"","probability":55,"confidence":"Hoch"},{"id":2,"name":"","direction":"Short","setup":"","entryTF":"H1","higherTFs":["H4","D1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","bestSession":"","entrySignal":"","exitSignal":"","probability":45,"confidence":"Mittel"},{"id":3,"name":"","direction":"Long","setup":"","entryTF":"H4","higherTFs":["D1","W1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","bestSession":"","entrySignal":"","exitSignal":"","probability":40,"confidence":"Niedrig"}],"summary":""}`,2000);
-
     const m=text.match(/\{[\s\S]*\}/);
-    if(!m)throw new Error('Kein JSON');
+    if(!m) throw new Error('Kein JSON');
     analysisCache[sym]=JSON.parse(m[0]);
     renderSymGrid();
   }catch(e){
     setCardStatus(sym,'❌ '+e.message);
-    document.getElementById('card_'+sym)?.classList.add('error');
   }
 }
 
@@ -414,80 +484,67 @@ async function analyzeAll(){
   document.getElementById('updated').textContent='Stand: '+new Date().toLocaleTimeString('de-DE');
 }
 
-// ─── Overlay ───────────────────────────────────────────────────────
-let tvVisible=true, currentTF='60';
-
+// ─── Overlay öffnen ────────────────────────────────────────────────
 function openSymbol(sym){
   currentSymbol=sym;
   const a=analysisCache[sym];
   document.getElementById('ovTitle').textContent=sym+(a?` · ${a.lastPrice}`:'');
-  document.getElementById('ovSub').textContent=a?`Bias: ${a.fundamental?.bias} · D1: ${a.trend?.d1} · H4: ${a.trend?.h4} · H1: ${a.trend?.h1} · M15: ${a.trend?.m15}`:'Noch nicht analysiert';
+  document.getElementById('ovSub').textContent=a?`Bias: ${a.fundamental?.bias} · D1: ${a.trend?.d1} · H4: ${a.trend?.h4} · H1: ${a.trend?.h1} · M15: ${a.trend?.m15}`:'Wird analysiert…';
+  document.getElementById('scDetailBlock').style.display='none';
   document.getElementById('overlay').style.display='block';
   document.body.style.overflow='hidden';
   document.getElementById('overlay').scrollTop=0;
-  tvVisible=true;
-  document.getElementById('tvWrap').style.display='block';
+  // TV Chart
+  const initTF=a?(TF_MAP[a.scenarios?.[0]?.entryTF]||'60'):'60';
+  currentTF=initTF; updateTFBtns(initTF); loadTVChart(sym,initTF);
+  // TV toggle reset
+  tvVisible=true; document.getElementById('tvWrap').style.display='block';
   document.getElementById('tvToggleBtn').textContent='📉 Chart aus';
-  const initTF=a?( TF_MAP[a.scenarios?.[0]?.entryTF]||'60' ):'60';
-  currentTF=initTF;
-  updateTFBtns(initTF);
-  loadTVChart(sym,initTF);
   if(a) renderOverlay(a);
-  else { clearOverlay(); analyzeAndRenderOverlay(sym); }
+  else analyzeAndRender(sym);
 }
 
-function clearOverlay(){
-  ['ovKPIs','ovRes','ovSup','ovEvents','ovCB1','ovCB2','ovMacro','ovSessionTiming','deepText','ovScenarios','ovSummary'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el)el.innerHTML='<span class="spin"></span> Wird geladen…';
-  });
-  document.getElementById('ovBias').textContent='';
-  document.getElementById('ovFundSummary').textContent='';
-}
-
-async function analyzeAndRenderOverlay(sym){
+async function analyzeAndRender(sym){
   await analyzeSymbol(sym);
   const a=analysisCache[sym];
-  if(a){renderOverlay(a);document.getElementById('ovTitle').textContent=sym+` · ${a.lastPrice}`;}
+  if(a){ renderOverlay(a); document.getElementById('ovTitle').textContent=sym+` · ${a.lastPrice}`; }
 }
 
 async function reAnalyzeCurrent(){
-  if(!currentSymbol)return;
+  if(!currentSymbol) return;
   delete analysisCache[currentSymbol];
-  clearOverlay();
-  await analyzeAndRenderOverlay(currentSymbol);
+  await analyzeAndRender(currentSymbol);
 }
 
+// ─── Overlay rendern ───────────────────────────────────────────────
 function renderOverlay(a){
-  const body=document.getElementById('ovBody');
-  const order=['ovKPIs','scenariosBlock','scDetailBlock','twoColBlock','fundBlock','sessBlock','deepBlock','summaryBlock'];
-  order.forEach(id=>{const el=document.getElementById(id);if(el)body.appendChild(el);});
-
   // KPIs
   document.getElementById('ovKPIs').innerHTML=[
-    {label:'Kurs',   val:a.lastPrice,   col:'#ffffff', big:true},
-    {label:'D1',     val:a.trend?.d1,   col:dc(a.trend?.d1)},
-    {label:'H4',     val:a.trend?.h4,   col:dc(a.trend?.h4)},
-    {label:'H1',     val:a.trend?.h1,   col:dc(a.trend?.h1)},
-    {label:'M15',    val:a.trend?.m15,  col:dc(a.trend?.m15)},
-  ].map(x=>`<div class="kpi"><div class="kpi-label" style="color:#555555;font-size:9px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">${x.label}</div>
-    <div style="color:${x.col};font-size:${x.big?'22px':'13px'};font-weight:700;font-family:${x.big?"'Playfair Display',serif":'Inter,sans-serif'}">${x.val||'—'}</div></div>`).join('');
+    {l:'Kurs',   v:a.lastPrice,    c:'#ffffff', big:true},
+    {l:'D1',     v:a.trend?.d1,    c:trendColor(a.trend?.d1)},
+    {l:'H4',     v:a.trend?.h4,    c:trendColor(a.trend?.h4)},
+    {l:'H1',     v:a.trend?.h1,    c:trendColor(a.trend?.h1)},
+    {l:'M15',    v:a.trend?.m15,   c:trendColor(a.trend?.m15)},
+  ].map(x=>`<div class="kpi">
+    <div class="kpi-label">${x.l}</div>
+    <div class="kpi-val" style="color:${x.c};font-size:${x.big?'24px':'15px'};font-family:${x.big?"'Playfair Display',serif":'Inter,sans-serif'}">${x.v||'—'}</div>
+  </div>`).join('');
 
   // Levels
   document.getElementById('ovRes').innerHTML=(a.keyLevels?.resistance||[]).map(l=>`<div class="level-pill res-pill">${l}</div>`).join('');
   document.getElementById('ovSup').innerHTML=(a.keyLevels?.support||[]).map(l=>`<div class="level-pill sup-pill">${l}</div>`).join('');
 
-  // Bias
-  const bias=a.fundamental?.bias||'Neutral', bc=dc(bias);
-  document.getElementById('ovBias').innerHTML=`<span style="background:${bc}18;color:${bc};border:1px solid ${bc}33;border-radius:4px;padding:2px 10px;font-size:11px;font-weight:700">${bias}</span>`;
+  // Bias + Events
+  const bias=a.fundamental?.bias||'Neutral', bc=trendColor(bias);
+  document.getElementById('ovBias').innerHTML=badge(bc,bias);
   document.getElementById('ovFundSummary').textContent=a.fundamental?.summary||'';
   document.getElementById('ovEvents').innerHTML=(a.fundamental?.keyEvents||[]).map(e=>{
     const ev=typeof e==='string'?{date:'',event:e,impact:'mittel'}:e;
     const ic=ev.impact==='hoch'?'#f87171':ev.impact==='mittel'?'#c9a84c':'#888888';
-    return `<div style="display:flex;gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid #2a2a2a">
-      <span style="font-size:11px;color:#555555;min-width:80px">${ev.date||''}</span>
-      <span style="font-size:12px;color:#888888;flex:1">${ev.event||''}</span>
-      <span style="font-size:10px;font-weight:700;color:${ic};background:${ic}18;padding:2px 7px;border-radius:3px;border:1px solid ${ic}33">${(ev.impact||'').toUpperCase()}</span>
+    return `<div style="display:flex;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid #1a1a1a">
+      <span style="font-size:12px;color:#444444;min-width:85px;flex-shrink:0">${ev.date||''}</span>
+      <span style="font-size:13px;color:#888888;flex:1">${ev.event||''}</span>
+      <span style="font-size:11px;font-weight:700;color:${ic};background:${ic}18;padding:2px 8px;border-radius:3px;border:1px solid ${ic}33;white-space:nowrap">${(ev.impact||'').toUpperCase()}</span>
     </div>`;
   }).join('');
 
@@ -498,12 +555,12 @@ function renderOverlay(a){
 
   // Session Timing
   document.getElementById('ovSessionTiming').innerHTML=(a.sessionTiming||[]).map(s=>`
-    <div style="background:#1a1a1a;border-radius:7px;padding:14px;margin-bottom:8px;border:1px solid #2a2a2a">
-      <p style="font-size:10px;font-weight:700;color:#c9a84c;margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em">🕐 ${s.session}</p>
+    <div style="background:#1a1a1a;border-radius:7px;padding:16px;margin-bottom:8px;border:1px solid #2a2a2a">
+      <p style="font-size:12px;font-weight:700;color:#c9a84c;margin-bottom:10px;text-transform:uppercase;letter-spacing:.07em">🕐 ${s.session}</p>
       <div class="three-col">
-        <div><p style="font-size:9px;color:#4ade80;font-weight:700;margin-bottom:3px;text-transform:uppercase;letter-spacing:.06em">EMPFEHLUNG</p><p style="font-size:12px;color:#888888">${s.recommendation||''}</p></div>
-        <div><p style="font-size:9px;color:#c9a84c;font-weight:700;margin-bottom:3px;text-transform:uppercase;letter-spacing:.06em">BEST FOR</p><p style="font-size:12px;color:#888888">${s.bestFor||''}</p></div>
-        <div><p style="font-size:9px;color:#f87171;font-weight:700;margin-bottom:3px;text-transform:uppercase;letter-spacing:.06em">VERMEIDEN</p><p style="font-size:12px;color:#888888">${s.avoid||''}</p></div>
+        <div><p style="font-size:11px;color:#4ade80;font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Empfehlung</p><p style="font-size:13px;color:#888888">${s.recommendation||''}</p></div>
+        <div><p style="font-size:11px;color:#c9a84c;font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Best For</p><p style="font-size:13px;color:#888888">${s.bestFor||''}</p></div>
+        <div><p style="font-size:11px;color:#f87171;font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Vermeiden</p><p style="font-size:13px;color:#888888">${s.avoid||''}</p></div>
       </div>
     </div>`).join('');
 
@@ -513,182 +570,101 @@ function renderOverlay(a){
   // Scenarios
   document.getElementById('ovScenarios').innerHTML=(a.scenarios||[]).map((sc,i)=>{
     const d=sc.direction==='Long'?'#4ade80':'#f87171';
-    const p=pc(sc.probability), cn=cc(sc.confidence);
+    const p=probColor(sc.probability), cn=confColor(sc.confidence);
     return `<tr class="sc-row" onclick="openScenarioDetail(${i})">
-      <td style="color:#555555;font-weight:700">${sc.id}</td>
-      <td style="font-weight:700;color:#ffffff;white-space:nowrap;font-family:'Playfair Display',serif">🔍 ${sc.name}</td>
-      <td><span style="background:${d}18;color:${d};border:1px solid ${d}33;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">${sc.direction}</span></td>
-      <td style="color:#c9a84c;font-weight:700">${sc.entryTF}</td>
-      <td style="color:#555555">${(sc.higherTFs||[]).join(', ')}</td>
-      <td style="color:#fbbf24;font-weight:700">${sc.entry}</td>
-      <td style="color:#f87171">${sc.sl}</td>
-      <td style="color:#4ade80">${sc.tp1}</td>
-      <td style="color:#4ade80">${sc.tp2}</td>
-      <td style="color:#c9a84c;font-weight:700">${sc.rr}</td>
-      <td style="color:#4ade80;font-size:11px">${sc.bestSession||''}</td>
-      <td style="color:#888888;white-space:nowrap">${sc.timing}</td>
-      <td style="max-width:140px;color:#888888">${sc.entrySignal}</td>
-      <td style="max-width:140px;color:#888888">${sc.exitSignal}</td>
-      <td><div style="font-weight:700;color:${p};font-family:'Playfair Display',serif;font-size:16px">${sc.probability}%</div>
-          <div class="prob-bar"><div class="prob-fill" style="width:${sc.probability}%;background:${p}"></div></div></td>
-      <td><span style="background:${cn}18;color:${cn};border:1px solid ${cn}33;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">${sc.confidence}</span></td>
-    </tr>`;
-  }).join('');
-
-  document.getElementById('ovSummary').textContent=a.summary||'';
-}
-  // KPIs
-  document.getElementById('ovKPIs').innerHTML=[
-    {label:'Kurs',val:a.lastPrice,col:'#f1f5f9',big:true},
-    {label:'D1',val:a.trend?.d1,col:dc(a.trend?.d1)},
-    {label:'H4',val:a.trend?.h4,col:dc(a.trend?.h4)},
-    {label:'H1',val:a.trend?.h1,col:dc(a.trend?.h1)},
-    {label:'M15',val:a.trend?.m15,col:dc(a.trend?.m15)},
-  ].map(x=>`<div class="kpi"><div class="kpi-label">${x.label}</div><div class="kpi-val" style="color:${x.col};font-size:${x.big?'20px':'14px'}">${x.val||'—'}</div></div>`).join('');
-
-  // Levels
-  document.getElementById('ovRes').innerHTML=(a.keyLevels?.resistance||[]).map(l=>`<div class="level-pill res-pill">${l}</div>`).join('');
-  document.getElementById('ovSup').innerHTML=(a.keyLevels?.support||[]).map(l=>`<div class="level-pill sup-pill">${l}</div>`).join('');
-
-  // Bias
-  const bias=a.fundamental?.bias||'Neutral',bc=dc(bias);
-  document.getElementById('ovBias').innerHTML=pill(bc,bias);
-  document.getElementById('ovFundSummary').textContent=a.fundamental?.summary||'';
-  document.getElementById('ovEvents').innerHTML=(a.fundamental?.keyEvents||[]).map(e=>{
-    const ev=typeof e==='string'?{date:'',event:e,impact:'mittel'}:e;
-    const ic=ev.impact==='hoch'?'#ef4444':ev.impact==='mittel'?'#eab308':'#94a3b8';
-    return `<div style="display:flex;gap:8px;align-items:center;padding:4px 0;border-bottom:1px solid #33415544">
-      <span style="font-size:11px;color:#64748b;min-width:80px">${ev.date||''}</span>
-      <span style="font-size:12px;color:#cbd5e1;flex:1">${ev.event||''}</span>
-      <span style="font-size:10px;font-weight:700;color:${ic};background:${ic}22;padding:2px 7px;border-radius:4px">${(ev.impact||'').toUpperCase()}</span>
-    </div>`;
-  }).join('');
-
-  // Fundamental
-  document.getElementById('ovCB1').textContent=a.fundamental?.cb1||'';
-  document.getElementById('ovCB2').textContent=a.fundamental?.cb2||'';
-  document.getElementById('ovMacro').textContent=a.fundamental?.macro||'';
-
-  // Session Timing
-  document.getElementById('ovSessionTiming').innerHTML=(a.sessionTiming||[]).map(s=>`
-    <div style="background:#0f172a;border-radius:8px;padding:12px;margin-bottom:8px;border:1px solid #334155">
-      <p style="font-size:11px;font-weight:700;color:#6366f1;margin-bottom:6px">🕐 ${s.session}</p>
-      <div class="three-col">
-        <div><p style="font-size:10px;color:#22c55e;font-weight:700;margin-bottom:2px">EMPFEHLUNG</p><p style="font-size:12px;color:#cbd5e1">${s.recommendation||''}</p></div>
-        <div><p style="font-size:10px;color:#3b82f6;font-weight:700;margin-bottom:2px">BEST FOR</p><p style="font-size:12px;color:#cbd5e1">${s.bestFor||''}</p></div>
-        <div><p style="font-size:10px;color:#ef4444;font-weight:700;margin-bottom:2px">VERMEIDEN</p><p style="font-size:12px;color:#cbd5e1">${s.avoid||''}</p></div>
-      </div>
-    </div>`).join('');
-
-  // Deep Analysis
-  loadDeepAnalysis(a);
-
-  // Scenarios
-  document.getElementById('ovScenarios').innerHTML=(a.scenarios||[]).map((sc,i)=>{
-    const d=sc.direction==='Long'?'#22c55e':'#ef4444',p=pc(sc.probability),cn=cc(sc.confidence);
-    return `<tr class="sc-row" onclick="openScenarioDetail(${i})">
-      <td style="color:#64748b;font-weight:700">${sc.id}</td>
-      <td style="font-weight:700;color:#f1f5f9;white-space:nowrap">🔍 ${sc.name}</td>
-      <td>${pill(d,sc.direction)}</td>
-      <td style="color:#a78bfa;font-weight:700">${sc.entryTF}</td>
-      <td style="color:#94a3b8">${(sc.higherTFs||[]).join(', ')}</td>
-      <td style="color:#fbbf24;font-weight:700">${sc.entry}</td>
-      <td style="color:#ef4444">${sc.sl}</td>
-      <td style="color:#22c55e">${sc.tp1}</td>
-      <td style="color:#22c55e">${sc.tp2}</td>
-      <td style="color:#6366f1;font-weight:700">${sc.rr}</td>
-      <td style="color:#22c55e;font-size:11px">${sc.bestSession||''}</td>
-      <td style="color:#94a3b8;white-space:nowrap">${sc.timing}</td>
-      <td style="max-width:140px;color:#cbd5e1">${sc.entrySignal}</td>
-      <td style="max-width:140px;color:#cbd5e1">${sc.exitSignal}</td>
-      <td><div style="font-weight:800;color:${p}">${sc.probability}%</div><div class="prob-bar"><div class="prob-fill" style="width:${sc.probability}%;background:${p}"></div></div></td>
-      <td>${pill(cn,sc.confidence)}</td>
+      <td style="color:#444444;font-weight:700;font-size:14px">${sc.id}</td>
+      <td style="font-weight:700;color:#ffffff;white-space:nowrap;font-family:'Playfair Display',serif;font-size:14px">🔍 ${sc.name}</td>
+      <td>${badge(d,sc.direction)}</td>
+      <td style="color:#c9a84c;font-weight:700;font-size:13px">${sc.entryTF}</td>
+      <td style="color:#555555;font-size:13px">${(sc.higherTFs||[]).join(', ')}</td>
+      <td style="color:#fbbf24;font-weight:700;font-size:13px">${sc.entry}</td>
+      <td style="color:#f87171;font-size:13px">${sc.sl}</td>
+      <td style="color:#4ade80;font-size:13px">${sc.tp1}</td>
+      <td style="color:#4ade80;font-size:13px">${sc.tp2}</td>
+      <td style="color:#c9a84c;font-weight:700;font-size:13px">${sc.rr}</td>
+      <td style="color:#4ade80;font-size:12px">${sc.bestSession||''}</td>
+      <td style="color:#888888;white-space:nowrap;font-size:12px">${sc.timing}</td>
+      <td style="max-width:140px;color:#888888;font-size:12px">${sc.entrySignal}</td>
+      <td style="max-width:140px;color:#888888;font-size:12px">${sc.exitSignal}</td>
+      <td>
+        <div style="font-weight:700;color:${p};font-family:'Playfair Display',serif;font-size:18px">${sc.probability}%</div>
+        <div class="prob-bar"><div class="prob-fill" style="width:${sc.probability}%;background:${p}"></div></div>
+      </td>
+      <td>${badge(cn,sc.confidence)}</td>
     </tr>`;
   }).join('');
 
   document.getElementById('ovSummary').textContent=a.summary||'';
 }
 
+// ─── Szenario Detail ───────────────────────────────────────────────
 function openScenarioDetail(idx){
   const a=analysisCache[currentSymbol]; if(!a) return;
   const sc=a.scenarios[idx];
-  const d=sc.direction==='Long'?'var(--green)':'var(--red)';
-
-  // Switch chart to entry TF
+  const d=sc.direction==='Long'?'#4ade80':'#f87171';
   const tf=TF_MAP[sc.entryTF]||'60';
   switchTF(tf);
-
-  // Fill detail panel
   document.getElementById('scDetailTitle').textContent=`Szenario ${sc.id}: ${sc.name}`;
   document.getElementById('scDetailTable').innerHTML=[
-    ['Richtung', `<span style="color:${d};font-weight:700">${sc.direction}</span>`],
-    ['Entry', `<span style="color:var(--yellow);font-weight:700">${sc.entry}</span>`],
-    ['Stop Loss', `<span style="color:var(--red);font-weight:700">${sc.sl}</span>`],
-    ['Take Profit 1', `<span style="color:var(--green);font-weight:700">${sc.tp1}</span>`],
-    ['Take Profit 2', `<span style="color:var(--green);font-weight:700">${sc.tp2}</span>`],
-    ['R:R', `<span style="color:var(--gold);font-weight:700">${sc.rr}</span>`],
-    ['Entry TF', `<span style="color:var(--gold)">${sc.entryTF}</span>`],
+    ['Richtung',  badge(d,sc.direction)],
+    ['Entry',     `<span style="color:#fbbf24;font-weight:700;font-size:14px">${sc.entry}</span>`],
+    ['Stop Loss', `<span style="color:#f87171;font-weight:700;font-size:14px">${sc.sl}</span>`],
+    ['Take Profit 1',`<span style="color:#4ade80;font-weight:700;font-size:14px">${sc.tp1}</span>`],
+    ['Take Profit 2',`<span style="color:#4ade80;font-weight:700;font-size:14px">${sc.tp2}</span>`],
+    ['Risk/Reward',`<span style="color:#c9a84c;font-weight:700;font-size:14px">${sc.rr}</span>`],
+    ['Entry TF',  `<span style="color:#c9a84c">${sc.entryTF}</span>`],
     ['Higher TFs', sc.higherTFs?.join(' → ')||''],
-    ['Timing', sc.timing],
+    ['Timing',    sc.timing],
     ['Beste Session', sc.bestSession||'—'],
     ['Entry Signal', sc.entrySignal],
-    ['Exit Signal', sc.exitSignal],
-    ['Wahrscheinlichkeit', `<span style="color:${pc(sc.probability)};font-weight:700">${sc.probability}%</span>`],
-    ['Konfidenz', sc.confidence],
-  ].map(([k,v])=>`<tr><td style="color:var(--gray2);font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:5px 0;border-bottom:1px solid var(--border);width:130px">${k}</td><td style="font-size:13px;padding:5px 0 5px 12px;border-bottom:1px solid var(--border)">${v}</td></tr>`).join('');
-
-  // Show panel
+    ['Exit Signal',  sc.exitSignal],
+    ['Wahrscheinlichkeit', `<span style="color:${probColor(sc.probability)};font-weight:700">${sc.probability}%</span>`],
+    ['Konfidenz', badge(confColor(sc.confidence),sc.confidence)],
+  ].map(([k,v])=>`<tr><td class="sc-param-key">${k}</td><td class="sc-param-val">${v}</td></tr>`).join('');
   const block=document.getElementById('scDetailBlock');
   block.style.display='block';
-  block.scrollIntoView({behavior:'smooth', block:'start'});
-
-  // Load scenario-specific AI analysis
+  block.scrollIntoView({behavior:'smooth',block:'start'});
+  // Scenario AI
   const aiEl=document.getElementById('scDetailAI');
   aiEl.innerHTML='<span class="spin"></span> Claude analysiert…';
-  callClaude(`Du bist ein erfahrener Forex-Trader. Analysiere dieses ${currentSymbol} Szenario auf Deutsch (~200 Wörter). Nutze **fett** für Überschriften.
-
-Szenario: ${sc.name} | ${sc.direction} | Entry ${sc.entry} | SL ${sc.sl} | TP1 ${sc.tp1} | TP2 ${sc.tp2} | R:R ${sc.rr}
-Setup: ${sc.setup}
-Entry Signal: ${sc.entrySignal} | Exit: ${sc.exitSignal}
-Marktkontext: D1 ${a.trend?.d1} | H4 ${a.trend?.h4} | H1 ${a.trend?.h1} | M15 ${a.trend?.m15}
-Bias: ${a.fundamental?.bias} | ${a.fundamental?.summary}
-
-Abschnitte: **Warum jetzt?** | **Einstieg Schritt für Schritt** | **Risiken** | **Fazit**`, 600)
-    .then(t=>{ aiEl.innerHTML=t.replace(/\*\*(.*?)\*\*/g,'<strong style="color:var(--white);display:block;margin-top:10px;margin-bottom:3px">$1</strong>').replace(/\n/g,'<br>'); })
-    .catch(e=>{ aiEl.innerHTML=`<span style="color:var(--red)">${e.message}</span>`; });
+  callClaude(`Forex-Trader Analyse auf Deutsch (~200 Wörter), **fett** für Überschriften.
+Szenario: ${sc.name} | ${sc.direction} | Entry ${sc.entry} | SL ${sc.sl} | TP1 ${sc.tp1} | R:R ${sc.rr}
+Markt: D1 ${a.trend?.d1} | H4 ${a.trend?.h4} | H1 ${a.trend?.h1} | M15 ${a.trend?.m15}
+Bias: ${a.fundamental?.bias}
+Abschnitte: **Warum jetzt?** | **Einstieg** | **Risiken** | **Fazit**`,600)
+    .then(t=>{ aiEl.innerHTML=t.replace(/\*\*(.*?)\*\*/g,'<strong style="color:#ffffff;display:block;margin-top:10px;margin-bottom:3px">$1</strong>').replace(/\n/g,'<br>'); })
+    .catch(e=>{ aiEl.innerHTML=`<span style="color:#f87171">${e.message}</span>`; });
 }
 
+// ─── Deep Analysis ─────────────────────────────────────────────────
 async function loadDeepAnalysis(a){
   const el=document.getElementById('deepText');
   el.innerHTML='<span class="spin"></span> Claude erstellt Tiefenanalyse…';
   try{
-    const text=await callClaude(`Du bist ein erfahrener Forex-Trader. Analysiere ${a.symbol||'dieses Paar'} ausführlich auf Deutsch (ca. 250 Wörter). Nutze **fett** für Abschnittsüberschriften.
-
+    const text=await callClaude(`Forex-Analyst. Analysiere ${a.symbol} auf Deutsch (~250 Wörter). **fett** für Überschriften.
 Kurs: ${a.lastPrice} | Bias: ${a.fundamental?.bias}
 Trends: D1 ${a.trend?.d1} | H4 ${a.trend?.h4} | H1 ${a.trend?.h1} | M15 ${a.trend?.m15}
 Resistance: ${(a.keyLevels?.resistance||[]).join(', ')}
 Support: ${(a.keyLevels?.support||[]).join(', ')}
 Fundamental: ${a.fundamental?.summary}
-
 Abschnitte: **Marktlage** | **Beste Opportunität** | **Risiken** | **Fazit**`,700);
-    el.innerHTML=text.replace(/\*\*(.*?)\*\*/g,'<strong style="color:#f1f5f9;display:block;margin-top:10px;margin-bottom:3px">$1</strong>').replace(/\n/g,'<br>');
-  }catch(e){el.innerHTML=`<span style="color:#ef4444">Fehler: ${e.message}</span>`;}
+    el.innerHTML=text.replace(/\*\*(.*?)\*\*/g,'<strong style="color:#ffffff;display:block;margin-top:12px;margin-bottom:4px">$1</strong>').replace(/\n/g,'<br>');
+  }catch(e){ el.innerHTML=`<span style="color:#f87171">Fehler: ${e.message}</span>`; }
 }
 
 // ─── TradingView ───────────────────────────────────────────────────
-const TF_MAP={'M15':'15','H1':'60','H4':'240','D1':'D','W1':'W'};
-
+let tvVisible=true, currentTF='60';
 function loadTVChart(sym,interval){
   const c=document.getElementById('tv_chart'); c.innerHTML='';
-  if(typeof TradingView==='undefined'){c.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#64748b">TradingView lädt…</div>';return;}
-  new TradingView.widget({container_id:'tv_chart',autosize:true,symbol:tvSym(sym),interval:interval,timezone:'Etc/UTC',theme:'dark',style:'1',locale:'de',toolbar_bg:'#111111',enable_publishing:false,allow_symbol_change:false,withdateranges:true,hide_side_toolbar:false,studies:[],overrides:{'paneProperties.background':'#0a0a0a','paneProperties.backgroundType':'solid'}});
+  if(typeof TradingView==='undefined'){ c.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#555555;font-size:13px">TradingView lädt…</div>'; return; }
+  new TradingView.widget({container_id:'tv_chart',autosize:true,symbol:tvSym(sym),interval,timezone:'Etc/UTC',theme:'dark',style:'1',locale:'de',toolbar_bg:'#111111',enable_publishing:false,allow_symbol_change:false,withdateranges:true,hide_side_toolbar:false,studies:[],overrides:{'paneProperties.background':'#0a0a0a','paneProperties.backgroundType':'solid'}});
 }
-function switchTF(tf){currentTF=tf;updateTFBtns(tf);if(currentSymbol)loadTVChart(currentSymbol,tf);}
-function updateTFBtns(a){document.querySelectorAll('.tf-btn').forEach(b=>b.classList.toggle('active',b.dataset.tf===a));}
-function toggleTV(){tvVisible=!tvVisible;document.getElementById('tvWrap').style.display=tvVisible?'block':'none';document.getElementById('tvToggleBtn').textContent=tvVisible?'📉 Chart aus':'📈 Chart ein';}
-function closeOverlay(){document.getElementById('overlay').style.display='none';document.body.style.overflow='';}
-document.getElementById('overlay').addEventListener('click',e=>{if(e.target===document.getElementById('overlay'))closeOverlay();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeOverlay();});
+function switchTF(tf){ currentTF=tf; updateTFBtns(tf); if(currentSymbol) loadTVChart(currentSymbol,tf); }
+function updateTFBtns(a){ document.querySelectorAll('.tf-btn').forEach(b=>b.classList.toggle('active',b.dataset.tf===a)); }
+function toggleTV(){ tvVisible=!tvVisible; document.getElementById('tvWrap').style.display=tvVisible?'block':'none'; document.getElementById('tvToggleBtn').textContent=tvVisible?'📉 Chart aus':'📈 Chart ein'; }
+function closeOverlay(){ document.getElementById('overlay').style.display='none'; document.body.style.overflow=''; }
+document.getElementById('overlay').addEventListener('click',e=>{ if(e.target===document.getElementById('overlay')) closeOverlay(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeOverlay(); });
 
 // ─── Init ──────────────────────────────────────────────────────────
 renderSessions();
