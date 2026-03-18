@@ -266,9 +266,9 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
         <div style="overflow-x:auto">
           <table>
             <thead><tr>
-              <th>#</th><th>Szenario</th><th>Dir.</th><th>Entry TF</th><th>Higher TFs</th>
+              <th>#</th><th>Szenario</th><th>Dir.</th><th>Konfluenz</th><th>Entry TF</th><th>Higher TFs</th>
               <th>Entry</th><th>SL</th><th>TP1</th><th>TP2</th><th>R:R</th>
-              <th>Best Session</th><th>Timing</th><th>Entry Signal</th><th>Exit Signal</th>
+              <th>Best Session</th><th>Timing</th><th>Entry Signal</th><th>Invalidierung</th>
               <th>Wahrsch.</th><th>Konfidenz</th>
             </tr></thead>
             <tbody id="ovScenarios"></tbody>
@@ -317,9 +317,9 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
       <div class="card" id="fundBlock">
         <p class="card-title">📰 Fundamentalanalyse</p>
         <div class="three-col">
-          <div><p class="sub-label">Zentralbank 1</p><p id="ovCB1" style="font-size:13px;color:#f0f0f8;line-height:1.7"></p></div>
-          <div><p class="sub-label">Zentralbank 2 / USD</p><p id="ovCB2" style="font-size:13px;color:#f0f0f8;line-height:1.7"></p></div>
-          <div><p class="sub-label">Makro / Sentiment</p><p id="ovMacro" style="font-size:13px;color:#f0f0f8;line-height:1.7"></p></div>
+          <div><p class="sub-label">EZB / Fed Politik</p><p id="ovCB1" style="font-size:13px;color:#f0f0f8;line-height:1.7"></p></div>
+          <div><p class="sub-label">Makro / Zinsdifferenz</p><p id="ovCB2" style="font-size:13px;color:#f0f0f8;line-height:1.7"></p></div>
+          <div><p class="sub-label">Kalender-Auswirkung</p><p id="ovMacro" style="font-size:13px;color:#f0f0f8;line-height:1.7"></p></div>
         </div>
       </div>
 
@@ -351,7 +351,15 @@ const fmt = d => d.toISOString().split('T')[0];
 const ago = n => { const d=new Date(); d.setDate(d.getDate()-n); return fmt(d); };
 const now = () => fmt(new Date());
 const trendColor = v => /bull|long|aufwärts|up|steig/i.test(v)?'#4ade80':/bear|short|abwärts|down|fall/i.test(v)?'#f87171':'#c9a84c';
-const confColor  = c => c==='Hoch'?'#4ade80':c==='Mittel'?'#c9a84c':'#f87171';
+const confColor = c => {
+  const n=parseInt(c)||0;
+  return n>=8?'#4ade80':n>=5?'#c9a84c':'#f87171';
+};
+const confBadge = c => {
+  const n=parseInt(c)||0; const col=confColor(n);
+  const bars=Array.from({length:10},(_,i)=>`<span style="display:inline-block;width:8px;height:12px;border-radius:2px;margin-right:1px;background:${i<n?col:'#2a2a2a'}"></span>`).join('');
+  return `<div style="display:flex;align-items:center;gap:6px">${bars}<span style="color:${col};font-weight:800;font-size:13px">${n}/10</span></div>`;
+};
 const probColor  = p => p>=65?'#4ade80':p>=50?'#c9a84c':'#f87171';
 const rsiColor   = v => !v?'#f0f0f8':parseFloat(v)>70?'#f87171':parseFloat(v)<30?'#4ade80':'#c9a84c';
 const macdColor  = v => v==='Bullish'?'#4ade80':v==='Bearish'?'#f87171':'#f0f0f8';
@@ -493,7 +501,38 @@ function formatIndicators(ind){
   return lines.join('\n');
 }
 
-// ─── API ───────────────────────────────────────────────────────────
+// ─── Economic Calendar via Alpha Vantage ───────────────────────────
+async function fetchEconomicCalendar(){
+  if(!gk('av_api_key')) return null;
+  try{
+    const [cpi,nfp,fed,unemp,retail,gdp]=await Promise.allSettled([
+      avFetch('CPI',{interval:'monthly'}),
+      avFetch('NONFARM_PAYROLL',{}),
+      avFetch('FEDERAL_FUNDS_RATE',{interval:'monthly'}),
+      avFetch('UNEMPLOYMENT',{}),
+      avFetch('RETAIL_SALES',{}),
+      avFetch('REAL_GDP',{interval:'quarterly'}),
+    ]);
+    const parseLatest=(j,name)=>{
+      if(!j?.value?.data?.length) return null;
+      const d=j.value.data;
+      return {name, date:d[0].date, value:d[0].value, prev:d[1]?.value||'—', unit:j.value.unit||''};
+    };
+    return [
+      parseLatest(cpi,'CPI (Inflation)'),
+      parseLatest(nfp,'Nonfarm Payrolls (NFP)'),
+      parseLatest(fed,'Fed Funds Rate'),
+      parseLatest(unemp,'Arbeitslosigkeit'),
+      parseLatest(retail,'Einzelhandelsumsätze'),
+      parseLatest(gdp,'Reales BIP'),
+    ].filter(Boolean);
+  }catch{ return null; }
+}
+
+function formatCalendar(events){
+  if(!events?.length) return '';
+  return events.map(e=>`${e.name}: ${e.value}${e.unit} (Vorwert: ${e.prev}${e.unit}, Stand: ${e.date})`).join('\n');
+}
 const TV_SYM={'XAUUSD':'TVC:GOLD','XAGUSD':'TVC:SILVER','EURUSD':'FX:EURUSD','GBPUSD':'FX:GBPUSD','USDJPY':'FX:USDJPY','AUDUSD':'FX:AUDUSD','USDCHF':'FX:USDCHF','NZDUSD':'FX:NZDUSD','USDCAD':'FX:USDCAD','EURGBP':'FX:EURGBP','EURJPY':'FX:EURJPY','GBPJPY':'FX:GBPJPY'};
 const tvSym = s => TV_SYM[s]||'FX:'+s;
 const TF_MAP = {'M15':'15','H1':'60','H4':'240','D1':'D','W1':'W'};
@@ -600,23 +639,49 @@ async function analyzeSymbol(sym){
     const D1=r1.value||[],H4=r2.value||[],H1=r3.value||[],M15=r4.value||[];
     if(!D1.length) throw new Error('Keine D1-Daten');
     const lp=(M15[0]?.c||H1[0]?.c||D1[0]?.c)?.toFixed(5)?? 'n/a';
-    let avInd=null;
+    let avInd=null, ecoData=null;
     if(gk('av_api_key')){
       setCardStatus(sym,'📊 Lade AV-Indikatoren…',true);
       try{ avInd=await fetchAVIndicators(sym); }catch{}
+      setCardStatus(sym,'📅 Lade Wirtschaftskalender…',true);
+      try{ ecoData=await fetchEconomicCalendar(); }catch{}
     }
     let H1f=H1,M15f=M15;
     if(!H1.length&&avInd?.h1Bars?.length)  H1f=avInd.h1Bars;
     if(!M15.length&&avInd?.m15Bars?.length) M15f=avInd.m15Bars;
     setCardStatus(sym,'🤖 Claude analysiert…',true);
     const indText=avInd?formatIndicators(avInd):'';
-    const text=await callClaude(`Professioneller Forex-Analyst. Heute: ${now()}. Symbol: ${sym}. Kurs: ${lp}.
-D1(${D1.length}): ${JSON.stringify(fmtBars(D1,35))}
-H4(${H4.length}): ${JSON.stringify(fmtBars(H4,40))}
-H1(${H1f.length}): ${JSON.stringify(fmtBars(H1f,50))}
-M15(${M15f.length}): ${JSON.stringify(fmtBars(M15f,60))}${indText?`\nTechnische Indikatoren:\n${indText}`:''}
-Nur valides JSON, kein Markdown:
-{"lastPrice":"${lp}","symbol":"${sym}","indicators":{"rsiH1":"${avInd?.rsiH1||''}","rsiM15":"${avInd?.rsiM15||''}","macdH1Signal":"${avInd?.macdH1?avInd.macdH1.hist>0?'Bullish':'Bearish':''}","macdM15Signal":"${avInd?.macdM15?avInd.macdM15.hist>0?'Bullish':'Bearish':''}"},"trend":{"d1":"","h4":"","h1":"","m15":""},"fundamental":{"summary":"","bias":"Bullish","cb1":"","cb2":"","macro":"","keyEvents":[{"date":"","event":"","impact":"hoch"}]},"keyLevels":{"resistance":["","",""],"support":["","",""]},"sessionTiming":[{"session":"London 07:00-16:00 UTC","recommendation":"","bestFor":"","avoid":""},{"session":"New York 13:00-22:00 UTC","recommendation":"","bestFor":"","avoid":""},{"session":"Overlap 13:00-16:00 UTC","recommendation":"","bestFor":"","avoid":""}],"scenarios":[{"id":1,"name":"","direction":"Long","setup":"","entryTF":"M15","higherTFs":["H1","H4","D1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","bestSession":"","entrySignal":"","exitSignal":"","probability":55,"confidence":"Hoch"},{"id":2,"name":"","direction":"Short","setup":"","entryTF":"H1","higherTFs":["H4","D1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","bestSession":"","entrySignal":"","exitSignal":"","probability":45,"confidence":"Mittel"},{"id":3,"name":"","direction":"Long","setup":"","entryTF":"H4","higherTFs":["D1","W1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","bestSession":"","entrySignal":"","exitSignal":"","probability":40,"confidence":"Niedrig"}],"summary":""}`,2000);
+    const ecoText=ecoData?formatCalendar(ecoData):'';
+    const text=await callClaude(`Du bist ein professioneller Forex-Analyst und Trader mit 20 Jahren Erfahrung. Erstelle eine umfassende Multi-Faktor-Analyse für ${sym} nach folgendem Framework:
+
+GEWICHTUNG DER ANALYSE:
+- Chart-Analyse (40%): Preis-Struktur, Trends, Key Levels, technische Muster
+- Technische Indikatoren (25%): RSI, MACD, Momentum-Bestätigung
+- Fundamentalanalyse (20%): Zentralbank-Politik, Makro-Daten, Zinsdifferenzen
+- Wirtschaftskalender (15%): Aktuelle Daten vs. Erwartungen, kommende Events
+
+MARKTDATEN (Heute: ${now()}):
+Symbol: ${sym} | Aktueller Kurs: ${lp}
+
+OHLC-Kerzen (neueste zuerst):
+D1 (${D1.length} Kerzen): ${JSON.stringify(fmtBars(D1,35))}
+H4 (${H4.length} Kerzen): ${JSON.stringify(fmtBars(H4,40))}
+H1 (${H1f.length} Kerzen): ${JSON.stringify(fmtBars(H1f,50))}
+M15 (${M15f.length} Kerzen): ${JSON.stringify(fmtBars(M15f,60))}
+
+${indText?`TECHNISCHE INDIKATOREN (Alpha Vantage):\n${indText}\n`:''}
+${ecoText?`WIRTSCHAFTSKALENDER (aktuellste Daten):\n${ecoText}\n`:''}
+
+ANALYSE-ANWEISUNGEN:
+1. Identifiziere die übergeordnete Marktstruktur (Higher Highs/Lows oder Lower Highs/Lows)
+2. Bewerte die Stärke des aktuellen Trends auf jedem Timeframe
+3. Finde die 3 wichtigsten Key Levels (Struktur, nicht nur runde Zahlen)
+4. Berücksichtige aktuelle Wirtschaftsdaten: Abweichungen vom Forecast erhöhen/senken den Bias
+5. Wähle NUR Szenarien wo mindestens 3 Faktoren (Chart + Indikator + Fundamental + Kalender) konvergieren
+6. Konfidenz (1-10): 1-3=schwach, 4-6=moderat, 7-8=stark, 9-10=sehr starke Konfluenz
+
+Antworte NUR mit validem JSON, kein Markdown:
+{"lastPrice":"${lp}","symbol":"${sym}","marketStructure":{"d1":"","h4":"","h1":"","m15":"","dominantTrend":"","keyConflux":""},"indicators":{"rsiH1":"${avInd?.rsiH1||''}","rsiM15":"${avInd?.rsiM15||''}","macdH1Signal":"${avInd?.macdH1?avInd.macdH1.hist>0?'Bullish':'Bearish':''}","macdM15Signal":"${avInd?.macdM15?avInd.macdM15.hist>0?'Bullish':'Bearish':''}","momentumSummary":""},"trend":{"d1":"","h4":"","h1":"","m15":""},"fundamental":{"summary":"","bias":"Bullish","ecbFed":"","macro":"","calendarImpact":"","keyEvents":[{"date":"","event":"","actual":"","forecast":"","impact":"hoch","direction":"bullish"}]},"keyLevels":{"resistance":["","",""],"support":["","",""],"pivotZone":""},"sessionTiming":[{"session":"London 07:00-16:00 UTC","recommendation":"","bestFor":"","avoid":""},{"session":"New York 13:00-22:00 UTC","recommendation":"","bestFor":"","avoid":""},{"session":"Overlap 13:00-16:00 UTC","recommendation":"","bestFor":"","avoid":""}],"scenarios":[{"id":1,"name":"","direction":"Long","setup":"","confluenceFactors":["Chart","Indikator","Fundamental"],"entryTF":"M15","higherTFs":["H1","H4","D1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","bestSession":"","entrySignal":"","exitSignal":"","invalidation":"","probability":55,"confidence":7},{"id":2,"name":"","direction":"Short","setup":"","confluenceFactors":["Chart","Indikator"],"entryTF":"H1","higherTFs":["H4","D1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","bestSession":"","entrySignal":"","exitSignal":"","invalidation":"","probability":45,"confidence":5},{"id":3,"name":"","direction":"Long","setup":"","confluenceFactors":["Fundamental","Chart"],"entryTF":"H4","higherTFs":["D1","W1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","bestSession":"","entrySignal":"","exitSignal":"","invalidation":"","probability":35,"confidence":4}],"summary":"","bestSetup":"","riskWarning":""}`,2000);
     const m=text.match(/\{[\s\S]*\}/);
     if(!m) throw new Error('Kein JSON');
     analysisCache[sym]=JSON.parse(m[0]);
@@ -689,18 +754,27 @@ function renderOverlay(a){
   document.getElementById('ovBias').innerHTML=badge(bc,bias);
   document.getElementById('ovFundSummary').textContent=a.fundamental?.summary||'';
   document.getElementById('ovEvents').innerHTML=(a.fundamental?.keyEvents||[]).map(e=>{
-    const ev=typeof e==='string'?{date:'',event:e,impact:'mittel'}:e;
+    const ev=typeof e==='string'?{date:'',event:e,impact:'mittel',actual:'',forecast:'',direction:''}:e;
     const ic=ev.impact==='hoch'?'#f87171':ev.impact==='mittel'?'#c9a84c':'#d0d0e0';
-    return `<div style="display:flex;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid #1a1a1a">
-      <span style="font-size:12px;color:#d0d0e0;min-width:85px;flex-shrink:0">${ev.date||''}</span>
-      <span style="font-size:13px;color:#f0f0f8;flex:1">${ev.event||''}</span>
-      <span style="font-size:11px;font-weight:700;color:${ic};background:${ic}18;padding:2px 8px;border-radius:3px;border:1px solid ${ic}44;white-space:nowrap">${(ev.impact||'').toUpperCase()}</span>
+    const dc=ev.direction==='bullish'?'#4ade80':ev.direction==='bearish'?'#f87171':'#d0d0e0';
+    const hasActual=ev.actual&&ev.forecast;
+    return `<div style="padding:8px 0;border-bottom:1px solid #1a1a1a">
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:${hasActual?'5px':'0'}">
+        <span style="font-size:12px;color:#d0d0e0;min-width:85px;flex-shrink:0">${ev.date||''}</span>
+        <span style="font-size:13px;color:#f0f0f8;flex:1;font-weight:600">${ev.event||''}</span>
+        <span style="font-size:11px;font-weight:700;color:${ic};background:${ic}18;padding:2px 8px;border-radius:3px;border:1px solid ${ic}44;white-space:nowrap">${(ev.impact||'').toUpperCase()}</span>
+      </div>
+      ${hasActual?`<div style="display:flex;gap:12px;padding-left:95px">
+        <span style="font-size:11px;color:#d0d0e0">Aktuell: <strong style="color:#f0f0f8">${ev.actual}</strong></span>
+        <span style="font-size:11px;color:#d0d0e0">Forecast: <strong style="color:#f0f0f8">${ev.forecast}</strong></span>
+        ${ev.direction?`<span style="font-size:11px;font-weight:700;color:${dc}">→ ${ev.direction==='bullish'?'USD-schwächend (EUR↑)':ev.direction==='bearish'?'USD-stärkend (EUR↓)':'Neutral'}</span>`:''}
+      </div>`:''}
     </div>`;
   }).join('');
 
-  document.getElementById('ovCB1').textContent=a.fundamental?.cb1||'';
-  document.getElementById('ovCB2').textContent=a.fundamental?.cb2||'';
-  document.getElementById('ovMacro').textContent=a.fundamental?.macro||'';
+  document.getElementById('ovCB1').textContent=a.fundamental?.ecbFed||a.fundamental?.cb1||'';
+  document.getElementById('ovCB2').textContent=a.fundamental?.macro||a.fundamental?.cb2||'';
+  document.getElementById('ovMacro').textContent=a.fundamental?.calendarImpact||a.fundamental?.macro||'';
 
   document.getElementById('ovSessionTiming').innerHTML=(a.sessionTiming||[]).map(s=>`
     <div style="background:#1a1a1a;border-radius:7px;padding:16px;margin-bottom:8px;border:1px solid #c9a84c33">
@@ -721,6 +795,7 @@ function renderOverlay(a){
       <td style="color:#d0d0e0;font-weight:700;font-size:14px">${sc.id}</td>
       <td style="font-weight:800;color:#f0f0f8;white-space:nowrap;font-size:14px">🔍 ${sc.name}</td>
       <td>${badge(d,sc.direction)}</td>
+      <td style="font-size:11px;color:#c9a84c">${(sc.confluenceFactors||[]).join(' · ')}</td>
       <td style="color:#c9a84c;font-weight:700">${sc.entryTF}</td>
       <td style="color:#d0d0e0">${(sc.higherTFs||[]).join(', ')}</td>
       <td style="color:#fbbf24;font-weight:700">${sc.entry}</td>
@@ -731,16 +806,60 @@ function renderOverlay(a){
       <td style="color:#4ade80;font-size:12px">${sc.bestSession||''}</td>
       <td style="color:#d0d0e0;white-space:nowrap;font-size:12px">${sc.timing}</td>
       <td style="max-width:140px;color:#d0d0e0;font-size:12px">${sc.entrySignal}</td>
-      <td style="max-width:140px;color:#d0d0e0;font-size:12px">${sc.exitSignal}</td>
+      <td style="max-width:130px;color:#f87171;font-size:11px">${sc.invalidation||''}</td>
       <td>
         <div style="font-weight:800;color:${p};font-size:18px">${sc.probability}%</div>
         <div class="prob-bar"><div class="prob-fill" style="width:${sc.probability}%;background:${p}"></div></div>
       </td>
-      <td>${badge(cn,sc.confidence)}</td>
+      <td>${confBadge(sc.confidence)}</td>
     </tr>`;
   }).join('');
 
   document.getElementById('ovSummary').textContent=a.summary||'';
+
+  // Best Setup Banner
+  const bsEl=document.getElementById('bestSetupBanner');
+  if(bsEl) bsEl.remove();
+  if(a.bestSetup||a.riskWarning){
+    const banner=document.createElement('div');
+    banner.id='bestSetupBanner';
+    banner.style.cssText='margin-bottom:14px';
+    banner.innerHTML=`
+      ${a.bestSetup?`<div class="card" style="border-color:#4ade8066;border-left:3px solid #4ade80;margin-bottom:8px">
+        <p class="card-title" style="color:#4ade80">🏆 Bestes Setup</p>
+        <p style="font-size:14px;color:#f0f0f8;line-height:1.7">${a.bestSetup}</p>
+      </div>`:''}
+      ${a.riskWarning?`<div class="card" style="border-color:#f8717166;border-left:3px solid #f87171">
+        <p class="card-title" style="color:#f87171">⚠️ Risiko-Hinweis</p>
+        <p style="font-size:13px;color:#f0f0f8;line-height:1.7">${a.riskWarning}</p>
+      </div>`:''}`;
+    document.getElementById('summaryBlock').after(banner);
+  }
+
+  // Marktstruktur Card
+  const msEl=document.getElementById('marketStructureCard');
+  if(msEl) msEl.remove();
+  if(a.marketStructure){
+    const ms=a.marketStructure;
+    const card=document.createElement('div');
+    card.id='marketStructureCard';
+    card.className='card';
+    card.style.marginBottom='14px';
+    card.innerHTML=`<p class="card-title">🏗️ Marktstruktur & Trend-Kontext</p>
+      <div class="three-col" style="margin-bottom:12px">
+        <div><p class="sub-label">Dominanter Trend</p><p style="font-size:14px;font-weight:700;color:${trendColor(ms.dominantTrend)}">${ms.dominantTrend||'—'}</p></div>
+        <div><p class="sub-label">Pivot Zone</p><p style="font-size:13px;color:#f0f0f8">${a.keyLevels?.pivotZone||'—'}</p></div>
+        <div><p class="sub-label">Schlüssel-Konfluenz</p><p style="font-size:13px;color:#c9a84c">${ms.keyConflux||'—'}</p></div>
+      </div>
+      ${ms.d1||ms.h4?`<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+        ${[['D1',ms.d1],['H4',ms.h4],['H1',ms.h1],['M15',ms.m15]].map(([tf,v])=>
+          `<div style="background:#1a1a1a;border-radius:6px;padding:10px;border:1px solid #c9a84c33;text-align:center">
+            <div style="font-size:10px;color:#d0d0e0;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">${tf}</div>
+            <div style="font-size:12px;font-weight:700;color:${trendColor(v)}">${v||'—'}</div>
+          </div>`).join('')}
+      </div>`:''}`; 
+    document.getElementById('scenariosBlock').before(card);
+  }
 }
 
 function openScenarioDetail(idx){
