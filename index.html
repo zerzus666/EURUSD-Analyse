@@ -229,13 +229,9 @@ td{padding:9px 11px;font-size:12px;border-bottom:1px solid #1e293b;vertical-alig
 
 <script>
 // ─── Utils ─────────────────────────────────────────────────────────
-const fmt  = d=>d.toISOString().split('T')[0];
-const ago  = n=>{const d=new Date();d.setDate(d.getDate()-n);return fmt(d);};
-const now  = ()=>fmt(new Date());
-const dc   = v=>/bull|long|aufwärts|up|steig/i.test(v)?'#22c55e':/bear|short|abwärts|down|fall/i.test(v)?'#ef4444':'#eab308';
-const cc   = c=>c==='Hoch'?'#22c55e':c==='Mittel'?'#eab308':'#ef4444';
-const pc   = p=>p>=65?'#22c55e':p>=50?'#eab308':'#ef4444';
-const pill = (col,txt)=>`<span class="badge" style="background:${col}22;color:${col};border:1px solid ${col}44">${txt}</span>`;
+const fmt = d=>d.toISOString().split('T')[0];
+const ago = n=>{const d=new Date();d.setDate(d.getDate()-n);return fmt(d);};
+const now = ()=>fmt(new Date());
 
 // ─── Keys ──────────────────────────────────────────────────────────
 const gk=k=>localStorage.getItem(k)||'';
@@ -303,11 +299,12 @@ function renderSessions(){
     const on=utcH>=s.o&&utcH<s.c;
     const mins=on?((s.c-utcH+24)%24*60|0):((s.o-utcH+24)%24*60|0);
     if(on)hints.push(`${s.n} aktiv`);
-    return `<div class="sess-pill" style="background:${on?s.col+'22':'#1e293b'};border-color:${on?s.col+'66':'#334155'};color:${on?s.col:'#64748b'}">
+    return `<div class="sess-pill" style="background:${on?s.col+'18':'#111111'};border-color:${on?s.col+'55':'#2a2a2a'};color:${on?s.col:'#555555'}">
       ${on?'●':'○'} ${s.n} ${String(s.o).padStart(2,'0')}:00–${String(s.c).padStart(2,'0')}:00 UTC ${on?'<span style="font-size:10px">('+mins+' Min.)</span>':''}
     </div>`;
   }).join('');
   document.getElementById('sessHint').textContent=hints.length?'⚡ Aktiv: '+hints.join(', '):'Keine aktive Session · '+new Date().toUTCString().slice(17,22)+' UTC';
+  document.getElementById('sessHint').style.color='#555555';
   setTimeout(renderSessions,60000);
 }
 
@@ -341,16 +338,17 @@ async function callClaude(prompt,maxTok=2000){
 }
 
 // ─── Symbol Grid ───────────────────────────────────────────────────
+// ─── Symbol Grid ───────────────────────────────────────────────────
 function renderSymGrid(){
   document.getElementById('symGrid').innerHTML=watchlist.map(s=>{
     const a=analysisCache[s];
-    const bc=a?dc(a.fundamental?.bias):'var(--gray2)';
+    const bc=a?dc(a.fundamental?.bias):'#555555';
     return `<div class="sym-card ${a?'done':'idle'}" id="card_${s}" onclick="openSymbol('${s}')">
       <button class="sym-del" onclick="event.stopPropagation();removeSymbol('${s}')">✕</button>
       <div style="display:flex;align-items:center;justify-content:space-between">
         <div>
-          <span style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--white)">${s}</span>
-          ${a?`<span class="badge" style="margin-left:8px;background:${bc}18;color:${bc};border:1px solid ${bc}33">${a.fundamental?.bias||''}</span>`:''}
+          <span style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:#ffffff">${s}</span>
+          ${a?`<span style="margin-left:8px;background:${bc}18;color:${bc};border:1px solid ${bc}33;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">${a.fundamental?.bias||''}</span>`:''}
         </div>
         ${a?`<button class="btn btn-gray" style="font-size:11px;padding:3px 9px" onclick="event.stopPropagation();analyzeSymbol('${s}')">↺</button>`:''}
       </div>
@@ -365,8 +363,8 @@ function renderSymGrid(){
         ${(a.keyLevels?.resistance||[]).slice(0,2).map(l=>`<span style="font-size:10px;color:#fca5a5;background:rgba(248,113,113,.08);padding:2px 6px;border-radius:3px">R ${l}</span>`).join('')}
         ${(a.keyLevels?.support||[]).slice(0,2).map(l=>`<span style="font-size:10px;color:#86efac;background:rgba(74,222,128,.08);padding:2px 6px;border-radius:3px">S ${l}</span>`).join('')}
       </div>
-      <div class="sym-status">✅ Analysiert · Klicken für Details</div>`
-      :`<div class="sym-status" id="status_${s}">Noch nicht analysiert · Klicken zum Starten</div>`}
+      <div class="sym-status" style="color:#555555;font-size:11px;margin-top:6px">✅ Analysiert · Klicken für Details</div>`
+      :`<div class="sym-status" id="status_${s}" style="color:#555555;font-size:11px;margin-top:6px">Noch nicht analysiert · Klicken zum Starten</div>`}
     </div>`;
   }).join('');
 }
@@ -461,6 +459,84 @@ async function reAnalyzeCurrent(){
 }
 
 function renderOverlay(a){
+  const body=document.getElementById('ovBody');
+  const order=['ovKPIs','scenariosBlock','scDetailBlock','twoColBlock','fundBlock','sessBlock','deepBlock','summaryBlock'];
+  order.forEach(id=>{const el=document.getElementById(id);if(el)body.appendChild(el);});
+
+  // KPIs
+  document.getElementById('ovKPIs').innerHTML=[
+    {label:'Kurs',   val:a.lastPrice,   col:'#ffffff', big:true},
+    {label:'D1',     val:a.trend?.d1,   col:dc(a.trend?.d1)},
+    {label:'H4',     val:a.trend?.h4,   col:dc(a.trend?.h4)},
+    {label:'H1',     val:a.trend?.h1,   col:dc(a.trend?.h1)},
+    {label:'M15',    val:a.trend?.m15,  col:dc(a.trend?.m15)},
+  ].map(x=>`<div class="kpi"><div class="kpi-label" style="color:#555555;font-size:9px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">${x.label}</div>
+    <div style="color:${x.col};font-size:${x.big?'22px':'13px'};font-weight:700;font-family:${x.big?"'Playfair Display',serif":'Inter,sans-serif'}">${x.val||'—'}</div></div>`).join('');
+
+  // Levels
+  document.getElementById('ovRes').innerHTML=(a.keyLevels?.resistance||[]).map(l=>`<div class="level-pill res-pill">${l}</div>`).join('');
+  document.getElementById('ovSup').innerHTML=(a.keyLevels?.support||[]).map(l=>`<div class="level-pill sup-pill">${l}</div>`).join('');
+
+  // Bias
+  const bias=a.fundamental?.bias||'Neutral', bc=dc(bias);
+  document.getElementById('ovBias').innerHTML=`<span style="background:${bc}18;color:${bc};border:1px solid ${bc}33;border-radius:4px;padding:2px 10px;font-size:11px;font-weight:700">${bias}</span>`;
+  document.getElementById('ovFundSummary').textContent=a.fundamental?.summary||'';
+  document.getElementById('ovEvents').innerHTML=(a.fundamental?.keyEvents||[]).map(e=>{
+    const ev=typeof e==='string'?{date:'',event:e,impact:'mittel'}:e;
+    const ic=ev.impact==='hoch'?'#f87171':ev.impact==='mittel'?'#c9a84c':'#888888';
+    return `<div style="display:flex;gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid #2a2a2a">
+      <span style="font-size:11px;color:#555555;min-width:80px">${ev.date||''}</span>
+      <span style="font-size:12px;color:#888888;flex:1">${ev.event||''}</span>
+      <span style="font-size:10px;font-weight:700;color:${ic};background:${ic}18;padding:2px 7px;border-radius:3px;border:1px solid ${ic}33">${(ev.impact||'').toUpperCase()}</span>
+    </div>`;
+  }).join('');
+
+  // Fundamental
+  document.getElementById('ovCB1').textContent=a.fundamental?.cb1||'';
+  document.getElementById('ovCB2').textContent=a.fundamental?.cb2||'';
+  document.getElementById('ovMacro').textContent=a.fundamental?.macro||'';
+
+  // Session Timing
+  document.getElementById('ovSessionTiming').innerHTML=(a.sessionTiming||[]).map(s=>`
+    <div style="background:#1a1a1a;border-radius:7px;padding:14px;margin-bottom:8px;border:1px solid #2a2a2a">
+      <p style="font-size:10px;font-weight:700;color:#c9a84c;margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em">🕐 ${s.session}</p>
+      <div class="three-col">
+        <div><p style="font-size:9px;color:#4ade80;font-weight:700;margin-bottom:3px;text-transform:uppercase;letter-spacing:.06em">EMPFEHLUNG</p><p style="font-size:12px;color:#888888">${s.recommendation||''}</p></div>
+        <div><p style="font-size:9px;color:#c9a84c;font-weight:700;margin-bottom:3px;text-transform:uppercase;letter-spacing:.06em">BEST FOR</p><p style="font-size:12px;color:#888888">${s.bestFor||''}</p></div>
+        <div><p style="font-size:9px;color:#f87171;font-weight:700;margin-bottom:3px;text-transform:uppercase;letter-spacing:.06em">VERMEIDEN</p><p style="font-size:12px;color:#888888">${s.avoid||''}</p></div>
+      </div>
+    </div>`).join('');
+
+  // Deep Analysis
+  loadDeepAnalysis(a);
+
+  // Scenarios
+  document.getElementById('ovScenarios').innerHTML=(a.scenarios||[]).map((sc,i)=>{
+    const d=sc.direction==='Long'?'#4ade80':'#f87171';
+    const p=pc(sc.probability), cn=cc(sc.confidence);
+    return `<tr class="sc-row" onclick="openScenarioDetail(${i})">
+      <td style="color:#555555;font-weight:700">${sc.id}</td>
+      <td style="font-weight:700;color:#ffffff;white-space:nowrap;font-family:'Playfair Display',serif">🔍 ${sc.name}</td>
+      <td><span style="background:${d}18;color:${d};border:1px solid ${d}33;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">${sc.direction}</span></td>
+      <td style="color:#c9a84c;font-weight:700">${sc.entryTF}</td>
+      <td style="color:#555555">${(sc.higherTFs||[]).join(', ')}</td>
+      <td style="color:#fbbf24;font-weight:700">${sc.entry}</td>
+      <td style="color:#f87171">${sc.sl}</td>
+      <td style="color:#4ade80">${sc.tp1}</td>
+      <td style="color:#4ade80">${sc.tp2}</td>
+      <td style="color:#c9a84c;font-weight:700">${sc.rr}</td>
+      <td style="color:#4ade80;font-size:11px">${sc.bestSession||''}</td>
+      <td style="color:#888888;white-space:nowrap">${sc.timing}</td>
+      <td style="max-width:140px;color:#888888">${sc.entrySignal}</td>
+      <td style="max-width:140px;color:#888888">${sc.exitSignal}</td>
+      <td><div style="font-weight:700;color:${p};font-family:'Playfair Display',serif;font-size:16px">${sc.probability}%</div>
+          <div class="prob-bar"><div class="prob-fill" style="width:${sc.probability}%;background:${p}"></div></div></td>
+      <td><span style="background:${cn}18;color:${cn};border:1px solid ${cn}33;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700">${sc.confidence}</span></td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('ovSummary').textContent=a.summary||'';
+}
   // KPIs
   document.getElementById('ovKPIs').innerHTML=[
     {label:'Kurs',val:a.lastPrice,col:'#f1f5f9',big:true},
@@ -534,11 +610,52 @@ function renderOverlay(a){
 }
 
 function openScenarioDetail(idx){
-  const a=analysisCache[currentSymbol]; if(!a)return;
+  const a=analysisCache[currentSymbol]; if(!a) return;
   const sc=a.scenarios[idx];
+  const d=sc.direction==='Long'?'var(--green)':'var(--red)';
+
+  // Switch chart to entry TF
   const tf=TF_MAP[sc.entryTF]||'60';
   switchTF(tf);
-  document.getElementById('overlay').scrollTop=0;
+
+  // Fill detail panel
+  document.getElementById('scDetailTitle').textContent=`Szenario ${sc.id}: ${sc.name}`;
+  document.getElementById('scDetailTable').innerHTML=[
+    ['Richtung', `<span style="color:${d};font-weight:700">${sc.direction}</span>`],
+    ['Entry', `<span style="color:var(--yellow);font-weight:700">${sc.entry}</span>`],
+    ['Stop Loss', `<span style="color:var(--red);font-weight:700">${sc.sl}</span>`],
+    ['Take Profit 1', `<span style="color:var(--green);font-weight:700">${sc.tp1}</span>`],
+    ['Take Profit 2', `<span style="color:var(--green);font-weight:700">${sc.tp2}</span>`],
+    ['R:R', `<span style="color:var(--gold);font-weight:700">${sc.rr}</span>`],
+    ['Entry TF', `<span style="color:var(--gold)">${sc.entryTF}</span>`],
+    ['Higher TFs', sc.higherTFs?.join(' → ')||''],
+    ['Timing', sc.timing],
+    ['Beste Session', sc.bestSession||'—'],
+    ['Entry Signal', sc.entrySignal],
+    ['Exit Signal', sc.exitSignal],
+    ['Wahrscheinlichkeit', `<span style="color:${pc(sc.probability)};font-weight:700">${sc.probability}%</span>`],
+    ['Konfidenz', sc.confidence],
+  ].map(([k,v])=>`<tr><td style="color:var(--gray2);font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:5px 0;border-bottom:1px solid var(--border);width:130px">${k}</td><td style="font-size:13px;padding:5px 0 5px 12px;border-bottom:1px solid var(--border)">${v}</td></tr>`).join('');
+
+  // Show panel
+  const block=document.getElementById('scDetailBlock');
+  block.style.display='block';
+  block.scrollIntoView({behavior:'smooth', block:'start'});
+
+  // Load scenario-specific AI analysis
+  const aiEl=document.getElementById('scDetailAI');
+  aiEl.innerHTML='<span class="spin"></span> Claude analysiert…';
+  callClaude(`Du bist ein erfahrener Forex-Trader. Analysiere dieses ${currentSymbol} Szenario auf Deutsch (~200 Wörter). Nutze **fett** für Überschriften.
+
+Szenario: ${sc.name} | ${sc.direction} | Entry ${sc.entry} | SL ${sc.sl} | TP1 ${sc.tp1} | TP2 ${sc.tp2} | R:R ${sc.rr}
+Setup: ${sc.setup}
+Entry Signal: ${sc.entrySignal} | Exit: ${sc.exitSignal}
+Marktkontext: D1 ${a.trend?.d1} | H4 ${a.trend?.h4} | H1 ${a.trend?.h1} | M15 ${a.trend?.m15}
+Bias: ${a.fundamental?.bias} | ${a.fundamental?.summary}
+
+Abschnitte: **Warum jetzt?** | **Einstieg Schritt für Schritt** | **Risiken** | **Fazit**`, 600)
+    .then(t=>{ aiEl.innerHTML=t.replace(/\*\*(.*?)\*\*/g,'<strong style="color:var(--white);display:block;margin-top:10px;margin-bottom:3px">$1</strong>').replace(/\n/g,'<br>'); })
+    .catch(e=>{ aiEl.innerHTML=`<span style="color:var(--red)">${e.message}</span>`; });
 }
 
 async function loadDeepAnalysis(a){
