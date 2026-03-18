@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>FX Screener – AI-Powered Forex Analysis</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#ffffff;min-height:100vh;font-size:14px}
@@ -18,8 +18,8 @@ a{color:#c9a84c;text-decoration:none}
 /* ── HEADER ── */
 #header{background:rgba(10,10,10,.97);backdrop-filter:blur(12px);border-bottom:1px solid #2a2a2a;padding:0 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;position:sticky;top:0;z-index:100;height:64px}
 .logo{display:flex;align-items:center;text-decoration:none}
-.logo-fx{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:#ffffff}
-.logo-sc{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:#c9a84c}
+.logo-fx{font-size:22px;font-weight:900;color:#ffffff}
+.logo-sc{font-size:22px;font-weight:900;color:#c9a84c}
 .hbtns{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 
 /* ── BUTTONS ── */
@@ -36,9 +36,9 @@ a{color:#c9a84c;text-decoration:none}
 #main{padding:20px;max-width:1600px;margin:0 auto}
 
 /* ── CARDS ── */
-.card{background:#111111;border-radius:10px;padding:20px;margin-bottom:14px;border:1px solid #2a2a2a}
-.card-err{border-color:rgba(248,113,113,.25)}
-.card-accent{border-left:3px solid #c9a84c}
+.card{background:#111111;border-radius:10px;padding:20px;margin-bottom:14px;border:1px solid #c9a84c44}
+.card-err{border-color:rgba(248,113,113,.5)}
+.card-accent{border-left:3px solid #c9a84c;border-color:#c9a84c66}
 .card-title{font-size:13px;font-weight:700;color:#c9a84c;text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px}
 .sub-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
 
@@ -68,20 +68,20 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
 
 /* ── KPI GRID ── */
 .kpi-grid5{display:grid;grid-template-columns:repeat(9,1fr);gap:8px;margin-bottom:16px}
-.kpi{background:#0a0a0a;border-radius:8px;padding:14px;border:1px solid #2a2a2a;text-align:center}
+.kpi{background:#0a0a0a;border-radius:8px;padding:14px;border:1px solid #c9a84c44;text-align:center}
 .kpi-label{font-size:11px;color:#c0c0cc;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
-.kpi-val{font-size:18px;font-weight:700}
+.kpi-val{font-size:18px;font-weight:700;font-family:'Inter',sans-serif}
 
 /* ── SYMBOL GRID ── */
 .sym-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-bottom:20px}
-.sym-card{background:#111111;border-radius:10px;padding:18px;border:1px solid #2a2a2a;cursor:pointer;transition:all .2s;position:relative}
-.sym-card:hover{border-color:#c9a84c;transform:translateY(-2px);box-shadow:0 6px 24px rgba(201,168,76,.1)}
-.sym-card.analyzing{border-color:#c9a84c55;opacity:.7}
-.sym-card.error{border-color:rgba(248,113,113,.3)}
+.sym-card{background:#111111;border-radius:10px;padding:18px;border:1px solid #c9a84c44;cursor:pointer;transition:all .2s;position:relative}
+.sym-card:hover{border-color:#c9a84c;transform:translateY(-2px);box-shadow:0 6px 24px rgba(201,168,76,.15)}
+.sym-card.analyzing{border-color:#c9a84c88;opacity:.7}
+.sym-card.error{border-color:rgba(248,113,113,.5)}
 .sym-del{position:absolute;top:10px;right:10px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:5px;color:#555555;padding:3px 8px;cursor:pointer;font-size:12px;opacity:0;transition:opacity .2s;font-family:'Inter',sans-serif}
 .sym-card:hover .sym-del{opacity:1}
-.sym-name{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#ffffff}
-.sym-price{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:#ffffff;margin:8px 0 6px}
+.sym-name{font-size:17px;font-weight:800;color:#ffffff}
+.sym-price{font-size:26px;font-weight:800;color:#ffffff;margin:8px 0 6px}
 .sym-trends{display:flex;gap:5px;margin:8px 0;flex-wrap:wrap}
 .sym-tf{font-size:11px;font-weight:700;padding:3px 9px;border-radius:4px;background:#1a1a1a;border:1px solid #2a2a2a;letter-spacing:.04em}
 .sym-levels{margin-top:8px;display:flex;gap:5px;flex-wrap:wrap}
@@ -638,8 +638,7 @@ function renderOverlay(a){
   const rsiColor=v=>!v?'#c0c0cc':parseFloat(v)>70?'#f87171':parseFloat(v)<30?'#4ade80':'#c9a84c';
   const macdColor=v=>v==='Bullish'?'#4ade80':v==='Bearish'?'#f87171':'#c0c0cc';
   document.getElementById('ovKPIs').innerHTML=[
-    {l:'Kurs',   v:a.lastPrice,           c:'#ffffff', big:true},
-    {l:'D1',     v:a.trend?.d1,           c:trendColor(a.trend?.d1)},
+    {l:'Kurs',   v:a.lastPrice,           c:'#ffffff', big:true},    {l:'D1',     v:a.trend?.d1,           c:trendColor(a.trend?.d1)},
     {l:'H4',     v:a.trend?.h4,           c:trendColor(a.trend?.h4)},
     {l:'H1',     v:a.trend?.h1,           c:trendColor(a.trend?.h1)},
     {l:'M15',    v:a.trend?.m15,          c:trendColor(a.trend?.m15)},
@@ -649,7 +648,7 @@ function renderOverlay(a){
     {l:'MACD M15',v:ind.macdM15Signal||'—',c:macdColor(ind.macdM15Signal)},
   ].map(x=>`<div class="kpi">
     <div class="kpi-label">${x.l}</div>
-    <div class="kpi-val" style="color:${x.c};font-size:${x.big?'24px':'15px'};font-family:${x.big?"'Playfair Display',serif":'Inter,sans-serif'}">${x.v||'—'}</div>
+    <div class="kpi-val" style="color:${x.c};font-size:${x.big?'24px':'15px'};font-weight:${x.big?'800':'700'}">${x.v||'—'}</div>
   </div>`).join('');
 
   // Levels
@@ -699,7 +698,7 @@ function renderOverlay(a){
     const p=probColor(sc.probability), cn=confColor(sc.confidence);
     return `<tr class="sc-row" onclick="openScenarioDetail(${i})">
       <td style="color:#c0c0cc;font-weight:700;font-size:14px">${sc.id}</td>
-      <td style="font-weight:700;color:#ffffff;white-space:nowrap;font-family:'Playfair Display',serif;font-size:14px">🔍 ${sc.name}</td>
+      <td style="font-weight:800;color:#ffffff;white-space:nowrap;font-size:14px">🔍 ${sc.name}</td>
       <td>${badge(d,sc.direction)}</td>
       <td style="color:#c9a84c;font-weight:700;font-size:13px">${sc.entryTF}</td>
       <td style="color:#d0d0d8;font-size:13px">${(sc.higherTFs||[]).join(', ')}</td>
@@ -713,7 +712,7 @@ function renderOverlay(a){
       <td style="max-width:140px;color:#d0d0d8;font-size:12px">${sc.entrySignal}</td>
       <td style="max-width:140px;color:#d0d0d8;font-size:12px">${sc.exitSignal}</td>
       <td>
-        <div style="font-weight:700;color:${p};font-family:'Playfair Display',serif;font-size:18px">${sc.probability}%</div>
+        <div style="font-weight:800;color:${p};font-size:18px">${sc.probability}%</div>
         <div class="prob-bar"><div class="prob-fill" style="width:${sc.probability}%;background:${p}"></div></div>
       </td>
       <td>${badge(cn,sc.confidence)}</td>
@@ -731,8 +730,7 @@ function openScenarioDetail(idx){
   const d=sc.direction==='Long'?'#4ade80':'#f87171';
   const tf=TF_MAP[sc.entryTF]||'60';
   switchTF(tf);
-  document.getElementById('scDetailTitle').textContent=`Szenario ${sc.id}: ${sc.name}`;
-  document.getElementById('scDetailTable').innerHTML=[
+  document.getElementById('scDetailTitle').style.fontFamily='Inter,sans-serif';  document.getElementById('scDetailTable').innerHTML=[
     ['Richtung',  badge(d,sc.direction)],
     ['Entry',     `<span style="color:#fbbf24;font-weight:700;font-size:14px">${sc.entry}</span>`],
     ['Stop Loss', `<span style="color:#f87171;font-weight:700;font-size:14px">${sc.sl}</span>`],
