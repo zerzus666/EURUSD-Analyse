@@ -9,6 +9,10 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#ffffff;min-height:100vh;font-size:14px}
+/* ── CONTRAST OVERRIDES ── */
+/* Primary text (was #888888) → #b0b0b0  +contrast */
+/* Secondary text (was #555555) → #777777 +contrast */
+/* Muted text (was #444444) → #666666    +contrast */
 a{color:#c9a84c;text-decoration:none}
 
 /* ── HEADER ── */
@@ -51,8 +55,8 @@ input:focus{outline:none;border-color:#c9a84c}
 
 /* ── TABLE ── */
 table{width:100%;border-collapse:collapse}
-th{background:#0a0a0a;padding:10px 12px;text-align:left;font-size:11px;color:#555555;font-weight:700;border-bottom:1px solid #2a2a2a;white-space:nowrap;text-transform:uppercase;letter-spacing:.06em}
-td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-align:middle;color:#888888}
+th{background:#0a0a0a;padding:10px 12px;text-align:left;font-size:11px;color:#c0c0cc;font-weight:700;border-bottom:1px solid #2a2a2a;white-space:nowrap;text-transform:uppercase;letter-spacing:.06em}
+td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-align:middle;color:#d8d8e0}
 .sc-row{cursor:pointer;transition:background .15s}
 .sc-row:hover td{background:rgba(201,168,76,.05);color:#ffffff}
 .prob-bar{height:3px;background:#222222;border-radius:3px;margin-top:4px}
@@ -65,7 +69,7 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
 /* ── KPI GRID ── */
 .kpi-grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}
 .kpi{background:#0a0a0a;border-radius:8px;padding:14px;border:1px solid #2a2a2a;text-align:center}
-.kpi-label{font-size:11px;color:#555555;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.kpi-label{font-size:11px;color:#c0c0cc;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
 .kpi-val{font-size:18px;font-weight:700}
 
 /* ── SYMBOL GRID ── */
@@ -85,11 +89,11 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
 
 /* ── SESSIONS ── */
 .sess-bar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
-.sess-pill{border-radius:20px;padding:6px 16px;font-size:12px;font-weight:600;border:1px solid transparent;letter-spacing:.03em}
+.sess-pill{border-radius:20px;padding:6px 16px;font-size:12px;font-weight:600;border:1px solid transparent;letter-spacing:.03em;color:#d0d0d8}
 
 /* ── TF SWITCHER ── */
 .tf-btns{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;align-items:center}
-.tf-btn{background:#111111;border:1px solid #2a2a2a;border-radius:6px;color:#888888;padding:8px 18px;cursor:pointer;font-size:13px;font-weight:700;transition:all .15s;font-family:'Inter',sans-serif;letter-spacing:.04em}
+.tf-btn{background:#111111;border:1px solid #2a2a2a;border-radius:6px;color:#c0c0cc;padding:8px 18px;cursor:pointer;font-size:13px;font-weight:700;transition:all .15s;font-family:'Inter',sans-serif;letter-spacing:.04em}
 .tf-btn.active{background:rgba(201,168,76,.12);border-color:#c9a84c;color:#c9a84c}
 .tf-btn:hover{border-color:#444444;color:#ffffff}
 
@@ -103,7 +107,7 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
 #ovHeader{background:rgba(10,10,10,.98);border-bottom:1px solid #2a2a2a;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:10}
 #ovTitleWrap{flex:1}
 #ovTitle{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#ffffff}
-#ovSub{font-size:12px;color:#555555;margin-top:3px;letter-spacing:.02em}
+#ovSub{font-size:12px;color:#c0c0cc;margin-top:3px;letter-spacing:.02em}
 #tvWrap{width:100%;background:#0a0a0a;border-bottom:1px solid #2a2a2a}
 #tvInner{width:100%;height:500px}
 #tv_chart{height:100%}
@@ -128,7 +132,7 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
 <div id="header">
   <a href="#" class="logo"><span class="logo-fx">FX</span><span class="logo-sc">Screener</span></a>
   <div class="hbtns">
-    <span id="updated" style="font-size:11px;color:#555555">AI-Powered Forex Analysis</span>
+    <span id="updated" style="font-size:11px;color:#c0c0cc">AI-Powered Forex Analysis</span>
     <button class="btn btn-gray" onclick="toggleSettings()">⚙️ Keys</button>
     <button class="btn btn-gray" onclick="toggleWatchlistEditor()">✏️ Watchlist</button>
     <button class="btn btn-gold" id="analyzeAllBtn" onclick="analyzeAll()" disabled>⚡ Alle analysieren</button>
@@ -207,7 +211,7 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
 
       <!-- TF Switcher -->
       <div class="tf-btns">
-        <span style="font-size:12px;color:#555555;font-weight:600">Timeframe:</span>
+        <span style="font-size:12px;color:#777777;font-weight:600">Timeframe:</span>
         <button class="tf-btn" data-tf="15"  onclick="switchTF('15')">M15</button>
         <button class="tf-btn" data-tf="60"  onclick="switchTF('60')">H1</button>
         <button class="tf-btn" data-tf="240" onclick="switchTF('240')">H4</button>
@@ -221,7 +225,7 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
       <!-- ① SZENARIEN -->
       <div class="card" id="scenariosBlock">
         <p class="card-title">🎯 Trade-Szenarien</p>
-        <p style="font-size:12px;color:#555555;margin-bottom:14px">👆 Klicke auf eine Zeile für die Detailansicht</p>
+        <p style="font-size:12px;color:#c0c0cc;margin-bottom:14px">👆 Klicke auf eine Zeile für die Detailansicht</p>
         <div style="overflow-x:auto">
           <table>
             <thead><tr>
@@ -246,7 +250,7 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
             <table><tbody id="scDetailTable"></tbody></table>
             <div>
               <p class="sub-label" style="color:#c9a84c">KI-Analyse zum Szenario</p>
-              <div id="scDetailAI" style="font-size:13px;color:#888888;line-height:1.8"><span class="spin"></span> Wird geladen…</div>
+        <div id="scDetailAI" style="font-size:13px;color:#e0e0e8;line-height:1.8"><span class="spin"></span> Wird geladen…</div>
             </div>
           </div>
         </div>
@@ -291,13 +295,13 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
       <!-- ⑥ KI TIEFENANALYSE -->
       <div class="card card-accent" id="deepBlock">
         <p class="card-title">🤖 KI-Tiefenanalyse</p>
-        <div id="deepText" style="font-size:14px;color:#888888;line-height:1.9"><span class="spin"></span> Wird geladen…</div>
+        <div id="deepText" style="font-size:14px;color:#e0e0e8;line-height:1.9"><span class="spin"></span> Wird geladen…</div>
       </div>
 
       <!-- ⑦ ZUSAMMENFASSUNG -->
       <div class="card card-accent" id="summaryBlock" style="margin-bottom:24px">
         <p class="card-title">📋 Zusammenfassung</p>
-        <p id="ovSummary" style="font-size:14px;color:#888888;line-height:1.9"></p>
+        <p id="ovSummary" style="font-size:14px;color:#e0e0e8;line-height:1.9"></p>
       </div>
 
       <p style="text-align:center;font-size:12px;color:#333333;margin-bottom:28px;padding-bottom:20px">⚠️ Keine Finanzberatung. Alle Handelsentscheidungen liegen in deiner Verantwortung.</p>
@@ -382,6 +386,7 @@ function renderSessions(){
   }).join('');
   const utcStr=new Date().toUTCString().slice(17,22)+' UTC';
   document.getElementById('sessHint').textContent=hints.length?'⚡ '+hints.join(' · ')+' · '+utcStr:'Keine aktive Session · '+utcStr;
+  document.getElementById('sessHint').style.color='#c0c0cc';
   setTimeout(renderSessions,60000);
 }
 
@@ -436,8 +441,8 @@ function renderSymGrid(){
         ${(a.keyLevels?.resistance||[]).slice(0,2).map(l=>`<span class="sym-lvl" style="color:#fca5a5;background:rgba(248,113,113,.08)">R ${l}</span>`).join('')}
         ${(a.keyLevels?.support||[]).slice(0,2).map(l=>`<span class="sym-lvl" style="color:#86efac;background:rgba(74,222,128,.08)">S ${l}</span>`).join('')}
       </div>
-      <p style="font-size:12px;color:#444444;margin-top:8px">✅ Analysiert · Klicken für Details</p>`
-      :`<p id="status_${s}" style="font-size:12px;color:#444444;margin-top:8px">Noch nicht analysiert · Klicken zum Starten</p>`}
+      <p style="font-size:12px;color:#c0c0cc;margin-top:8px">✅ Analysiert · Klicken für Details</p>`
+      :`<p id="status_${s}" style="font-size:12px;color:#c0c0cc;margin-top:8px">Noch nicht analysiert · Klicken zum Starten</p>`}
     </div>`;
   }).join('');
 }
@@ -538,29 +543,33 @@ function renderOverlay(a){
   const bias=a.fundamental?.bias||'Neutral', bc=trendColor(bias);
   document.getElementById('ovBias').innerHTML=badge(bc,bias);
   document.getElementById('ovFundSummary').textContent=a.fundamental?.summary||'';
+  document.getElementById('ovFundSummary').style.color='#e0e0e8';
   document.getElementById('ovEvents').innerHTML=(a.fundamental?.keyEvents||[]).map(e=>{
     const ev=typeof e==='string'?{date:'',event:e,impact:'mittel'}:e;
     const ic=ev.impact==='hoch'?'#f87171':ev.impact==='mittel'?'#c9a84c':'#888888';
     return `<div style="display:flex;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid #1a1a1a">
-      <span style="font-size:12px;color:#444444;min-width:85px;flex-shrink:0">${ev.date||''}</span>
-      <span style="font-size:13px;color:#888888;flex:1">${ev.event||''}</span>
+      <span style="font-size:12px;color:#c0c0cc;min-width:85px;flex-shrink:0">${ev.date||''}</span>
+      <span style="font-size:13px;color:#e0e0e8;flex:1">${ev.event||''}</span>
       <span style="font-size:11px;font-weight:700;color:${ic};background:${ic}18;padding:2px 8px;border-radius:3px;border:1px solid ${ic}33;white-space:nowrap">${(ev.impact||'').toUpperCase()}</span>
     </div>`;
   }).join('');
 
   // Fundamental
   document.getElementById('ovCB1').textContent=a.fundamental?.cb1||'';
+  document.getElementById('ovCB1').style.color='#e0e0e8';
   document.getElementById('ovCB2').textContent=a.fundamental?.cb2||'';
+  document.getElementById('ovCB2').style.color='#e0e0e8';
   document.getElementById('ovMacro').textContent=a.fundamental?.macro||'';
+  document.getElementById('ovMacro').style.color='#e0e0e8';
 
   // Session Timing
   document.getElementById('ovSessionTiming').innerHTML=(a.sessionTiming||[]).map(s=>`
     <div style="background:#1a1a1a;border-radius:7px;padding:16px;margin-bottom:8px;border:1px solid #2a2a2a">
       <p style="font-size:12px;font-weight:700;color:#c9a84c;margin-bottom:10px;text-transform:uppercase;letter-spacing:.07em">🕐 ${s.session}</p>
       <div class="three-col">
-        <div><p style="font-size:11px;color:#4ade80;font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Empfehlung</p><p style="font-size:13px;color:#888888">${s.recommendation||''}</p></div>
-        <div><p style="font-size:11px;color:#c9a84c;font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Best For</p><p style="font-size:13px;color:#888888">${s.bestFor||''}</p></div>
-        <div><p style="font-size:11px;color:#f87171;font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Vermeiden</p><p style="font-size:13px;color:#888888">${s.avoid||''}</p></div>
+        <div><p style="font-size:11px;color:#4ade80;font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Empfehlung</p><p style="font-size:13px;color:#e0e0e8">${s.recommendation||''}</p></div>
+        <div><p style="font-size:11px;color:#c9a84c;font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Best For</p><p style="font-size:13px;color:#e0e0e8">${s.bestFor||''}</p></div>
+        <div><p style="font-size:11px;color:#f87171;font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Vermeiden</p><p style="font-size:13px;color:#e0e0e8">${s.avoid||''}</p></div>
       </div>
     </div>`).join('');
 
@@ -572,20 +581,20 @@ function renderOverlay(a){
     const d=sc.direction==='Long'?'#4ade80':'#f87171';
     const p=probColor(sc.probability), cn=confColor(sc.confidence);
     return `<tr class="sc-row" onclick="openScenarioDetail(${i})">
-      <td style="color:#444444;font-weight:700;font-size:14px">${sc.id}</td>
+      <td style="color:#c0c0cc;font-weight:700;font-size:14px">${sc.id}</td>
       <td style="font-weight:700;color:#ffffff;white-space:nowrap;font-family:'Playfair Display',serif;font-size:14px">🔍 ${sc.name}</td>
       <td>${badge(d,sc.direction)}</td>
       <td style="color:#c9a84c;font-weight:700;font-size:13px">${sc.entryTF}</td>
-      <td style="color:#555555;font-size:13px">${(sc.higherTFs||[]).join(', ')}</td>
+      <td style="color:#d0d0d8;font-size:13px">${(sc.higherTFs||[]).join(', ')}</td>
       <td style="color:#fbbf24;font-weight:700;font-size:13px">${sc.entry}</td>
       <td style="color:#f87171;font-size:13px">${sc.sl}</td>
       <td style="color:#4ade80;font-size:13px">${sc.tp1}</td>
       <td style="color:#4ade80;font-size:13px">${sc.tp2}</td>
       <td style="color:#c9a84c;font-weight:700;font-size:13px">${sc.rr}</td>
       <td style="color:#4ade80;font-size:12px">${sc.bestSession||''}</td>
-      <td style="color:#888888;white-space:nowrap;font-size:12px">${sc.timing}</td>
-      <td style="max-width:140px;color:#888888;font-size:12px">${sc.entrySignal}</td>
-      <td style="max-width:140px;color:#888888;font-size:12px">${sc.exitSignal}</td>
+      <td style="color:#d0d0d8;white-space:nowrap;font-size:12px">${sc.timing}</td>
+      <td style="max-width:140px;color:#d0d0d8;font-size:12px">${sc.entrySignal}</td>
+      <td style="max-width:140px;color:#d0d0d8;font-size:12px">${sc.exitSignal}</td>
       <td>
         <div style="font-weight:700;color:${p};font-family:'Playfair Display',serif;font-size:18px">${sc.probability}%</div>
         <div class="prob-bar"><div class="prob-fill" style="width:${sc.probability}%;background:${p}"></div></div>
@@ -595,6 +604,7 @@ function renderOverlay(a){
   }).join('');
 
   document.getElementById('ovSummary').textContent=a.summary||'';
+  document.getElementById('ovSummary').style.color='#e0e0e8';
 }
 
 // ─── Szenario Detail ───────────────────────────────────────────────
