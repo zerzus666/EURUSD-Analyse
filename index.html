@@ -564,7 +564,7 @@ const TF_MAP={'M15':'15','H1':'60','H4':'240','D1':'D','W1':'W'};
 function loadTVChart(sym,interval){
   const c=document.getElementById('tv_chart'); c.innerHTML='';
   if(typeof TradingView==='undefined'){c.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#64748b">TradingView lädt…</div>';return;}
-  new TradingView.widget({container_id:'tv_chart',autosize:true,symbol:tvSym(sym),interval:interval,timezone:'Etc/UTC',theme:'dark',style:'1',locale:'de',toolbar_bg:'#1e293b',enable_publishing:false,allow_symbol_change:false,withdateranges:true,studies:['RSI@tv-basicstudies','MACD@tv-basicstudies'],overrides:{'paneProperties.background':'#0f172a','paneProperties.backgroundType':'solid'}});
+  new TradingView.widget({container_id:'tv_chart',autosize:true,symbol:tvSym(sym),interval:interval,timezone:'Etc/UTC',theme:'dark',style:'1',locale:'de',toolbar_bg:'#111111',enable_publishing:false,allow_symbol_change:false,withdateranges:true,hide_side_toolbar:false,studies:[],overrides:{'paneProperties.background':'#0a0a0a','paneProperties.backgroundType':'solid'}});
 }
 function switchTF(tf){currentTF=tf;updateTFBtns(tf);if(currentSymbol)loadTVChart(currentSymbol,tf);}
 function updateTFBtns(a){document.querySelectorAll('.tf-btn').forEach(b=>b.classList.toggle('active',b.dataset.tf===a));}
