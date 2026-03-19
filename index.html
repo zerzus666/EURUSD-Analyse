@@ -321,6 +321,26 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
             <p id="scDetailTitle" style="font-size:17px;font-weight:800;color:#f0f0f8"></p>
             <button class="btn btn-gray" style="font-size:12px" onclick="document.getElementById('scDetailBlock').style.display='none'">✕</button>
           </div>
+
+          <!-- Trade Chart -->
+          <div id="tradeChartWrap">
+            <div id="tradeChartHeader">
+              <div style="display:flex;align-items:center;gap:10px">
+                <span id="tcSymLabel" style="font-size:13px;font-weight:800;color:#f0f0f8"></span>
+                <span id="tcDirBadge" style="font-size:11px;font-weight:700;padding:2px 10px;border-radius:4px"></span>
+                <span id="tcTFLabel" style="font-size:11px;color:#d0d0e0"></span>
+              </div>
+              <div style="display:flex;gap:16px;font-size:11px">
+                <span style="color:#fbbf24">● Entry</span>
+                <span style="color:#f87171">● SL</span>
+                <span style="color:#4ade80">● TP1</span>
+                <span style="color:#86efac">● TP2</span>
+              </div>
+            </div>
+            <canvas id="tradeChartCanvas" height="340"></canvas>
+          </div>
+
+          <!-- Param + AI side by side -->
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
             <table><tbody id="scDetailTable"></tbody></table>
             <div>
@@ -768,6 +788,12 @@ Antworte NUR mit validem JSON, kein Markdown:
     const m=text.match(/\{[\s\S]*\}/);
     if(!m) throw new Error('Kein JSON');
     analysisCache[sym]=JSON.parse(m[0]);
+    analysisCache[sym]._bars={
+      'D1': fmtBars(D1,60),
+      'H4': fmtBars(H4,60),
+      'H1': fmtBars(H1f,60),
+      'M15': fmtBars(M15f,80),
+    };
     renderSymGrid();
   }catch(e){ setCardStatus(sym,'❌ '+e.message); }
 }
