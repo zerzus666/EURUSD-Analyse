@@ -98,6 +98,7 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
   .two-col,.three-col{grid-template-columns:1fr}
   .sym-grid{grid-template-columns:1fr}
   #header{padding:0 16px}
+  #scDetailBlock [style*="grid-template-columns:420px"]{grid-template-columns:1fr!important}
 }
 </style>
 </head>
@@ -263,35 +264,52 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
 
       <!-- Szenario Detail -->
       <div id="scDetailBlock">
-        <div class="card card-accent">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-            <p id="scDetailTitle" style="font-size:17px;font-weight:800;color:#f0f0f8"></p>
-            <button class="btn btn-gray" style="font-size:12px" onclick="document.getElementById('scDetailBlock').style.display='none'">✕</button>
-          </div>
-          <div id="tradeChartWrap">
-            <div id="tradeChartHeader">
-              <div style="display:flex;align-items:center;gap:10px">
-                <span id="tcSymLabel" style="font-size:13px;font-weight:800;color:#f0f0f8"></span>
-                <span id="tcDirBadge" style="font-size:11px;font-weight:700;padding:2px 10px;border-radius:4px"></span>
-                <span id="tcTFLabel" style="font-size:11px;color:#d0d0e0"></span>
-              </div>
-              <div style="display:flex;gap:16px;font-size:11px">
-                <span style="color:#fbbf24">● Entry</span>
-                <span style="color:#f87171">● SL</span>
-                <span style="color:#4ade80">● TP1</span>
-                <span style="color:#86efac">● TP2</span>
-                <span style="color:#c6d400">— EMA9</span>
-                <span style="color:#20b2aa;opacity:.7">▪ Cloud</span>
-                <span style="color:#ffffff88">↷ Projektion</span>
-              </div>
+        <div class="card card-accent" style="padding:0;overflow:hidden">
+
+          <!-- Header -->
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid #c9a84c33;background:#0d1a2a">
+            <div style="display:flex;align-items:center;gap:12px">
+              <span id="tcDirBadge" style="font-size:11px;font-weight:700;padding:3px 12px;border-radius:4px"></span>
+              <span id="scDetailTitle" style="font-size:15px;font-weight:800;color:#f0f0f8"></span>
+              <span id="tcSymLabel" style="font-size:12px;color:#c9a84c;font-weight:700"></span>
+              <span id="tcTFLabel" style="font-size:11px;color:#3a5570;background:#0a1828;border:1px solid #1a3050;border-radius:4px;padding:2px 8px"></span>
             </div>
-            <canvas id="tradeChartCanvas" height="280" style="display:block;width:100%"></canvas>
+            <div style="display:flex;align-items:center;gap:12px">
+              <span style="display:flex;gap:10px;font-size:10px;color:#3a5570">
+                <span>● <span style="color:#fbbf24">Entry</span></span>
+                <span>● <span style="color:#f87171">SL</span></span>
+                <span>● <span style="color:#4ade80">TP1</span></span>
+                <span>● <span style="color:#86efac">TP2</span></span>
+                <span>— <span style="color:#c6d400">EMA9</span></span>
+                <span style="color:#20b2aa">▪ Cloud</span>
+                <span style="color:#ffffff55">↷ Proj.</span>
+              </span>
+              <button class="btn btn-gray" style="font-size:11px;padding:5px 10px" onclick="document.getElementById('scDetailBlock').style.display='none'">✕</button>
+            </div>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
-            <table><tbody id="scDetailTable"></tbody></table>
-            <div>
-              <p class="sub-label" style="color:#c9a84c;margin-bottom:8px">KI-Analyse zum Szenario</p>
-              <div id="scDetailAI" style="font-size:13px;color:#f0f0f8;line-height:1.8"><span class="spin"></span> Wird geladen…</div>
+
+          <!-- Body: chart square left | params + AI right -->
+          <div style="display:grid;grid-template-columns:420px 1fr;min-height:420px">
+
+            <!-- LEFT: Square chart -->
+            <div id="tradeChartWrap" style="border-right:1px solid #c9a84c22;background:#091520;position:relative">
+              <canvas id="tradeChartCanvas" style="display:block;width:100%;height:420px"></canvas>
+            </div>
+
+            <!-- RIGHT: params top + AI bottom -->
+            <div style="display:flex;flex-direction:column;background:#0d1520">
+
+              <!-- Params table -->
+              <div style="padding:14px 18px;border-bottom:1px solid #c9a84c22;flex-shrink:0">
+                <p style="font-size:10px;font-weight:700;color:#c9a84c;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Trade Parameter</p>
+                <table style="width:100%"><tbody id="scDetailTable"></tbody></table>
+              </div>
+
+              <!-- AI Analysis -->
+              <div style="padding:14px 18px;flex:1;overflow-y:auto;max-height:280px">
+                <p style="font-size:10px;font-weight:700;color:#c9a84c;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">KI-Analyse zum Szenario</p>
+                <div id="scDetailAI" style="font-size:12px;color:#c8d0dc;line-height:1.8"><span class="spin"></span> Wird geladen…</div>
+              </div>
             </div>
           </div>
         </div>
@@ -858,22 +876,23 @@ function openScenarioDetail(idx){
   document.getElementById('scDetailTitle').textContent=`Szenario ${sc.id}: ${sc.name}`;
   document.getElementById('scDetailTable').innerHTML=[
     ['Richtung',  bdg(d,sc.direction)],
-    ['Entry',     `<span style="color:#fbbf24;font-weight:700;font-size:14px">${sc.entry}</span>`],
-    ['Stop Loss', `<span style="color:#f87171;font-weight:700;font-size:14px">${sc.sl}</span>`],
-    ['TP1',       `<span style="color:#4ade80;font-weight:700;font-size:14px">${sc.tp1}</span>`],
-    ['TP2',       `<span style="color:#4ade80;font-weight:700;font-size:14px">${sc.tp2}</span>`],
-    ['R:R',       `<span style="color:#c9a84c;font-weight:700;font-size:14px">${sc.rr}</span>`],
+    ['Entry',     `<span style="color:#fbbf24;font-weight:700">${sc.entry}</span>`],
+    ['Stop Loss', `<span style="color:#f87171;font-weight:700">${sc.sl}</span>`],
+    ['TP1',       `<span style="color:#4ade80;font-weight:700">${sc.tp1}</span>`],
+    ['TP2',       `<span style="color:#4ade80;font-weight:700">${sc.tp2}</span>`],
+    ['R:R',       `<span style="color:#c9a84c;font-weight:700">${sc.rr}</span>`],
     ['Entry TF',  `<span style="color:#c9a84c">${sc.entryTF}</span>`],
-    ['Higher TFs', sc.higherTFs?.join(' → ')||''],
+    ['Higher TFs',sc.higherTFs?.join(' → ')||''],
     ['Konfluenz', (sc.confluenceFactors||[]).join(' · ')],
-    ['Timing',    sc.timing],
-    ['Beste Session', sc.bestSession||'—'],
-    ['Entry Signal',  sc.entrySignal],
-    ['Exit Signal',   sc.exitSignal],
-    ['Invalidierung', `<span style="color:#f87171">${sc.invalidation||'—'}</span>`],
-    ['Wahrsch.', `<span style="color:${pc(sc.probability)};font-weight:700">${sc.probability}%</span>`],
+    ['Session',   sc.bestSession||'—'],
+    ['Entry Signal', sc.entrySignal],
+    ['Invalidierung',`<span style="color:#f87171">${sc.invalidation||'—'}</span>`],
+    ['Wahrsch.',  `<span style="color:${pc(sc.probability)};font-weight:700">${sc.probability}%</span>`],
     ['Konfidenz', confBadge(sc.confidence)],
-  ].map(([k,v])=>`<tr><td class="sc-param-key">${k}</td><td class="sc-param-val">${v}</td></tr>`).join('');
+  ].map(([k,v])=>`<tr>
+    <td style="color:#3a5570;font-size:10px;text-transform:uppercase;letter-spacing:.05em;padding:4px 0;border-bottom:1px solid #0d1a2a;width:100px;vertical-align:middle">${k}</td>
+    <td style="font-size:12px;padding:4px 0 4px 10px;border-bottom:1px solid #0d1a2a;vertical-align:middle;color:#f0f0f8">${v}</td>
+  </tr>`).join('');
 
   // Trade Chart
   const bars=a._bars?.[sc.entryTF]||a._bars?.['H1']||a._bars?.['D1']||[];
@@ -901,9 +920,10 @@ Abschnitte: **Warum jetzt?** | **Einstieg** | **Risiken** | **Fazit**`,600)
 function drawTradeChart(sym,sc,bars){
   const canvas=document.getElementById('tradeChartCanvas');
   const wrap=document.getElementById('tradeChartWrap');
-  canvas.width=wrap.clientWidth||900;
-  const W=canvas.width, H=280;
-  canvas.height=H;
+  const H=420;
+  canvas.width=420; canvas.height=H;
+  canvas.style.width='100%'; canvas.style.height=H+'px';
+  const W=420;
   const ctx=canvas.getContext('2d');
 
   document.getElementById('tcSymLabel').textContent=sym;
