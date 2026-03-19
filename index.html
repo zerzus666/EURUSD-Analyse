@@ -83,7 +83,7 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
 #scDetailBlock{display:none;margin-bottom:14px}
 .sc-param-key{color:#d0d0e0;font-size:12px;text-transform:uppercase;letter-spacing:.06em;padding:7px 0;border-bottom:1px solid #1a1a1a;width:140px;vertical-align:middle}
 .sc-param-val{font-size:13px;color:#f0f0f8;padding:7px 0 7px 14px;border-bottom:1px solid #1a1a1a;vertical-align:middle}
-#tradeChartWrap{background:#0d1117;border-radius:10px;border:1px solid #c9a84c44;overflow:hidden;margin-bottom:16px}
+#tradeChartWrap{background:#0a1828;border-radius:10px;border:1px solid #c9a84c44;overflow:hidden;margin-bottom:16px}
 #tradeChartHeader{background:#161b22;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #c9a84c33}
 #tradeChartCanvas{display:block;width:100%}
 #aiLoader{display:none;position:fixed;bottom:28px;right:28px;z-index:99999;flex-direction:column;align-items:center;gap:8px}
@@ -280,10 +280,12 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
                 <span style="color:#f87171">● SL</span>
                 <span style="color:#4ade80">● TP1</span>
                 <span style="color:#86efac">● TP2</span>
-                <span style="color:#eab308">— EMA20</span>
+                <span style="color:#c6d400">— EMA9</span>
+                <span style="color:#20b2aa;opacity:.7">▪ Cloud</span>
+                <span style="color:#ffffff88">↷ Projektion</span>
               </div>
             </div>
-            <canvas id="tradeChartCanvas" height="340" style="display:block;width:100%"></canvas>
+            <canvas id="tradeChartCanvas" height="280" style="display:block;width:100%"></canvas>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
             <table><tbody id="scDetailTable"></tbody></table>
@@ -900,7 +902,7 @@ function drawTradeChart(sym,sc,bars){
   const canvas=document.getElementById('tradeChartCanvas');
   const wrap=document.getElementById('tradeChartWrap');
   canvas.width=wrap.clientWidth||900;
-  const W=canvas.width, H=340;
+  const W=canvas.width, H=280;
   canvas.height=H;
   const ctx=canvas.getContext('2d');
 
@@ -912,89 +914,168 @@ function drawTradeChart(sym,sc,bars){
   tcDir.style.background=isBull?'rgba(74,222,128,.2)':'rgba(248,113,113,.2)';
   tcDir.style.color=isBull?'#4ade80':'#f87171';
 
-  ctx.fillStyle='#0d1117'; ctx.fillRect(0,0,W,H);
+  // Dark blue gradient background (TradingView style)
+  const bgGrad=ctx.createLinearGradient(0,0,0,H);
+  bgGrad.addColorStop(0,'#0d1f35'); bgGrad.addColorStop(1,'#091520');
+  ctx.fillStyle=bgGrad; ctx.fillRect(0,0,W,H);
 
   if(!bars||bars.length<5){
-    ctx.fillStyle='#d0d0e0'; ctx.font='14px Inter'; ctx.textAlign='center';
+    ctx.fillStyle='#4a6080'; ctx.font='14px Inter'; ctx.textAlign='center';
     ctx.fillText('Keine Kerzen-Daten verfügbar',W/2,H/2); return;
   }
 
-  // BUG FIX 1: Massive liefert newest-first → umkehren für chronologische Darstellung
-  const data=[...bars].reverse().slice(-60);
-
+  const data=[...bars].reverse().slice(-50);
   const entry=parseFloat(sc.entry)||0, sl=parseFloat(sc.sl)||0,
         tp1=parseFloat(sc.tp1)||0,   tp2=parseFloat(sc.tp2)||0;
 
   const nums=[...data.map(b=>[+b.h,+b.l]).flat(),entry,sl,tp1,tp2].filter(v=>v&&!isNaN(v)&&v>0);
   if(!nums.length) return;
   let minP=Math.min(...nums), maxP=Math.max(...nums);
-  const pad=(maxP-minP)*0.12; minP-=pad; maxP+=pad;
+  const rangePad=(maxP-minP)*0.15; minP-=rangePad; maxP+=rangePad;
 
-  const PAD={left:72,right:88,top:18,bottom:26};
+  const PAD={left:68,right:96,top:14,bottom:26};
   const cW=W-PAD.left-PAD.right, cH=H-PAD.top-PAD.bottom;
   const toY=p=>PAD.top+cH-((p-minP)/(maxP-minP))*cH;
-  const bSlot=cW/data.length, bW=Math.max(2,Math.floor(bSlot*0.65));
+  const bSlot=cW/data.length, bW=Math.max(2,Math.floor(bSlot*0.62));
   const bX=i=>PAD.left+i*bSlot+(bSlot-bW)/2;
 
-  for(let i=0;i<=5;i++){
-    const y=PAD.top+(cH/5)*i;
-    ctx.strokeStyle='#1e2633'; ctx.lineWidth=1; ctx.setLineDash([]);
+  // Grid lines (subtle blue)
+  for(let i=0;i<=6;i++){
+    const y=PAD.top+(cH/6)*i;
+    ctx.strokeStyle='#152840'; ctx.lineWidth=1; ctx.setLineDash([]);
     ctx.beginPath(); ctx.moveTo(PAD.left,y); ctx.lineTo(W-PAD.right,y); ctx.stroke();
-    ctx.fillStyle='#778899'; ctx.font='10px Inter'; ctx.textAlign='right';
-    ctx.fillText((maxP-(maxP-minP)*(i/5)).toFixed(5),PAD.left-4,y+3);
+    ctx.fillStyle='#3a5570'; ctx.font='10px Inter'; ctx.textAlign='right';
+    ctx.fillText((maxP-(maxP-minP)*(i/6)).toFixed(5),PAD.left-4,y+3.5);
   }
 
-  // BUG FIX 2: EMA braucht chronologische Reihenfolge (älteste zuerst) → data ist jetzt korrekt
+  // ── Ichimoku-style cloud (EMA9 + EMA26 fill) ──
   const closes=data.map(b=>+b.c);
-  const ema20=calcEMA(closes,20);
-  ctx.beginPath(); ctx.strokeStyle='#eab308'; ctx.lineWidth=1.5; ctx.setLineDash([]);
-  data.forEach((_,i)=>{ i===0?ctx.moveTo(bX(i)+bW/2,toY(ema20[i])):ctx.lineTo(bX(i)+bW/2,toY(ema20[i])); });
+  const ema9=calcEMA(closes,9), ema26=calcEMA(closes,26);
+
+  // Cloud fill
+  ctx.beginPath();
+  data.forEach((_,i)=>{ i===0?ctx.moveTo(bX(i)+bW/2,toY(ema9[i])):ctx.lineTo(bX(i)+bW/2,toY(ema9[i])); });
+  for(let i=data.length-1;i>=0;i--) ctx.lineTo(bX(i)+bW/2,toY(ema26[i]));
+  ctx.closePath();
+  ctx.fillStyle='rgba(18,110,140,0.32)'; ctx.fill();
+
+  // EMA26 line (slow, teal)
+  ctx.beginPath(); ctx.strokeStyle='rgba(32,200,200,0.55)'; ctx.lineWidth=1; ctx.setLineDash([]);
+  data.forEach((_,i)=>{ i===0?ctx.moveTo(bX(i)+bW/2,toY(ema26[i])):ctx.lineTo(bX(i)+bW/2,toY(ema26[i])); });
   ctx.stroke();
 
-  const drawZone=(p1,p2,col)=>{
-    if(!p1||!p2||isNaN(p1)||isNaN(p2)) return;
-    const y1=toY(Math.max(p1,p2)), y2=toY(Math.min(p1,p2));
-    ctx.fillStyle=col; ctx.fillRect(PAD.left,y1,cW,y2-y1);
-  };
-  drawZone(entry,tp1,isBull?'rgba(74,222,128,.08)':'rgba(248,113,113,.08)');
-  drawZone(entry,sl,'rgba(248,113,113,.08)');
+  // EMA9 line (fast, yellow-lime like TradingView)
+  ctx.beginPath(); ctx.strokeStyle='#c6d400'; ctx.lineWidth=1.5; ctx.setLineDash([]);
+  data.forEach((_,i)=>{ i===0?ctx.moveTo(bX(i)+bW/2,toY(ema9[i])):ctx.lineTo(bX(i)+bW/2,toY(ema9[i])); });
+  ctx.stroke();
 
+  // ── Candles (white hollow = bull, red filled = bear) ──
   data.forEach((b,i)=>{
     const o=+b.o,h=+b.h,l=+b.l,c=+b.c, bull=c>=o;
-    const col=bull?'#26a69a':'#ef5350';
-    ctx.strokeStyle=col; ctx.lineWidth=1; ctx.setLineDash([]);
+    // Wick
+    ctx.strokeStyle=bull?'#d0d0d0':'#ef5350'; ctx.lineWidth=1; ctx.setLineDash([]);
     ctx.beginPath(); ctx.moveTo(bX(i)+bW/2,toY(h)); ctx.lineTo(bX(i)+bW/2,toY(l)); ctx.stroke();
-    const bodyTop=Math.min(toY(o),toY(c)), bodyH=Math.max(Math.abs(toY(c)-toY(o)),1);
-    ctx.fillStyle=col; ctx.fillRect(bX(i),bodyTop,bW,bodyH);
+    // Body
+    const bodyTop=Math.min(toY(o),toY(c)), bodyH=Math.max(Math.abs(toY(c)-toY(o)),1.5);
+    if(bull){
+      // Hollow white candle
+      ctx.strokeStyle='#d8d8d8'; ctx.lineWidth=1;
+      ctx.strokeRect(bX(i),bodyTop,bW,bodyH);
+      ctx.fillStyle='rgba(216,216,216,0.12)'; ctx.fillRect(bX(i),bodyTop,bW,bodyH);
+    } else {
+      ctx.fillStyle='#ef5350'; ctx.fillRect(bX(i),bodyTop,bW,bodyH);
+    }
   });
 
-  const drawLevel=(price,color,label,dashed=false)=>{
+  // ── Key level lines (dashed, TradingView style) ──
+  const drawLevel=(price,color,label,dashed=true)=>{
     if(!price||isNaN(price)||price<=0) return;
-    const y=toY(price); if(y<0||y>H) return;
-    ctx.strokeStyle=color; ctx.lineWidth=1.5; ctx.setLineDash(dashed?[6,4]:[]);
+    const y=toY(price); if(y<PAD.top-2||y>H-PAD.bottom+2) return;
+    ctx.strokeStyle=color; ctx.lineWidth=1; ctx.setLineDash(dashed?[5,4]:[]);
     ctx.beginPath(); ctx.moveTo(PAD.left,y); ctx.lineTo(W-PAD.right,y); ctx.stroke();
     ctx.setLineDash([]);
     ctx.font='bold 10px Inter';
-    const lw=ctx.measureText(label).width+12, lx=W-PAD.right+4;
-    ctx.fillStyle=color+'dd';
-    if(ctx.roundRect) ctx.roundRect(lx,y-9,lw,18,3); else ctx.rect(lx,y-9,lw,18);
+    const labelStr=label+' '+price.toFixed(5);
+    const lw=ctx.measureText(labelStr).width+10, lx=W-PAD.right+3;
+    ctx.fillStyle=color;
+    if(ctx.roundRect) ctx.roundRect(lx,y-9,lw,17,3); else ctx.rect(lx,y-9,lw,17);
     ctx.fill();
     ctx.fillStyle='#0a0a0a'; ctx.textAlign='left';
-    ctx.fillText(label,lx+6,y+3.5);
+    ctx.fillText(labelStr,lx+5,y+3.5);
   };
-  drawLevel(tp2,'#86efac',`TP2 ${tp2?tp2.toFixed(5):''}`,true);
-  drawLevel(tp1,'#4ade80',`TP1 ${tp1?tp1.toFixed(5):''}`);
-  drawLevel(entry,'#fbbf24',`Entry ${entry?entry.toFixed(5):''}`);
-  drawLevel(sl,'#f87171',`SL ${sl?sl.toFixed(5):''}`);
+  drawLevel(tp2,'#86efac','TP2',true);
+  drawLevel(tp1,'#4ade80','TP1',true);
+  drawLevel(entry,'#fbbf24','Entry',false);
+  drawLevel(sl,'#f87171','SL',false);
 
-  const lastI=data.length-1, ax=bX(lastI)+bW/2, entryY=toY(entry);
-  const ay=entryY+(isBull?-22:22);
-  if(ay>0&&ay<H){ ctx.fillStyle='#fbbf24'; ctx.font='bold 16px Inter'; ctx.textAlign='center'; ctx.fillText(isBull?'▲':'▼',ax,ay+(isBull?6:-2)); }
+  // ── Projected trade path (curved arrow like TradingView annotation) ──
+  const lastBarX=bX(data.length-1)+bW/2;
+  const projW=cW*0.25; // projection takes ~25% of chart width
+  const entryY=toY(entry), tp1Y=toY(tp1), slY=toY(sl);
+  const endX=lastBarX+projW;
 
-  ctx.fillStyle='#667788'; ctx.font='9px Inter'; ctx.textAlign='center';
-  [0,15,30,45,data.length-1].filter(i=>i<data.length).forEach(i=>{
-    if(data[i]?.t) ctx.fillText(data[i].t.slice(5,10),bX(i)+bW/2,H-6);
-  });
+  // Projection zone (faint overlay)
+  ctx.fillStyle=isBull?'rgba(74,222,128,0.04)':'rgba(248,113,113,0.04)';
+  ctx.fillRect(lastBarX,PAD.top,projW,cH);
+
+  // Divider line
+  ctx.strokeStyle='rgba(255,255,255,0.12)'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(lastBarX,PAD.top); ctx.lineTo(lastBarX,H-PAD.bottom); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Bezier curve: for Short → slight retest up then drop; for Long → slight pullback then rise
+  const bounce=Math.abs(entryY-tp1Y)*0.3;
+  const cp1x=lastBarX+projW*0.22, cp1y=isBull?entryY+bounce:entryY-bounce;
+  const cp2x=lastBarX+projW*0.65, cp2y=tp1Y+(isBull?bounce*0.4:-bounce*0.4);
+  const finalX=endX-4, finalY=tp1Y;
+
+  ctx.beginPath();
+  ctx.moveTo(lastBarX,entryY);
+  ctx.bezierCurveTo(cp1x,cp1y,cp2x,cp2y,finalX,finalY);
+  ctx.strokeStyle='rgba(255,255,255,0.82)';
+  ctx.lineWidth=2; ctx.setLineDash([]);
+  ctx.stroke();
+
+  // Arrowhead
+  const angleArr=Math.atan2(finalY-cp2y,finalX-cp2x);
+  const arrSz=8;
+  ctx.beginPath();
+  ctx.moveTo(finalX,finalY);
+  ctx.lineTo(finalX-arrSz*Math.cos(angleArr-0.38),finalY-arrSz*Math.sin(angleArr-0.38));
+  ctx.lineTo(finalX-arrSz*Math.cos(angleArr+0.38),finalY-arrSz*Math.sin(angleArr+0.38));
+  ctx.closePath();
+  ctx.fillStyle='rgba(255,255,255,0.85)'; ctx.fill();
+
+  // Target price label at arrow end (like "0.7046" in screenshot)
+  if(tp1>0){
+    ctx.font='bold 11px Inter';
+    const tl=tp1.toFixed(5), tw2=ctx.measureText(tl).width+10;
+    const tlx=finalX+6, tly=finalY;
+    if(tlx+tw2<W){
+      ctx.fillStyle=isBull?'#4ade80':'#f87171';
+      if(ctx.roundRect) ctx.roundRect(tlx,tly-9,tw2,17,3); else ctx.rect(tlx,tly-9,tw2,17);
+      ctx.fill();
+      ctx.fillStyle='#0a0a0a'; ctx.textAlign='left';
+      ctx.fillText(tl,tlx+5,tly+3.5);
+    }
+  }
+
+  // Start dot on arrow
+  ctx.beginPath(); ctx.arc(lastBarX,entryY,3.5,0,Math.PI*2);
+  ctx.fillStyle='#fbbf24'; ctx.fill();
+
+  // Direction badge (▲ / ▼) near last candle
+  const arrowBadgeY=entryY+(isBull?-20:20);
+  if(arrowBadgeY>PAD.top&&arrowBadgeY<H-PAD.bottom){
+    ctx.fillStyle='#fbbf24'; ctx.font='bold 15px Inter'; ctx.textAlign='center';
+    ctx.fillText(isBull?'▲':'▼',lastBarX,arrowBadgeY+(isBull?5:-2));
+  }
+
+  // Timestamp labels
+  ctx.fillStyle='#3a5570'; ctx.font='9px Inter'; ctx.textAlign='center';
+  [0,Math.floor(data.length*0.25),Math.floor(data.length*0.5),Math.floor(data.length*0.75),data.length-1]
+    .filter(i=>i<data.length&&data[i]?.t)
+    .forEach(i=>ctx.fillText(data[i].t.slice(5,10),bX(i)+bW/2,H-7));
 }
 
 // ─── TradingView ───────────────────────────────────────────────────
