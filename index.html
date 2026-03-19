@@ -250,7 +250,7 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
     </div>
 
     <!-- Analysis Timestamp -->
-    <div id="analysisTimestamp" style="display:none;background:#111111;border-bottom:1px solid #c9a84c44;padding:12px 24px;display:flex;align-items:center;gap:16px">
+    <div id="analysisTimestamp" style="display:none;background:#111111;border-bottom:1px solid #c9a84c44;padding:12px 24px;align-items:center;gap:16px">
       <div style="font-size:28px">🕐</div>
       <div>
         <div id="tsWeekday" style="font-size:11px;font-weight:700;color:#c9a84c;text-transform:uppercase;letter-spacing:.12em;margin-bottom:2px"></div>
@@ -627,7 +627,6 @@ function showAnalysisTimestamp(){
   document.getElementById('tsDateTime').textContent=`${date} · ${time} Uhr`;
   document.getElementById('tsUTC').textContent=utc;
   document.getElementById('analysisTimestamp').style.display='flex';
-}
 let aiTasksTotal=0, aiTasksDone=0;
 
 function aiCircleShow(total){
@@ -788,11 +787,22 @@ Antworte NUR mit validem JSON, kein Markdown:
     const m=text.match(/\{[\s\S]*\}/);
     if(!m) throw new Error('Kein JSON');
     analysisCache[sym]=JSON.parse(m[0]);
+    // Timestamp speichern
+    const _now=new Date();
+    const _wd=['So','Mo','Di','Mi','Do','Fr','Sa'][_now.getDay()];
+    const _d=`${_now.getDate().toString().padStart(2,'0')}.${(_now.getMonth()+1).toString().padStart(2,'0')}.${_now.getFullYear()}`;
+    const _t=_now.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
+    analysisCache[sym]._timestamp=`${_wd}, ${_d} · ${_t} Uhr`;
+    // Bars als Zahlen speichern für den Trade-Chart
+    const toNumBars = arr => (arr||[]).map(b=>({
+      t: new Date(b.t).toISOString().slice(0,16).replace('T',' '),
+      o:+b.o, h:+b.h, l:+b.l, c:+b.c
+    }));
     analysisCache[sym]._bars={
-      'D1': fmtBars(D1,60),
-      'H4': fmtBars(H4,60),
-      'H1': fmtBars(H1f,60),
-      'M15': fmtBars(M15f,80),
+      'D1': toNumBars(D1),
+      'H4': toNumBars(H4),
+      'H1': toNumBars(H1f),
+      'M15': toNumBars(M15f),
     };
     renderSymGrid();
   }catch(e){ setCardStatus(sym,'❌ '+e.message); }
@@ -808,7 +818,12 @@ function openSymbol(sym){
   currentSymbol=sym;
   const a=analysisCache[sym];
   document.getElementById('ovTitle').textContent=sym+(a?` · ${a.lastPrice}`:'');
-  document.getElementById('ovSub').textContent=a?`Bias: ${a.fundamental?.bias} · D1: ${a.trend?.d1} · H4: ${a.trend?.h4} · H1: ${a.trend?.h1} · M15: ${a.trend?.m15}`:'Wird analysiert…';
+  document.getElementById('ovSub').innerHTML=a
+    ? (() => {
+        const ts=a._timestamp||'';
+        return `<span style="color:#c9a84c;font-weight:700">${ts?`✅ Analyse vom ${ts}`:'✅ Analysiert'}</span><span style="color:#d0d0e0;margin-left:12px">Bias: ${a.fundamental?.bias} · D1: ${a.trend?.d1} · H4: ${a.trend?.h4} · H1: ${a.trend?.h1} · M15: ${a.trend?.m15}</span>`;
+      })()
+    : '<span class="spin"></span><span style="color:#d0d0e0">Wird analysiert…</span>';
   document.getElementById('scDetailBlock').style.display='none';
   document.getElementById('overlay').style.display='block';
   document.body.style.overflow='hidden';
@@ -827,6 +842,14 @@ async function analyzeAndRender(sym){
   const a=analysisCache[sym];
   if(a){
     setProgress(100,'✅ Abgeschlossen','Alle Daten bereit');
+    // Zeitstempel unter dem Symbol einblenden
+    const now=new Date();
+    const wd=['So','Mo','Di','Mi','Do','Fr','Sa'][now.getDay()];
+    const date=`${now.getDate().toString().padStart(2,'0')}.${(now.getMonth()+1).toString().padStart(2,'0')}.${now.getFullYear()}`;
+    const time=now.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
+    document.getElementById('ovSub').innerHTML=
+      `<span style="color:#c9a84c;font-weight:700">✅ Analyse vom ${wd}, ${date} · ${time} Uhr</span>` +
+      `<span style="color:#d0d0e0;margin-left:12px">Bias: ${a.fundamental?.bias} · D1: ${a.trend?.d1} · H4: ${a.trend?.h4} · H1: ${a.trend?.h1} · M15: ${a.trend?.m15}</span>`;
     setTimeout(()=>{ hideProgress(); renderOverlay(a); },600);
     document.getElementById('ovTitle').textContent=sym+` · ${a.lastPrice}`;
   } else { hideProgress(); }
