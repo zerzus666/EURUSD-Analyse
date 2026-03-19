@@ -249,7 +249,18 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
       </div>
     </div>
 
-    <!-- Progress Banner -->
+    <!-- Analysis Timestamp -->
+    <div id="analysisTimestamp" style="display:none;background:#111111;border-bottom:1px solid #c9a84c44;padding:12px 24px;display:flex;align-items:center;gap:16px">
+      <div style="font-size:28px">🕐</div>
+      <div>
+        <div id="tsWeekday" style="font-size:11px;font-weight:700;color:#c9a84c;text-transform:uppercase;letter-spacing:.12em;margin-bottom:2px"></div>
+        <div id="tsDateTime" style="font-size:20px;font-weight:800;color:#f0f0f8;letter-spacing:.02em"></div>
+      </div>
+      <div style="margin-left:auto;text-align:right">
+        <div style="font-size:10px;color:#d0d0e0;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px">Analyse-Zeitpunkt</div>
+        <div id="tsUTC" style="font-size:12px;font-weight:600;color:#d0d0e0"></div>
+      </div>
+    </div>
     <div id="ovProgress">
       <div style="display:flex;align-items:center;gap:14px;margin-bottom:10px">
         <span id="ovProgressIcon" style="font-size:26px">⏳</span>
@@ -584,7 +595,19 @@ async function callClaude(prompt,maxTok=2000){
   return d.content?.filter(b=>b.type==='text').map(b=>b.text).join('')||'';
 }
 
-// ─── AI Loading Circle ─────────────────────────────────────────────
+function showAnalysisTimestamp(){
+  const now=new Date();
+  const weekdays=['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+  const months=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+  const wd=weekdays[now.getDay()];
+  const date=`${now.getDate()}. ${months[now.getMonth()]} ${now.getFullYear()}`;
+  const time=now.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
+  const utc=now.toUTCString().slice(17,22)+' UTC';
+  document.getElementById('tsWeekday').textContent=wd;
+  document.getElementById('tsDateTime').textContent=`${date} · ${time} Uhr`;
+  document.getElementById('tsUTC').textContent=utc;
+  document.getElementById('analysisTimestamp').style.display='flex';
+}
 let aiTasksTotal=0, aiTasksDone=0;
 
 function aiCircleShow(total){
@@ -847,6 +870,7 @@ function renderOverlay(a){
     </div>`).join('');
 
   // Starte AI Circle: 2 Tasks (Tiefenanalyse + evtl. Szenario)
+  showAnalysisTimestamp();
   aiCircleShow(2);
   loadDeepAnalysis(a);
 
