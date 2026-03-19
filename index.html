@@ -7,27 +7,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <style>
-/* ── RESET & BASE ── */
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#f0f0f8;min-height:100vh;font-size:14px}
 a{color:#c9a84c;text-decoration:none}
-
-/* ── COLOUR TOKENS ──
-   Text:    #f0f0f8 (primary) · #d0d0e0 (secondary) · #b8b8cc (muted)
-   Gold:    #c9a84c (accent)  · #e8c96a (hover)
-   Green:   #4ade80   Red: #f87171   Amber: #fbbf24
-   BG:      #0a0a0a · #111111 · #1a1a1a · #222222
-   Border:  #c9a84c44 (cards) · #c9a84c (active)
-*/
-
-/* ── HEADER ── */
 #header{background:rgba(10,10,10,.97);backdrop-filter:blur(12px);border-bottom:1px solid #c9a84c44;padding:0 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;position:sticky;top:0;z-index:100;height:64px}
-.logo{display:flex;align-items:center;text-decoration:none}
 .logo-fx{font-size:22px;font-weight:900;color:#f0f0f8}
 .logo-sc{font-size:22px;font-weight:900;color:#c9a84c}
 .hbtns{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-
-/* ── BUTTONS ── */
 .btn{border:none;border-radius:6px;cursor:pointer;font-size:13px;font-weight:700;transition:all .15s;font-family:'Inter',sans-serif;padding:9px 18px;color:#f0f0f8;letter-spacing:.02em}
 .btn:disabled{opacity:.35;cursor:not-allowed}
 .btn:hover:not(:disabled){opacity:.82;transform:translateY(-1px)}
@@ -36,48 +22,32 @@ a{color:#c9a84c;text-decoration:none}
 .btn-gold:hover:not(:disabled){background:#e8c96a;opacity:1}
 .btn-green{background:#4ade80;color:#0a0a0a}
 .btn-red{background:transparent;border:1px solid rgba(248,113,113,.4);color:#f87171}
-
-/* ── MAIN ── */
 #main{padding:20px;max-width:1600px;margin:0 auto}
-
-/* ── CARDS ── */
 .card{background:#111111;border-radius:10px;padding:20px;margin-bottom:14px;border:1px solid #c9a84c44}
 .card-err{border-color:rgba(248,113,113,.5)}
 .card-accent{border-left:3px solid #c9a84c;border-color:#c9a84c66}
 .card-title{font-size:13px;font-weight:700;color:#c9a84c;text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px}
 .sub-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;color:#d0d0e0}
-
-/* ── INPUTS ── */
 input[type=password],input[type=text]{background:#1a1a1a;border:1px solid #c9a84c44;border-radius:6px;color:#f0f0f8;padding:9px 13px;font-size:13px;font-family:'Inter',sans-serif;width:100%}
 input:focus{outline:none;border-color:#c9a84c}
 .irow{display:flex;gap:8px;align-items:center}
 .irow input{flex:1}
-
-/* ── LEVELS ── */
 .level-pill{border-radius:5px;padding:5px 11px;margin-bottom:4px;font-size:13px;font-weight:500}
 .res-pill{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:#fca5a5}
 .sup-pill{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);color:#86efac}
-
-/* ── TABLE ── */
 table{width:100%;border-collapse:collapse}
 th{background:#0a0a0a;padding:10px 12px;text-align:left;font-size:11px;color:#d0d0e0;font-weight:700;border-bottom:1px solid #c9a84c33;white-space:nowrap;text-transform:uppercase;letter-spacing:.06em}
 td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-align:middle;color:#d0d0e0}
 .sc-row{cursor:pointer;transition:background .15s}
 .sc-row:hover td{background:rgba(201,168,76,.06);color:#f0f0f8}
-.prob-bar{height:3px;background:#222222;border-radius:3px;margin-top:4px}
+.prob-bar{height:3px;background:#222;border-radius:3px;margin-top:4px}
 .prob-fill{height:100%;border-radius:3px}
-
-/* ── SPINNER ── */
-.spin{display:inline-block;width:14px;height:14px;border:2px solid #333333;border-top-color:#c9a84c;border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:6px}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid #333;border-top-color:#c9a84c;border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:6px}
 @keyframes sp{to{transform:rotate(360deg)}}
-
-/* ── KPI GRID ── */
-.kpi-grid5{display:grid;grid-template-columns:repeat(9,1fr);gap:8px;margin-bottom:16px}
+.kpi-grid{display:grid;grid-template-columns:repeat(9,1fr);gap:8px;margin-bottom:16px}
 .kpi{background:#0a0a0a;border-radius:8px;padding:14px;border:1px solid #c9a84c44;text-align:center}
 .kpi-label{font-size:11px;color:#d0d0e0;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
 .kpi-val{font-size:18px;font-weight:700;color:#f0f0f8}
-
-/* ── SYMBOL GRID ── */
 .sym-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-bottom:20px}
 .sym-card{background:#111111;border-radius:10px;padding:18px;border:1px solid #c9a84c44;cursor:pointer;transition:all .2s;position:relative}
 .sym-card:hover{border-color:#c9a84c;transform:translateY(-2px);box-shadow:0 6px 24px rgba(201,168,76,.15)}
@@ -87,52 +57,44 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
 .sym-card:hover .sym-del{opacity:1}
 .sym-name{font-size:17px;font-weight:800;color:#f0f0f8}
 .sym-price{font-size:26px;font-weight:800;color:#f0f0f8;margin:8px 0 6px}
-.sym-trends{display:flex;gap:5px;margin:8px 0;flex-wrap:wrap}
 .sym-tf{font-size:11px;font-weight:700;padding:3px 9px;border-radius:4px;background:#1a1a1a;border:1px solid #c9a84c33;letter-spacing:.04em;color:#d0d0e0}
-.sym-levels{margin-top:8px;display:flex;gap:5px;flex-wrap:wrap}
-.sym-lvl{font-size:11px;padding:2px 7px;border-radius:3px}
-
-/* ── SESSIONS ── */
 .sess-bar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
 .sess-pill{border-radius:20px;padding:6px 16px;font-size:12px;font-weight:600;border:1px solid transparent;letter-spacing:.03em;color:#d0d0e0}
-
-/* ── TF SWITCHER ── */
 .tf-btns{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;align-items:center}
-.tf-btn{background:#111111;border:1px solid #c9a84c33;border-radius:6px;color:#d0d0e0;padding:8px 18px;cursor:pointer;font-size:13px;font-weight:700;transition:all .15s;font-family:'Inter',sans-serif;letter-spacing:.04em}
+.tf-btn{background:#111111;border:1px solid #c9a84c33;border-radius:6px;color:#d0d0e0;padding:8px 18px;cursor:pointer;font-size:13px;font-weight:700;transition:all .15s;font-family:'Inter',sans-serif}
 .tf-btn.active{background:rgba(201,168,76,.12);border-color:#c9a84c;color:#c9a84c}
 .tf-btn:hover{border-color:#c9a84c66;color:#f0f0f8}
-
-/* ── LAYOUT ── */
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
 .three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-
-/* ── OVERLAY ── */
 #overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:9999;overflow-y:auto}
 #ovBox{background:#0a0a0a;min-height:100vh;width:100%}
-#ovHeader{background:rgba(10,10,10,.98);border-bottom:1px solid #c9a84c44;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:10}
-#ovTitleWrap{flex:1}
+#ovHeader{background:rgba(10,10,10,.98);border-bottom:1px solid #c9a84c44;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:10}
 #ovTitle{font-size:20px;font-weight:800;color:#f0f0f8}
-#ovSub{font-size:12px;color:#d0d0e0;margin-top:3px;letter-spacing:.02em}
-
-/* ── PROGRESS BANNER ── */
+#ovSub{font-size:12px;color:#d0d0e0;margin-top:3px}
+#ovTimestamp{display:none;background:#111111;border-bottom:1px solid #c9a84c44;padding:12px 24px;align-items:center;gap:16px}
 #ovProgress{display:none;background:#111111;border-bottom:1px solid #c9a84c44;padding:16px 24px}
 #ovProgressLabel{font-size:13px;font-weight:700;color:#f0f0f8;margin-bottom:2px}
 #ovProgressSub{font-size:11px;color:#d0d0e0}
 #ovProgressPct{font-size:20px;font-weight:800;color:#c9a84c;min-width:48px;text-align:right}
-
-/* ── TV / BODY ── */
 #tvWrap{width:100%;background:#0a0a0a;border-bottom:1px solid #c9a84c44}
 #tvInner{width:100%;height:500px}
 #tv_chart{height:100%}
 #ovBody{padding:20px;width:100%}
-
-/* ── SCENARIO DETAIL ── */
 #scDetailBlock{display:none;margin-bottom:14px}
 .sc-param-key{color:#d0d0e0;font-size:12px;text-transform:uppercase;letter-spacing:.06em;padding:7px 0;border-bottom:1px solid #1a1a1a;width:140px;vertical-align:middle}
 .sc-param-val{font-size:13px;color:#f0f0f8;padding:7px 0 7px 14px;border-bottom:1px solid #1a1a1a;vertical-align:middle}
-
+#tradeChartWrap{background:#0d1117;border-radius:10px;border:1px solid #c9a84c44;overflow:hidden;margin-bottom:16px}
+#tradeChartHeader{background:#161b22;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #c9a84c33}
+#tradeChartCanvas{display:block;width:100%}
+#aiLoader{display:none;position:fixed;bottom:28px;right:28px;z-index:99999;flex-direction:column;align-items:center;gap:8px}
+.ai-circle{position:relative;width:72px;height:72px}
+.ai-circle svg{transform:rotate(-90deg)}
+.ai-circle-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#c9a84c}
+.ai-circle-label{font-size:10px;font-weight:700;color:#d0d0e0;text-align:center;text-transform:uppercase;letter-spacing:.06em;max-width:80px;line-height:1.3}
+.ai-stripes-ring{animation:spin-slow 3s linear infinite;transform-origin:36px 36px}
+@keyframes spin-slow{to{transform:rotate(360deg)}}
 @media(max-width:900px){
-  .kpi-grid5{grid-template-columns:repeat(3,1fr)}
+  .kpi-grid{grid-template-columns:repeat(3,1fr)}
   .two-col,.three-col{grid-template-columns:1fr}
   .sym-grid{grid-template-columns:1fr}
   #header{padding:0 16px}
@@ -141,104 +103,90 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
 </head>
 <body>
 
-<!-- HEADER -->
 <div id="header">
-  <a href="#" class="logo"><span class="logo-fx">FX</span><span class="logo-sc">Screener</span></a>
+  <a href="#" style="text-decoration:none;display:flex;align-items:center">
+    <span class="logo-fx">FX</span><span class="logo-sc">Screener</span>
+  </a>
   <div class="hbtns">
     <span id="updated" style="font-size:11px;color:#d0d0e0">AI-Powered Forex Analysis</span>
     <button class="btn btn-gray" onclick="toggleSettings()">⚙️ Keys</button>
-    <button class="btn btn-gray" onclick="toggleWatchlistEditor()">✏️ Watchlist</button>
+    <button class="btn btn-gray" onclick="toggleWatchlist()">✏️ Watchlist</button>
     <button class="btn btn-gold" id="analyzeAllBtn" onclick="analyzeAll()" disabled>⚡ Alle analysieren</button>
   </div>
 </div>
 
 <div id="main">
-
-  <!-- SETTINGS -->
   <div class="card" id="settingsPanel" style="display:none">
     <p class="card-title">⚙️ API Keys</p>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
       <div>
-        <label style="font-size:11px;color:#d0d0e0;font-weight:700;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em">Massive.com</label>
+        <label class="sub-label" style="display:block;margin-bottom:6px">Massive.com</label>
         <div id="massiveDisplay"></div>
         <p style="font-size:11px;color:#d0d0e0;margin-top:5px">→ <a href="https://massive.com/dashboard/keys" target="_blank">massive.com/dashboard/keys</a></p>
       </div>
       <div>
-        <label style="font-size:11px;color:#d0d0e0;font-weight:700;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em">Anthropic</label>
+        <label class="sub-label" style="display:block;margin-bottom:6px">Anthropic</label>
         <div id="anthropicDisplay"></div>
         <p style="font-size:11px;color:#d0d0e0;margin-top:5px">→ <a href="https://console.anthropic.com/keys" target="_blank">console.anthropic.com/keys</a></p>
       </div>
       <div>
-        <label style="font-size:11px;color:#c9a84c;font-weight:700;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em">⭐ Alpha Vantage (H1/M15 + Indikatoren)</label>
+        <label style="font-size:11px;font-weight:700;color:#c9a84c;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em">⭐ Alpha Vantage (H1/M15)</label>
         <div id="avDisplay"></div>
-        <p style="font-size:11px;color:#d0d0e0;margin-top:5px">→ <a href="https://www.alphavantage.co/support/#api-key" target="_blank">alphavantage.co – kostenloser Key</a></p>
+        <p style="font-size:11px;color:#d0d0e0;margin-top:5px">→ <a href="https://www.alphavantage.co/support/#api-key" target="_blank">alphavantage.co</a></p>
       </div>
     </div>
   </div>
 
-  <!-- WATCHLIST EDITOR -->
-  <div class="card" id="watchlistEditor" style="display:none">
+  <div class="card" id="watchlistPanel" style="display:none">
     <p class="card-title">✏️ Watchlist</p>
     <div class="irow" style="margin-bottom:12px">
-      <input type="text" id="newSymbolInput" placeholder="z.B. GBPUSD, USDJPY, XAUUSD"/>
-      <button class="btn btn-green" onclick="addSymbol()">+ Hinzufügen</button>
+      <input type="text" id="newSymInput" placeholder="z.B. GBPUSD, USDJPY, XAUUSD"/>
+      <button class="btn btn-green" onclick="addSym()">+ Hinzufügen</button>
     </div>
     <div id="watchlistTags" style="display:flex;gap:8px;flex-wrap:wrap"></div>
   </div>
 
-  <!-- ERROR -->
   <div class="card card-err" id="errorBox" style="display:none">
     <p id="errorMsg" style="color:#f87171;font-size:13px"></p>
   </div>
 
-  <!-- STATUS -->
   <div id="statusBar" style="color:#d0d0e0;font-size:13px;padding:8px 0;min-height:28px"></div>
 
-  <!-- SESSIONS -->
   <div class="card" style="padding:16px">
     <div class="sess-bar" id="sessBar"></div>
     <p id="sessHint" style="font-size:12px;color:#d0d0e0"></p>
   </div>
 
-  <!-- SYMBOL GRID -->
   <div class="sym-grid" id="symGrid"></div>
-
 </div>
 
-<!-- ═══════════ OVERLAY ═══════════ -->
-<!-- AI Loading Circle -->
+<!-- AI LOADER CIRCLE -->
 <div id="aiLoader">
   <div class="ai-circle">
     <svg width="72" height="72" viewBox="0 0 72 72">
-      <!-- rotating stripes ring -->
-      <g class="ai-circle-stripes">
-        <circle cx="36" cy="36" r="30" fill="none" stroke="#c9a84c11" stroke-width="6"/>
-        <!-- tick marks -->
-        <g stroke="#c9a84c44" stroke-width="2" stroke-linecap="round">
-          <line x1="36" y1="8"  x2="36" y2="14"/>
-          <line x1="36" y1="58" x2="36" y2="64"/>
-          <line x1="8"  y1="36" x2="14" y2="36"/>
-          <line x1="58" y1="36" x2="64" y2="36"/>
-          <line x1="15" y1="15" x2="20" y2="20"/>
-          <line x1="52" y1="52" x2="57" y2="57"/>
-          <line x1="57" y1="15" x2="52" y2="20"/>
-          <line x1="20" y1="52" x2="15" y2="57"/>
+      <g class="ai-stripes-ring">
+        <circle cx="36" cy="36" r="30" fill="none" stroke="#c9a84c11" stroke-width="5"/>
+        <g stroke="#c9a84c55" stroke-width="2" stroke-linecap="round">
+          <line x1="36" y1="8" x2="36" y2="14"/><line x1="36" y1="58" x2="36" y2="64"/>
+          <line x1="8" y1="36" x2="14" y2="36"/><line x1="58" y1="36" x2="64" y2="36"/>
+          <line x1="15" y1="15" x2="20" y2="20"/><line x1="52" y1="52" x2="57" y2="57"/>
+          <line x1="57" y1="15" x2="52" y2="20"/><line x1="20" y1="52" x2="15" y2="57"/>
         </g>
       </g>
-      <circle class="ai-circle-bg" cx="36" cy="36" r="26"/>
-      <circle class="ai-circle-fg" id="aiCircleFg" cx="36" cy="36" r="26"/>
+      <circle cx="36" cy="36" r="26" fill="none" stroke="#1a1a1a" stroke-width="6"/>
+      <circle id="aiCircleFg" cx="36" cy="36" r="26" fill="none" stroke="#c9a84c" stroke-width="6"
+        stroke-linecap="round" stroke-dasharray="163" stroke-dashoffset="163" style="transition:stroke-dashoffset .4s ease"/>
     </svg>
     <div class="ai-circle-pct" id="aiCirclePct">0%</div>
   </div>
   <div class="ai-circle-label" id="aiCircleLabel">KI lädt…</div>
 </div>
 
+<!-- OVERLAY -->
 <div id="overlay">
   <div id="ovBox">
-
-    <!-- Overlay Header -->
     <div id="ovHeader">
-      <div id="ovTitleWrap">
+      <div style="flex:1">
         <div id="ovTitle">—</div>
         <div id="ovSub"></div>
       </div>
@@ -249,28 +197,30 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
       </div>
     </div>
 
-    <!-- Analysis Timestamp -->
-    <div id="analysisTimestamp" style="display:none;background:#111111;border-bottom:1px solid #c9a84c44;padding:12px 24px;align-items:center;gap:16px">
-      <div style="font-size:28px">🕐</div>
+    <!-- Timestamp -->
+    <div id="ovTimestamp">
+      <div style="font-size:26px">🕐</div>
       <div>
         <div id="tsWeekday" style="font-size:11px;font-weight:700;color:#c9a84c;text-transform:uppercase;letter-spacing:.12em;margin-bottom:2px"></div>
-        <div id="tsDateTime" style="font-size:20px;font-weight:800;color:#f0f0f8;letter-spacing:.02em"></div>
+        <div id="tsDateTime" style="font-size:20px;font-weight:800;color:#f0f0f8"></div>
       </div>
       <div style="margin-left:auto;text-align:right">
         <div style="font-size:10px;color:#d0d0e0;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px">Analyse-Zeitpunkt</div>
         <div id="tsUTC" style="font-size:12px;font-weight:600;color:#d0d0e0"></div>
       </div>
     </div>
+
+    <!-- Progress -->
     <div id="ovProgress">
       <div style="display:flex;align-items:center;gap:14px;margin-bottom:10px">
-        <span id="ovProgressIcon" style="font-size:26px">⏳</span>
+        <span style="font-size:26px">⏳</span>
         <div style="flex:1">
           <div id="ovProgressLabel">Analyse gestartet</div>
           <div id="ovProgressSub"></div>
         </div>
         <div id="ovProgressPct">0%</div>
       </div>
-      <div style="height:5px;background:#222222;border-radius:5px;overflow:hidden">
+      <div style="height:5px;background:#222;border-radius:5px;overflow:hidden">
         <div id="ovProgressBar" style="height:100%;width:0%;background:linear-gradient(90deg,#c9a84c,#e8c96a);border-radius:5px;transition:width .4s ease"></div>
       </div>
       <div style="display:flex;justify-content:space-between;margin-top:5px">
@@ -283,8 +233,6 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
     <div id="tvWrap"><div id="tvInner"><div id="tv_chart"></div></div></div>
 
     <div id="ovBody">
-
-      <!-- TF Switcher -->
       <div class="tf-btns">
         <span style="font-size:12px;color:#d0d0e0;font-weight:600">Timeframe:</span>
         <button class="tf-btn" data-tf="15"  onclick="switchTF('15')">M15</button>
@@ -294,13 +242,12 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
         <button class="tf-btn" data-tf="W"   onclick="switchTF('W')">W1</button>
       </div>
 
-      <!-- KPIs -->
-      <div class="kpi-grid5" id="ovKPIs"></div>
+      <div class="kpi-grid" id="ovKPIs"></div>
 
-      <!-- ① SZENARIEN -->
-      <div class="card" id="scenariosBlock">
+      <!-- Szenarien -->
+      <div class="card" id="scenariosBlock" style="margin-bottom:14px">
         <p class="card-title">🎯 Trade-Szenarien</p>
-        <p style="font-size:12px;color:#d0d0e0;margin-bottom:14px">👆 Klicke auf eine Zeile für die Detailansicht</p>
+        <p style="font-size:12px;color:#d0d0e0;margin-bottom:14px">👆 Klicke auf eine Zeile für Detailansicht + Trade-Chart</p>
         <div style="overflow-x:auto">
           <table>
             <thead><tr>
@@ -314,15 +261,13 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
         </div>
       </div>
 
-      <!-- ② SZENARIO DETAIL -->
+      <!-- Szenario Detail -->
       <div id="scDetailBlock">
         <div class="card card-accent">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
             <p id="scDetailTitle" style="font-size:17px;font-weight:800;color:#f0f0f8"></p>
             <button class="btn btn-gray" style="font-size:12px" onclick="document.getElementById('scDetailBlock').style.display='none'">✕</button>
           </div>
-
-          <!-- Trade Chart -->
           <div id="tradeChartWrap">
             <div id="tradeChartHeader">
               <div style="display:flex;align-items:center;gap:10px">
@@ -335,23 +280,22 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
                 <span style="color:#f87171">● SL</span>
                 <span style="color:#4ade80">● TP1</span>
                 <span style="color:#86efac">● TP2</span>
+                <span style="color:#eab308">— EMA20</span>
               </div>
             </div>
-            <canvas id="tradeChartCanvas" height="340"></canvas>
+            <canvas id="tradeChartCanvas" height="340" style="display:block;width:100%"></canvas>
           </div>
-
-          <!-- Param + AI side by side -->
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
             <table><tbody id="scDetailTable"></tbody></table>
             <div>
-              <p class="sub-label" style="color:#c9a84c">KI-Analyse zum Szenario</p>
+              <p class="sub-label" style="color:#c9a84c;margin-bottom:8px">KI-Analyse zum Szenario</p>
               <div id="scDetailAI" style="font-size:13px;color:#f0f0f8;line-height:1.8"><span class="spin"></span> Wird geladen…</div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ③ KEY LEVELS + BIAS -->
+      <!-- Key Levels + Bias -->
       <div class="two-col" id="twoColBlock">
         <div class="card">
           <p class="card-title">📊 Key Levels</p>
@@ -371,7 +315,7 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
         </div>
       </div>
 
-      <!-- ④ FUNDAMENTAL -->
+      <!-- Fundamental -->
       <div class="card" id="fundBlock">
         <p class="card-title">📰 Fundamentalanalyse</p>
         <div class="three-col">
@@ -381,20 +325,20 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
         </div>
       </div>
 
-      <!-- ⑤ SESSION TIMING -->
+      <!-- Session Timing -->
       <div class="card" id="sessBlock">
         <p class="card-title">⏰ Session-Timing</p>
         <div id="ovSessionTiming"></div>
       </div>
 
-      <!-- ⑥ KI TIEFENANALYSE -->
+      <!-- Tiefenanalyse -->
       <div class="card card-accent" id="deepBlock">
         <p class="card-title">🤖 KI-Tiefenanalyse</p>
         <div id="deepText" style="font-size:14px;color:#f0f0f8;line-height:1.9"><span class="spin"></span> Wird geladen…</div>
       </div>
 
-      <!-- ⑦ ZUSAMMENFASSUNG -->
-      <div class="card card-accent" id="summaryBlock" style="margin-bottom:24px">
+      <!-- Zusammenfassung -->
+      <div class="card card-accent" id="summaryBlock" style="margin-bottom:14px">
         <p class="card-title">📋 Zusammenfassung</p>
         <p id="ovSummary" style="font-size:14px;color:#f0f0f8;line-height:1.9"></p>
       </div>
@@ -405,76 +349,62 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
 </div>
 
 <script>
+// ─── Helpers ───────────────────────────────────────────────────────
 const fmt = d => d.toISOString().split('T')[0];
 const ago = n => { const d=new Date(); d.setDate(d.getDate()-n); return fmt(d); };
 const now = () => fmt(new Date());
-const trendColor = v => /bull|long|aufwärts|up|steig/i.test(v)?'#4ade80':/bear|short|abwärts|down|fall/i.test(v)?'#f87171':'#c9a84c';
-const confColor = c => {
-  const n=parseInt(c)||0;
-  return n>=8?'#4ade80':n>=5?'#c9a84c':'#f87171';
-};
+const tc  = v => /bull|long|aufwärts|up|steig/i.test(v)?'#4ade80':/bear|short|abwärts|down|fall/i.test(v)?'#f87171':'#c9a84c';
+const pc  = p => p>=65?'#4ade80':p>=50?'#c9a84c':'#f87171';
+const rc  = v => !v?'#f0f0f8':parseFloat(v)>70?'#f87171':parseFloat(v)<30?'#4ade80':'#c9a84c';
+const mc  = v => v==='Bullish'?'#4ade80':v==='Bearish'?'#f87171':'#f0f0f8';
+const bdg = (col,txt) => `<span style="background:${col}18;color:${col};border:1px solid ${col}44;border-radius:4px;padding:3px 10px;font-size:12px;font-weight:700">${txt}</span>`;
 const confBadge = c => {
-  const n=parseInt(c)||0; const col=confColor(n);
-  const bars=Array.from({length:10},(_,i)=>`<span style="display:inline-block;width:8px;height:12px;border-radius:2px;margin-right:1px;background:${i<n?col:'#2a2a2a'}"></span>`).join('');
-  return `<div style="display:flex;align-items:center;gap:6px">${bars}<span style="color:${col};font-weight:800;font-size:13px">${n}/10</span></div>`;
+  const n=Math.min(10,Math.max(0,parseInt(c)||0));
+  const col=n>=8?'#4ade80':n>=5?'#c9a84c':'#f87171';
+  const bars=Array.from({length:10},(_,i)=>`<span style="display:inline-block;width:7px;height:11px;border-radius:2px;margin-right:1px;background:${i<n?col:'#2a2a2a'}"></span>`).join('');
+  return `<div style="display:flex;align-items:center;gap:5px">${bars}<span style="color:${col};font-weight:800;font-size:12px">${n}/10</span></div>`;
 };
-const probColor  = p => p>=65?'#4ade80':p>=50?'#c9a84c':'#f87171';
-const rsiColor   = v => !v?'#f0f0f8':parseFloat(v)>70?'#f87171':parseFloat(v)<30?'#4ade80':'#c9a84c';
-const macdColor  = v => v==='Bullish'?'#4ade80':v==='Bearish'?'#f87171':'#f0f0f8';
-const badge      = (col,txt) => `<span style="background:${col}18;color:${col};border:1px solid ${col}44;border-radius:4px;padding:3px 10px;font-size:12px;font-weight:700">${txt}</span>`;
 
 // ─── Keys ──────────────────────────────────────────────────────────
 const gk = k => localStorage.getItem(k)||'';
 const sk = (k,v) => localStorage.setItem(k,v);
 const dk = k => localStorage.removeItem(k);
-const mask = k => k ? k.slice(0,6)+'•••'+k.slice(-4) : '';
-
-function renderKeyField(cid, key, ph){
+const mask = k => k?k.slice(0,6)+'•••'+k.slice(-4):'';
+function renderKeyField(cid,key,ph){
   const el=document.getElementById(cid), val=gk(key);
-  el.innerHTML = val
-    ? `<div class="irow"><input type="text" value="${mask(val)}" disabled style="color:#4ade80;flex:1"><button class="btn btn-red" style="padding:7px 12px;white-space:nowrap" onclick="dk('${key}');renderKeyField('${cid}','${key}','${ph}');checkKeys()">Löschen</button></div>`
-    : `<div class="irow"><input type="password" id="i_${key}" placeholder="${ph}" style="flex:1"><button class="btn btn-green" style="white-space:nowrap" onclick="saveKF('${key}','i_${key}','${cid}','${ph}')">Speichern</button></div>`;
+  el.innerHTML=val
+    ?`<div class="irow"><input type="text" value="${mask(val)}" disabled style="color:#4ade80;flex:1"><button class="btn btn-red" style="padding:7px 12px;white-space:nowrap" onclick="dk('${key}');renderKeyField('${cid}','${key}','${ph}');checkKeys()">Löschen</button></div>`
+    :`<div class="irow"><input type="password" id="i_${key}" placeholder="${ph}" style="flex:1"><button class="btn btn-green" style="white-space:nowrap" onclick="saveKF('${key}','i_${key}','${cid}','${ph}')">Speichern</button></div>`;
 }
 function saveKF(key,iid,cid,ph){ const v=document.getElementById(iid).value.trim(); if(!v)return; sk(key,v); renderKeyField(cid,key,ph); checkKeys(); }
 function checkKeys(){ document.getElementById('analyzeAllBtn').disabled=!(gk('massive_api_key')&&gk('anthropic_api_key')); }
 function toggleSettings(){ const p=document.getElementById('settingsPanel'); p.style.display=p.style.display==='none'?'block':'none'; }
-function toggleWatchlistEditor(){ const p=document.getElementById('watchlistEditor'); p.style.display=p.style.display==='none'?'block':'none'; renderWatchlistTags(); }
+function toggleWatchlist(){ const p=document.getElementById('watchlistPanel'); p.style.display=p.style.display==='none'?'block':'none'; renderWatchlistTags(); }
 function setStatus(msg){ document.getElementById('statusBar').innerHTML=msg?`<span class="spin"></span>${msg}`:''; }
-function showErr(msg){ document.getElementById('errorMsg').textContent=msg; document.getElementById('errorBox').style.display='block'; setStatus(''); }
-function hideErr(){ document.getElementById('errorBox').style.display='none'; }
 
 // ─── Watchlist ─────────────────────────────────────────────────────
-const DEFAULT=['EURUSD','GBPUSD','USDJPY','XAUUSD','AUDUSD','USDCHF'];
-let watchlist=JSON.parse(localStorage.getItem('fx_watchlist')||JSON.stringify(DEFAULT));
-let analysisCache={}, currentSymbol=null;
-
-function saveWatchlist(){ localStorage.setItem('fx_watchlist',JSON.stringify(watchlist)); }
+const DEFAULTS=['EURUSD','GBPUSD','USDJPY','XAUUSD','AUDUSD','USDCHF'];
+let watchlist=JSON.parse(localStorage.getItem('fx_watchlist')||JSON.stringify(DEFAULTS));
+let cache={}, currentSym=null;
+function saveWL(){ localStorage.setItem('fx_watchlist',JSON.stringify(watchlist)); }
 function renderWatchlistTags(){
   document.getElementById('watchlistTags').innerHTML=watchlist.map(s=>`
     <div style="display:flex;align-items:center;gap:5px;background:#1a1a1a;border:1px solid #c9a84c44;border-radius:7px;padding:5px 10px">
       <span style="font-size:13px;font-weight:700;color:#f0f0f8">${s}</span>
-      <button onclick="removeSymbol('${s}')" style="background:none;border:none;color:#f87171;cursor:pointer;font-size:14px;padding:0 2px">✕</button>
+      <button onclick="removeSym('${s}')" style="background:none;border:none;color:#f87171;cursor:pointer;font-size:14px;padding:0 2px">✕</button>
     </div>`).join('');
 }
-function addSymbol(){
-  const raw=document.getElementById('newSymbolInput').value.trim().toUpperCase().replace(/[^A-Z]/g,'');
+function addSym(){
+  const raw=document.getElementById('newSymInput').value.trim().toUpperCase().replace(/[^A-Z]/g,'');
   if(!raw||watchlist.includes(raw)) return;
-  watchlist.push(raw); saveWatchlist();
-  document.getElementById('newSymbolInput').value='';
+  watchlist.push(raw); saveWL();
+  document.getElementById('newSymInput').value='';
   renderWatchlistTags(); renderSymGrid();
 }
-function removeSymbol(s){
-  watchlist=watchlist.filter(x=>x!==s); saveWatchlist();
-  delete analysisCache[s]; renderWatchlistTags(); renderSymGrid();
-}
+function removeSym(s){ watchlist=watchlist.filter(x=>x!==s); saveWL(); delete cache[s]; renderWatchlistTags(); renderSymGrid(); }
 
 // ─── Sessions ──────────────────────────────────────────────────────
-const SESS=[
-  {n:'Tokio',  o:0, c:9,  col:'#3b82f6'},
-  {n:'London', o:7, c:16, col:'#4ade80'},
-  {n:'New York',o:13,c:22,col:'#c9a84c'},
-  {n:'Overlap',o:13,c:16,col:'#f87171'},
-];
+const SESS=[{n:'Tokio',o:0,c:9,col:'#3b82f6'},{n:'London',o:7,c:16,col:'#4ade80'},{n:'New York',o:13,c:22,col:'#c9a84c'},{n:'Overlap',o:13,c:16,col:'#f87171'}];
 function renderSessions(){
   const utcH=new Date().getUTCHours()+new Date().getUTCMinutes()/60;
   let hints=[];
@@ -483,8 +413,8 @@ function renderSessions(){
     const mins=on?((s.c-utcH+24)%24*60|0):((s.o-utcH+24)%24*60|0);
     if(on) hints.push(`${s.n} aktiv – ${mins} Min.`);
     return `<div class="sess-pill" style="background:${on?s.col+'15':'#111111'};border-color:${on?s.col+'66':'#c9a84c33'};color:${on?s.col:'#d0d0e0'}">
-      ${on?'●':'○'} <strong>${s.n}</strong> &nbsp;${String(s.o).padStart(2,'0')}:00–${String(s.c).padStart(2,'0')}:00 UTC
-      ${on?`<span style="font-size:11px;opacity:.85"> · ${mins} Min.</span>`:''}
+      ${on?'●':'○'} <strong>${s.n}</strong>&nbsp;${String(s.o).padStart(2,'0')}:00–${String(s.c).padStart(2,'0')}:00 UTC
+      ${on?`<span style="font-size:11px"> · ${mins} Min.</span>`:''}
     </div>`;
   }).join('');
   const utcStr=new Date().toUTCString().slice(17,22)+' UTC';
@@ -496,41 +426,41 @@ function renderSessions(){
 async function avFetch(fn,params){
   const key=gk('av_api_key'); if(!key) return null;
   const qs=Object.entries({...params,function:fn,apikey:key}).map(([k,v])=>`${k}=${v}`).join('&');
-  const r=await fetch(`https://www.alphavantage.co/query?${qs}`);
-  const j=await r.json();
-  if(j['Note']||j['Information']) return null;
-  return j;
+  try{
+    const r=await fetch(`https://www.alphavantage.co/query?${qs}`);
+    const j=await r.json();
+    if(j['Note']||j['Information']) return null;
+    return j;
+  }catch{ return null; }
 }
-function parseAVIntraday(j,interval){
+function parseAVBars(j,interval){
   if(!j) return [];
   const ts=j[`Time Series FX (${interval})`]; if(!ts) return [];
-  return Object.entries(ts).slice(0,100).map(([t,v])=>({t,o:parseFloat(v['1. open']),h:parseFloat(v['2. high']),l:parseFloat(v['3. low']),c:parseFloat(v['4. close'])}));
+  return Object.entries(ts).slice(0,100).map(([t,v])=>({t,o:+v['1. open'],h:+v['2. high'],l:+v['3. low'],c:+v['4. close']}));
 }
-function calcEMA(values,period){
-  const k=2/(period+1); let ema=values[0];
-  return values.map((v,i)=>{ if(i===0){ema=v;}else{ema=v*k+ema*(1-k);} return ema; });
-}
-function calcRSI(closes,period=14){
-  if(closes.length<period+1) return null;
-  let gains=0,losses=0;
-  for(let i=1;i<=period;i++){ const d=closes[i]-closes[i-1]; if(d>0)gains+=d; else losses+=Math.abs(d); }
-  let ag=gains/period,al=losses/period;
-  for(let i=period+1;i<closes.length;i++){
-    const d=closes[i]-closes[i-1];
-    ag=(ag*(period-1)+(d>0?d:0))/period;
-    al=(al*(period-1)+(d<0?Math.abs(d):0))/period;
+function calcEMA(vals,p){ const k=2/(p+1); let e=vals[0]; return vals.map((v,i)=>{ if(i===0){e=v;}else{e=v*k+e*(1-k);} return e; }); }
+// BUG FIX 3: RSI braucht chronologische Reihenfolge (älteste zuerst)
+function calcRSI(closes,p=14){
+  // closes können newest-first sein → umkehren
+  const c=[...closes].reverse();
+  if(c.length<p+1) return null;
+  let g=0,l=0;
+  for(let i=1;i<=p;i++){ const d=c[i]-c[i-1]; if(d>0)g+=d; else l+=Math.abs(d); }
+  let ag=g/p,al=l/p;
+  for(let i=p+1;i<c.length;i++){
+    const d=c[i]-c[i-1];
+    ag=(ag*(p-1)+(d>0?d:0))/p; al=(al*(p-1)+(d<0?Math.abs(d):0))/p;
   }
-  if(al===0) return 100;
-  return 100-(100/(1+ag/al));
+  return al===0?100:100-(100/(1+ag/al));
 }
 function calcMACD(closes){
   if(closes.length<27) return null;
   const rev=[...closes].reverse();
-  const ema12=calcEMA(rev,12),ema26=calcEMA(rev,26);
-  const macdLine=rev.map((_,i)=>ema12[i]-ema26[i]);
-  const signal=calcEMA(macdLine,9);
-  const last=macdLine.length-1;
-  return {macd:macdLine[last],signal:signal[last],hist:macdLine[last]-signal[last]};
+  const e12=calcEMA(rev,12),e26=calcEMA(rev,26);
+  const ml=rev.map((_,i)=>e12[i]-e26[i]);
+  const sig=calcEMA(ml,9);
+  const n=ml.length-1;
+  return {macd:ml[n],signal:sig[n],hist:ml[n]-sig[n]};
 }
 async function fetchAVIndicators(sym){
   const [from,to]=sym.length===6?[sym.slice(0,3),sym.slice(3)]:['EUR','USD'];
@@ -538,62 +468,35 @@ async function fetchAVIndicators(sym){
     avFetch('FX_INTRADAY',{from_symbol:from,to_symbol:to,interval:'60min',outputsize:'compact'}),
     avFetch('FX_INTRADAY',{from_symbol:from,to_symbol:to,interval:'15min',outputsize:'compact'}),
   ]);
-  const h1Bars=parseAVIntraday(r1.value,'60min');
-  const m15Bars=parseAVIntraday(r2.value,'15min');
-  const h1c=h1Bars.map(b=>b.c), m15c=m15Bars.map(b=>b.c);
+  const h1b=parseAVBars(r1.value,'60min'), m15b=parseAVBars(r2.value,'15min');
+  const h1c=h1b.map(b=>b.c), m15c=m15b.map(b=>b.c);
   return {
-    h1Bars,m15Bars,
+    h1Bars:h1b, m15Bars:m15b,
     rsiH1:  h1c.length>14  ? calcRSI(h1c).toFixed(1)  : null,
     rsiM15: m15c.length>14 ? calcRSI(m15c).toFixed(1) : null,
     macdH1: h1c.length>27  ? calcMACD(h1c)            : null,
     macdM15:m15c.length>27 ? calcMACD(m15c)           : null,
   };
 }
-function formatIndicators(ind){
-  if(!ind) return '';
-  const lines=[];
-  if(ind.rsiH1)  lines.push(`RSI H1: ${ind.rsiH1}${parseFloat(ind.rsiH1)>70?' (overbought)':parseFloat(ind.rsiH1)<30?' (oversold)':''}`);
-  if(ind.rsiM15) lines.push(`RSI M15: ${ind.rsiM15}${parseFloat(ind.rsiM15)>70?' (overbought)':parseFloat(ind.rsiM15)<30?' (oversold)':''}`);
-  if(ind.macdH1) lines.push(`MACD H1: Linie ${(ind.macdH1.macd*10000).toFixed(1)} pips, Hist ${ind.macdH1.hist>0?'+':''}${(ind.macdH1.hist*10000).toFixed(1)} pips`);
-  if(ind.macdM15)lines.push(`MACD M15: Linie ${(ind.macdM15.macd*10000).toFixed(1)} pips, Hist ${ind.macdM15.hist>0?'+':''}${(ind.macdM15.hist*10000).toFixed(1)} pips`);
-  return lines.join('\n');
-}
-
-// ─── Economic Calendar via Alpha Vantage ───────────────────────────
-async function fetchEconomicCalendar(){
+async function fetchEcoCalendar(){
   if(!gk('av_api_key')) return null;
   try{
-    const [cpi,nfp,fed,unemp,retail,gdp]=await Promise.allSettled([
+    const [cpi,nfp,fed,unemp,gdp]=await Promise.allSettled([
       avFetch('CPI',{interval:'monthly'}),
       avFetch('NONFARM_PAYROLL',{}),
       avFetch('FEDERAL_FUNDS_RATE',{interval:'monthly'}),
       avFetch('UNEMPLOYMENT',{}),
-      avFetch('RETAIL_SALES',{}),
       avFetch('REAL_GDP',{interval:'quarterly'}),
     ]);
-    const parseLatest=(j,name)=>{
-      if(!j?.value?.data?.length) return null;
-      const d=j.value.data;
-      return {name, date:d[0].date, value:d[0].value, prev:d[1]?.value||'—', unit:j.value.unit||''};
-    };
-    return [
-      parseLatest(cpi,'CPI (Inflation)'),
-      parseLatest(nfp,'Nonfarm Payrolls (NFP)'),
-      parseLatest(fed,'Fed Funds Rate'),
-      parseLatest(unemp,'Arbeitslosigkeit'),
-      parseLatest(retail,'Einzelhandelsumsätze'),
-      parseLatest(gdp,'Reales BIP'),
-    ].filter(Boolean);
+    const parse=(j,name)=>{ if(!j?.value?.data?.length)return null; const d=j.value.data; return {name,date:d[0].date,value:d[0].value,prev:d[1]?.value||'—'}; };
+    return [parse(cpi,'CPI'),parse(nfp,'NFP'),parse(fed,'Fed Rate'),parse(unemp,'Unemployment'),parse(gdp,'GDP')].filter(Boolean);
   }catch{ return null; }
 }
 
-function formatCalendar(events){
-  if(!events?.length) return '';
-  return events.map(e=>`${e.name}: ${e.value}${e.unit} (Vorwert: ${e.prev}${e.unit}, Stand: ${e.date})`).join('\n');
-}
+// ─── Main API ──────────────────────────────────────────────────────
 const TV_SYM={'XAUUSD':'TVC:GOLD','XAGUSD':'TVC:SILVER','EURUSD':'FX:EURUSD','GBPUSD':'FX:GBPUSD','USDJPY':'FX:USDJPY','AUDUSD':'FX:AUDUSD','USDCHF':'FX:USDCHF','NZDUSD':'FX:NZDUSD','USDCAD':'FX:USDCAD','EURGBP':'FX:EURGBP','EURJPY':'FX:EURJPY','GBPJPY':'FX:GBPJPY'};
-const tvSym = s => TV_SYM[s]||'FX:'+s;
-const TF_MAP = {'M15':'15','H1':'60','H4':'240','D1':'D','W1':'W'};
+const tvSym=s=>TV_SYM[s]||'FX:'+s;
+const TF_MAP={'M15':'15','H1':'60','H4':'240','D1':'D','W1':'W'};
 
 async function fetchOHLC(sym,mult,span,dBack,limit){
   const r=await fetch(`https://api.massive.com/v2/aggs/ticker/C:${sym}/range/${mult}/${span}/${ago(dBack)}/${now()}?adjusted=true&sort=desc&limit=${limit}&apiKey=${gk('massive_api_key')}`);
@@ -601,80 +504,42 @@ async function fetchOHLC(sym,mult,span,dBack,limit){
   if(j.status==='ERROR') throw new Error('Massive: '+j.error);
   return j.results||[];
 }
-function fmtBars(bars,n=40){
-  return (bars||[]).slice(0,n).map(b=>({t:new Date(b.t).toISOString().slice(0,16).replace('T',' '),o:b.o?.toFixed(5),h:b.h?.toFixed(5),l:b.l?.toFixed(5),c:b.c?.toFixed(5)}));
-}
+function toBars(arr){ return (arr||[]).map(b=>({t:new Date(b.t).toISOString().slice(0,16).replace('T',' '),o:+b.o,h:+b.h,l:+b.l,c:+b.c})); }
+function fmtBars(bars,n=40){ return (bars||[]).slice(0,n).map(b=>({t:b.t,o:b.o?.toFixed?b.o.toFixed(5):b.o,h:b.h?.toFixed?b.h.toFixed(5):b.h,l:b.l?.toFixed?b.l.toFixed(5):b.l,c:b.c?.toFixed?b.c.toFixed(5):b.c})); }
+
+let claudeQ=Promise.resolve();
 async function callClaude(prompt,maxTok=2000){
-  const r=await fetch('https://api.anthropic.com/v1/messages',{
-    method:'POST',
-    headers:{'Content-Type':'application/json','x-api-key':gk('anthropic_api_key'),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:maxTok,messages:[{role:'user',content:prompt}]})
+  return new Promise((res,rej)=>{
+    claudeQ=claudeQ.then(()=>new Promise(r=>setTimeout(r,400))).then(async()=>{
+      try{
+        const resp=await fetch('https://api.anthropic.com/v1/messages',{
+          method:'POST',
+          headers:{'Content-Type':'application/json','x-api-key':gk('anthropic_api_key'),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+          body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:maxTok,messages:[{role:'user',content:prompt}]})
+        });
+        const d=await resp.json();
+        if(!resp.ok) throw new Error(d.error?.message||resp.status);
+        res(d.content?.filter(b=>b.type==='text').map(b=>b.text).join('')||'');
+      }catch(e){ rej(e); }
+    });
   });
-  const d=await r.json();
-  if(!r.ok) throw new Error(d.error?.message||r.status);
-  return d.content?.filter(b=>b.type==='text').map(b=>b.text).join('')||'';
 }
 
-function showAnalysisTimestamp(){
-  const now=new Date();
-  const weekdays=['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
-  const months=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
-  const wd=weekdays[now.getDay()];
-  const date=`${now.getDate()}. ${months[now.getMonth()]} ${now.getFullYear()}`;
-  const time=now.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
-  const utc=now.toUTCString().slice(17,22)+' UTC';
-  document.getElementById('tsWeekday').textContent=wd;
-  document.getElementById('tsDateTime').textContent=`${date} · ${time} Uhr`;
-  document.getElementById('tsUTC').textContent=utc;
-  document.getElementById('analysisTimestamp').style.display='flex';
-let aiTasksTotal=0, aiTasksDone=0;
-
-function aiCircleShow(total){
-  aiTasksTotal=total; aiTasksDone=0;
-  updateAiCircle(0,'KI startet…');
-  document.getElementById('aiLoader').style.display='flex';
-}
-function aiCircleStep(label){
-  aiTasksDone++;
-  const pct=Math.round((aiTasksDone/aiTasksTotal)*100);
-  updateAiCircle(pct, label||'KI analysiert…');
-  if(aiTasksDone>=aiTasksTotal) setTimeout(aiCircleHide,1000);
-}
-function aiCircleHide(){
-  document.getElementById('aiLoader').style.display='none';
-  aiTasksTotal=0; aiTasksDone=0;
-}
-function updateAiCircle(pct,label){
-  const circ=188; // 2*π*r ≈ 2*3.14159*30 ≈ 188
-  document.getElementById('aiCircleFg').style.strokeDashoffset=circ-(circ*pct/100);
-  document.getElementById('aiCircleFg').style.stroke=pct>=100?'#4ade80':'#c9a84c';
-  document.getElementById('aiCirclePct').textContent=pct+'%';
-  document.getElementById('aiCirclePct').style.color=pct>=100?'#4ade80':'#c9a84c';
-  document.getElementById('aiCircleLabel').textContent=label;
-}
-let claudeQueue=Promise.resolve();
-function callClaudeQueued(prompt,maxTok=2000){
-  claudeQueue=claudeQueue.then(()=>
-    new Promise(res=>setTimeout(res,400)) // 400ms Pause zwischen Calls
-    .then(()=>callClaude(prompt,maxTok))
-  );
-  return claudeQueue;
-}
+// ─── Progress ──────────────────────────────────────────────────────
 const STEPS=[
-  {pct:5,  label:'Analyse gestartet',      sub:'Verbindung wird aufgebaut…'},
-  {pct:15, label:'📡 Lade D1-Daten',        sub:'Massive.com · Tageskurse'},
-  {pct:30, label:'📡 Lade H4-Daten',        sub:'Massive.com · 4h-Chart'},
-  {pct:45, label:'📡 Lade H1-Daten',        sub:'Massive.com · Stundenchart'},
-  {pct:55, label:'📡 Lade M15-Daten',       sub:'Massive.com · 15-Min-Chart'},
-  {pct:65, label:'📊 Lade Indikatoren',     sub:'Alpha Vantage · RSI & MACD'},
-  {pct:78, label:'🤖 Claude analysiert',    sub:'KI wertet alle Timeframes aus…'},
-  {pct:90, label:'🤖 Tiefenanalyse läuft',  sub:'Szenarien & Fundamental werden berechnet…'},
-  {pct:100,label:'✅ Abgeschlossen',        sub:'Alle Daten bereit'},
+  {pct:5,  label:'Analyse gestartet',     sub:'Verbindung wird aufgebaut…'},
+  {pct:15, label:'📡 Lade D1-Daten',       sub:'Massive.com · Tageskurse'},
+  {pct:30, label:'📡 Lade H4-Daten',       sub:'Massive.com · 4h-Chart'},
+  {pct:45, label:'📡 Lade H1-Daten',       sub:'Massive.com · Stundenchart'},
+  {pct:55, label:'📡 Lade M15-Daten',      sub:'Massive.com · 15-Min-Chart'},
+  {pct:65, label:'📊 Lade AV-Indikatoren', sub:'Alpha Vantage · RSI & MACD'},
+  {pct:78, label:'🤖 Claude analysiert',   sub:'KI wertet alle Timeframes aus…'},
+  {pct:90, label:'🤖 Tiefenanalyse läuft', sub:'Szenarien & Fundamental…'},
+  {pct:100,label:'✅ Abgeschlossen',       sub:'Alle Daten bereit'},
 ];
-let progressTimer=null;
-
-function showProgress(){ document.getElementById('ovProgress').style.display='block'; setProgress(0,'Analyse gestartet','Initialisierung…'); }
-function hideProgress(){ document.getElementById('ovProgress').style.display='none'; if(progressTimer){clearInterval(progressTimer);progressTimer=null;} }
+let pTimer=null;
+function showProgress(){ document.getElementById('ovProgress').style.display='block'; setProgress(0,'Analyse gestartet','…'); }
+function hideProgress(){ document.getElementById('ovProgress').style.display='none'; if(pTimer){clearTimeout(pTimer);pTimer=null;} }
 function setProgress(pct,label,sub){
   document.getElementById('ovProgressBar').style.width=pct+'%';
   document.getElementById('ovProgressPct').textContent=pct+'%';
@@ -686,46 +551,64 @@ function setProgress(pct,label,sub){
 function autoProgress(idx=0){
   if(idx>=STEPS.length) return;
   const s=STEPS[idx]; setProgress(s.pct,s.label,s.sub);
-  if(idx<STEPS.length-1) progressTimer=setTimeout(()=>autoProgress(idx+1),idx<5?800:1200);
+  if(idx<STEPS.length-1) pTimer=setTimeout(()=>autoProgress(idx+1),idx<5?800:1200);
+}
+
+// ─── AI Circle ─────────────────────────────────────────────────────
+let aiTotal=0, aiDone=0;
+function aiShow(total){ aiTotal=total; aiDone=0; aiUpdate(0,'KI startet…'); document.getElementById('aiLoader').style.display='flex'; }
+function aiStep(label){ aiDone++; aiUpdate(Math.round(aiDone/aiTotal*100),label); if(aiDone>=aiTotal) setTimeout(aiHide,1000); }
+function aiHide(){ document.getElementById('aiLoader').style.display='none'; aiTotal=0; aiDone=0; }
+function aiUpdate(pct,label){
+  const circ=163;
+  document.getElementById('aiCircleFg').style.strokeDashoffset=circ-(circ*pct/100);
+  document.getElementById('aiCircleFg').style.stroke=pct>=100?'#4ade80':'#c9a84c';
+  document.getElementById('aiCirclePct').textContent=pct+'%';
+  document.getElementById('aiCirclePct').style.color=pct>=100?'#4ade80':'#c9a84c';
+  document.getElementById('aiCircleLabel').textContent=label;
+}
+
+// ─── Timestamp ─────────────────────────────────────────────────────
+function showTimestamp(){
+  const n=new Date();
+  const wd=['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'][n.getDay()];
+  const d=`${n.getDate().toString().padStart(2,'0')}.${(n.getMonth()+1).toString().padStart(2,'0')}.${n.getFullYear()}`;
+  const t=n.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
+  const utc=n.toUTCString().slice(17,22)+' UTC';
+  document.getElementById('tsWeekday').textContent=wd;
+  document.getElementById('tsDateTime').textContent=`${d} · ${t} Uhr`;
+  document.getElementById('tsUTC').textContent=utc;
+  document.getElementById('ovTimestamp').style.display='flex';
 }
 
 // ─── Symbol Grid ───────────────────────────────────────────────────
 function renderSymGrid(){
   document.getElementById('symGrid').innerHTML=watchlist.map(s=>{
-    const a=analysisCache[s];
-    const bc=a?trendColor(a.fundamental?.bias):'#c9a84c';
-    return `<div class="sym-card" id="card_${s}" onclick="openSymbol('${s}')">
-      <button class="sym-del" onclick="event.stopPropagation();removeSymbol('${s}')">✕</button>
+    const a=cache[s];
+    const bc=a?tc(a.fundamental?.bias):'#c9a84c';
+    return `<div class="sym-card${a?'':' idle'}" id="card_${s}" onclick="openSym('${s}')">
+      <button class="sym-del" onclick="event.stopPropagation();removeSym('${s}')">✕</button>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px">
         <span class="sym-name">${s}</span>
-        ${a?`<div style="display:flex;gap:6px;align-items:center">
-          ${badge(bc,a.fundamental?.bias||'?')}
-          <button class="btn btn-gray" style="font-size:11px;padding:4px 10px" onclick="event.stopPropagation();analyzeSymbol('${s}')">↺</button>
-        </div>`:''}
+        ${a?`<div style="display:flex;gap:6px;align-items:center">${bdg(bc,a.fundamental?.bias||'?')}
+          <button class="btn btn-gray" style="font-size:11px;padding:4px 10px" onclick="event.stopPropagation();analyzeSymbol('${s}')">↺</button></div>`:''}
       </div>
       <div class="sym-price">${a?a.lastPrice:'—'}</div>
-      ${a?`
-      <div class="sym-trends">
-        ${['d1','h4','h1','m15'].map(tf=>{
-          const v=a.trend?.[tf]||''; const c=trendColor(v);
-          return `<span class="sym-tf" style="color:${c};border-color:${c}44">${tf.toUpperCase()}: ${v||'?'}</span>`;
-        }).join('')}
+      ${a?`<div style="display:flex;gap:5px;margin:8px 0;flex-wrap:wrap">
+        ${['d1','h4','h1','m15'].map(tf=>{ const v=a.trend?.[tf]||''; const c=tc(v); return `<span class="sym-tf" style="color:${c};border-color:${c}44">${tf.toUpperCase()}: ${v||'?'}</span>`; }).join('')}
       </div>
-      <div class="sym-levels">
-        ${(a.keyLevels?.resistance||[]).slice(0,2).map(l=>`<span class="sym-lvl" style="color:#fca5a5;background:rgba(248,113,113,.1)">R ${l}</span>`).join('')}
-        ${(a.keyLevels?.support||[]).slice(0,2).map(l=>`<span class="sym-lvl" style="color:#86efac;background:rgba(74,222,128,.1)">S ${l}</span>`).join('')}
+      <div style="margin-top:6px;display:flex;gap:5px;flex-wrap:wrap">
+        ${(a.keyLevels?.resistance||[]).slice(0,2).map(l=>`<span style="font-size:11px;color:#fca5a5;background:rgba(248,113,113,.1);padding:2px 6px;border-radius:3px">R ${l}</span>`).join('')}
+        ${(a.keyLevels?.support||[]).slice(0,2).map(l=>`<span style="font-size:11px;color:#86efac;background:rgba(74,222,128,.1);padding:2px 6px;border-radius:3px">S ${l}</span>`).join('')}
       </div>
-      <p style="font-size:12px;color:#d0d0e0;margin-top:8px">✅ Analysiert · Klicken für Details</p>`
+      <p style="font-size:12px;color:#d0d0e0;margin-top:8px">✅ ${a._timestamp||'Analysiert'} · Klicken für Details</p>`
       :`<p id="status_${s}" style="font-size:12px;color:#d0d0e0;margin-top:8px">Noch nicht analysiert · Klicken zum Starten</p>`}
     </div>`;
   }).join('');
 }
-
 function setCardStatus(sym,msg,loading=false){
-  const el=document.getElementById('status_'+sym);
-  if(el) el.innerHTML=loading?`<span class="spin"></span>${msg}`:msg;
-  const card=document.getElementById('card_'+sym);
-  if(card) card.className='sym-card'+(loading?' analyzing':'');
+  const el=document.getElementById('status_'+sym); if(el) el.innerHTML=loading?`<span class="spin"></span>${msg}`:msg;
+  const card=document.getElementById('card_'+sym); if(card) card.className='sym-card'+(loading?' analyzing':'');
 }
 
 // ─── Analyse ───────────────────────────────────────────────────────
@@ -738,72 +621,54 @@ async function analyzeSymbol(sym){
       fetchOHLC(sym,1,'hour',10,120),
       fetchOHLC(sym,15,'minute',5,200),
     ]);
-    const D1=r1.value||[],H4=r2.value||[],H1=r3.value||[],M15=r4.value||[];
+    const D1=toBars(r1.value||[]), H4=toBars(r2.value||[]), H1=toBars(r3.value||[]), M15=toBars(r4.value||[]);
     if(!D1.length) throw new Error('Keine D1-Daten');
     const lp=(M15[0]?.c||H1[0]?.c||D1[0]?.c)?.toFixed(5)?? 'n/a';
-    let avInd=null, ecoData=null;
+
+    let avInd=null, eco=null;
     if(gk('av_api_key')){
-      setCardStatus(sym,'📊 Lade AV-Indikatoren…',true);
+      setCardStatus(sym,'📊 AV-Indikatoren…',true);
       try{ avInd=await fetchAVIndicators(sym); }catch{}
-      setCardStatus(sym,'📅 Lade Wirtschaftskalender…',true);
-      try{ ecoData=await fetchEconomicCalendar(); }catch{}
+      try{ eco=await fetchEcoCalendar(); }catch{}
     }
-    let H1f=H1,M15f=M15;
-    if(!H1.length&&avInd?.h1Bars?.length)  H1f=avInd.h1Bars;
-    if(!M15.length&&avInd?.m15Bars?.length) M15f=avInd.m15Bars;
+
+    const H1f=H1.length?H1:(avInd?.h1Bars||[]);
+    const M15f=M15.length?M15:(avInd?.m15Bars||[]);
+
     setCardStatus(sym,'🤖 Claude analysiert…',true);
-    const indText=avInd?formatIndicators(avInd):'';
-    const ecoText=ecoData?formatCalendar(ecoData):'';
-    const text=await callClaude(`Du bist ein professioneller Forex-Analyst und Trader mit 20 Jahren Erfahrung. Erstelle eine umfassende Multi-Faktor-Analyse für ${sym} nach folgendem Framework:
 
-GEWICHTUNG DER ANALYSE:
-- Chart-Analyse (40%): Preis-Struktur, Trends, Key Levels, technische Muster
-- Technische Indikatoren (25%): RSI, MACD, Momentum-Bestätigung
-- Fundamentalanalyse (20%): Zentralbank-Politik, Makro-Daten, Zinsdifferenzen
-- Wirtschaftskalender (15%): Aktuelle Daten vs. Erwartungen, kommende Events
+    const indTxt=avInd?[
+      avInd.rsiH1  ?`RSI H1: ${avInd.rsiH1}${+avInd.rsiH1>70?' (overbought)':+avInd.rsiH1<30?' (oversold)':''}` :'',
+      avInd.rsiM15 ?`RSI M15: ${avInd.rsiM15}`:''  ,
+      avInd.macdH1 ?`MACD H1 Hist: ${(avInd.macdH1.hist*10000).toFixed(1)} pips`:'',
+      avInd.macdM15?`MACD M15 Hist: ${(avInd.macdM15.hist*10000).toFixed(1)} pips`:'',
+    ].filter(Boolean).join('\n'):'';
 
-MARKTDATEN (Heute: ${now()}):
-Symbol: ${sym} | Aktueller Kurs: ${lp}
+    const ecoTxt=eco?eco.map(e=>`${e.name}: ${e.value} (Vorwert: ${e.prev}, Stand: ${e.date})`).join('\n'):'';
 
-OHLC-Kerzen (neueste zuerst):
-D1 (${D1.length} Kerzen): ${JSON.stringify(fmtBars(D1,35))}
-H4 (${H4.length} Kerzen): ${JSON.stringify(fmtBars(H4,40))}
-H1 (${H1f.length} Kerzen): ${JSON.stringify(fmtBars(H1f,50))}
-M15 (${M15f.length} Kerzen): ${JSON.stringify(fmtBars(M15f,60))}
+    const text=await callClaude(`Du bist ein professioneller Forex-Analyst. Erstelle eine umfassende Multi-Faktor-Analyse für ${sym}.
+Gewichtung: Chart 40% · Indikatoren 25% · Fundamental 20% · Wirtschaftskalender 15%
 
-${indText?`TECHNISCHE INDIKATOREN (Alpha Vantage):\n${indText}\n`:''}
-${ecoText?`WIRTSCHAFTSKALENDER (aktuellste Daten):\n${ecoText}\n`:''}
+Heute: ${now()} | Kurs: ${lp}
+D1(${D1.length}): ${JSON.stringify(fmtBars(D1,35))}
+H4(${H4.length}): ${JSON.stringify(fmtBars(H4,40))}
+H1(${H1f.length}): ${JSON.stringify(fmtBars(H1f,50))}
+M15(${M15f.length}): ${JSON.stringify(fmtBars(M15f,60))}
+${indTxt?`\nTECHNISCHE INDIKATOREN:\n${indTxt}`:''}
+${ecoTxt?`\nWIRTSCHAFTSKALENDER:\n${ecoTxt}`:''}
 
-ANALYSE-ANWEISUNGEN:
-1. Identifiziere die übergeordnete Marktstruktur (Higher Highs/Lows oder Lower Highs/Lows)
-2. Bewerte die Stärke des aktuellen Trends auf jedem Timeframe
-3. Finde die 3 wichtigsten Key Levels (Struktur, nicht nur runde Zahlen)
-4. Berücksichtige aktuelle Wirtschaftsdaten: Abweichungen vom Forecast erhöhen/senken den Bias
-5. Wähle NUR Szenarien wo mindestens 3 Faktoren (Chart + Indikator + Fundamental + Kalender) konvergieren
-6. Konfidenz (1-10): 1-3=schwach, 4-6=moderat, 7-8=stark, 9-10=sehr starke Konfluenz
+Konfidenz 1-10: 1-3=schwach, 4-6=moderat, 7-8=stark, 9-10=sehr starke Konfluenz
+Nur valides JSON, kein Markdown:
+{"lastPrice":"${lp}","symbol":"${sym}","indicators":{"rsiH1":"${avInd?.rsiH1||''}","rsiM15":"${avInd?.rsiM15||''}","macdH1Signal":"${avInd?.macdH1?(avInd.macdH1.hist>0?'Bullish':'Bearish'):''}","macdM15Signal":"${avInd?.macdM15?(avInd.macdM15.hist>0?'Bullish':'Bearish'):''}"},"trend":{"d1":"","h4":"","h1":"","m15":""},"fundamental":{"summary":"","bias":"Bullish","ecbFed":"","macro":"","calendarImpact":"","keyEvents":[{"date":"","event":"","actual":"","forecast":"","impact":"hoch","direction":"bullish"}]},"keyLevels":{"resistance":["","",""],"support":["","",""]},"sessionTiming":[{"session":"London 07:00-16:00 UTC","recommendation":"","bestFor":"","avoid":""},{"session":"New York 13:00-22:00 UTC","recommendation":"","bestFor":"","avoid":""},{"session":"Overlap 13:00-16:00 UTC","recommendation":"","bestFor":"","avoid":""}],"scenarios":[{"id":1,"name":"","direction":"Long","setup":"","confluenceFactors":["Chart","Indikator","Fundamental"],"entryTF":"M15","higherTFs":["H1","H4","D1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","bestSession":"","entrySignal":"","exitSignal":"","invalidation":"","probability":55,"confidence":7},{"id":2,"name":"","direction":"Short","setup":"","confluenceFactors":["Chart","Indikator"],"entryTF":"H1","higherTFs":["H4","D1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","bestSession":"","entrySignal":"","exitSignal":"","invalidation":"","probability":45,"confidence":5},{"id":3,"name":"","direction":"Long","setup":"","confluenceFactors":["Fundamental","Chart"],"entryTF":"H4","higherTFs":["D1","W1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","bestSession":"","entrySignal":"","exitSignal":"","invalidation":"","probability":35,"confidence":4}],"summary":"","bestSetup":"","riskWarning":""}`,2000);
 
-Antworte NUR mit validem JSON, kein Markdown:
-{"lastPrice":"${lp}","symbol":"${sym}","marketStructure":{"d1":"","h4":"","h1":"","m15":"","dominantTrend":"","keyConflux":""},"indicators":{"rsiH1":"${avInd?.rsiH1||''}","rsiM15":"${avInd?.rsiM15||''}","macdH1Signal":"${avInd?.macdH1?avInd.macdH1.hist>0?'Bullish':'Bearish':''}","macdM15Signal":"${avInd?.macdM15?avInd.macdM15.hist>0?'Bullish':'Bearish':''}","momentumSummary":""},"trend":{"d1":"","h4":"","h1":"","m15":""},"fundamental":{"summary":"","bias":"Bullish","ecbFed":"","macro":"","calendarImpact":"","keyEvents":[{"date":"","event":"","actual":"","forecast":"","impact":"hoch","direction":"bullish"}]},"keyLevels":{"resistance":["","",""],"support":["","",""],"pivotZone":""},"sessionTiming":[{"session":"London 07:00-16:00 UTC","recommendation":"","bestFor":"","avoid":""},{"session":"New York 13:00-22:00 UTC","recommendation":"","bestFor":"","avoid":""},{"session":"Overlap 13:00-16:00 UTC","recommendation":"","bestFor":"","avoid":""}],"scenarios":[{"id":1,"name":"","direction":"Long","setup":"","confluenceFactors":["Chart","Indikator","Fundamental"],"entryTF":"M15","higherTFs":["H1","H4","D1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","bestSession":"","entrySignal":"","exitSignal":"","invalidation":"","probability":55,"confidence":7},{"id":2,"name":"","direction":"Short","setup":"","confluenceFactors":["Chart","Indikator"],"entryTF":"H1","higherTFs":["H4","D1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","bestSession":"","entrySignal":"","exitSignal":"","invalidation":"","probability":45,"confidence":5},{"id":3,"name":"","direction":"Long","setup":"","confluenceFactors":["Fundamental","Chart"],"entryTF":"H4","higherTFs":["D1","W1"],"entry":"","sl":"","tp1":"","tp2":"","rr":"","timing":"","bestSession":"","entrySignal":"","exitSignal":"","invalidation":"","probability":35,"confidence":4}],"summary":"","bestSetup":"","riskWarning":""}`,2000);
     const m=text.match(/\{[\s\S]*\}/);
     if(!m) throw new Error('Kein JSON');
-    analysisCache[sym]=JSON.parse(m[0]);
-    // Timestamp speichern
-    const _now=new Date();
-    const _wd=['So','Mo','Di','Mi','Do','Fr','Sa'][_now.getDay()];
-    const _d=`${_now.getDate().toString().padStart(2,'0')}.${(_now.getMonth()+1).toString().padStart(2,'0')}.${_now.getFullYear()}`;
-    const _t=_now.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
-    analysisCache[sym]._timestamp=`${_wd}, ${_d} · ${_t} Uhr`;
-    // Bars als Zahlen speichern für den Trade-Chart
-    const toNumBars = arr => (arr||[]).map(b=>({
-      t: new Date(b.t).toISOString().slice(0,16).replace('T',' '),
-      o:+b.o, h:+b.h, l:+b.l, c:+b.c
-    }));
-    analysisCache[sym]._bars={
-      'D1': toNumBars(D1),
-      'H4': toNumBars(H4),
-      'H1': toNumBars(H1f),
-      'M15': toNumBars(M15f),
-    };
+    cache[sym]=JSON.parse(m[0]);
+    // Timestamp + bars
+    const n=new Date();
+    const wd=['So','Mo','Di','Mi','Do','Fr','Sa'][n.getDay()];
+    cache[sym]._timestamp=`${wd}, ${n.getDate().toString().padStart(2,'0')}.${(n.getMonth()+1).toString().padStart(2,'0')}.${n.getFullYear()} · ${n.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})} Uhr`;
+    cache[sym]._bars={'D1':D1,'H4':H4,'H1':H1f,'M15':M15f};
     renderSymGrid();
   }catch(e){ setCardStatus(sym,'❌ '+e.message); }
 }
@@ -814,122 +679,126 @@ async function analyzeAll(){
 }
 
 // ─── Overlay ───────────────────────────────────────────────────────
-function openSymbol(sym){
-  currentSymbol=sym;
-  const a=analysisCache[sym];
+function openSym(sym){
+  currentSym=sym;
+  const a=cache[sym];
   document.getElementById('ovTitle').textContent=sym+(a?` · ${a.lastPrice}`:'');
-  document.getElementById('ovSub').innerHTML=a
-    ? (() => {
-        const ts=a._timestamp||'';
-        return `<span style="color:#c9a84c;font-weight:700">${ts?`✅ Analyse vom ${ts}`:'✅ Analysiert'}</span><span style="color:#d0d0e0;margin-left:12px">Bias: ${a.fundamental?.bias} · D1: ${a.trend?.d1} · H4: ${a.trend?.h4} · H1: ${a.trend?.h1} · M15: ${a.trend?.m15}</span>`;
-      })()
-    : '<span class="spin"></span><span style="color:#d0d0e0">Wird analysiert…</span>';
+  if(a){
+    document.getElementById('ovSub').innerHTML=`<span style="color:#c9a84c;font-weight:700">✅ ${a._timestamp||'Analysiert'}</span><span style="color:#d0d0e0;margin-left:12px">Bias: ${a.fundamental?.bias} · D1: ${a.trend?.d1} · H4: ${a.trend?.h4} · H1: ${a.trend?.h1} · M15: ${a.trend?.m15}</span>`;
+  } else {
+    document.getElementById('ovSub').innerHTML='<span class="spin"></span><span style="color:#d0d0e0">Wird analysiert…</span>';
+  }
   document.getElementById('scDetailBlock').style.display='none';
   document.getElementById('overlay').style.display='block';
   document.body.style.overflow='hidden';
   document.getElementById('overlay').scrollTop=0;
-  tvVisible=true;
   document.getElementById('tvWrap').style.display='block';
   document.getElementById('tvToggleBtn').textContent='📉 Chart aus';
+  tvVisible=true;
   const initTF=a?(TF_MAP[a.scenarios?.[0]?.entryTF]||'60'):'60';
   currentTF=initTF; updateTFBtns(initTF); loadTVChart(sym,initTF);
-  if(a){ hideProgress(); renderOverlay(a); }
-  else { showProgress(); autoProgress(0); analyzeAndRender(sym); }
+  if(a){ document.getElementById('ovTimestamp').style.display='none'; hideProgress(); renderOverlay(a); }
+  else { showTimestamp(); showProgress(); autoProgress(0); analyzeAndRender(sym); }
 }
 
 async function analyzeAndRender(sym){
   await analyzeSymbol(sym);
-  const a=analysisCache[sym];
+  const a=cache[sym];
   if(a){
     setProgress(100,'✅ Abgeschlossen','Alle Daten bereit');
-    // Zeitstempel unter dem Symbol einblenden
-    const now=new Date();
-    const wd=['So','Mo','Di','Mi','Do','Fr','Sa'][now.getDay()];
-    const date=`${now.getDate().toString().padStart(2,'0')}.${(now.getMonth()+1).toString().padStart(2,'0')}.${now.getFullYear()}`;
-    const time=now.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
-    document.getElementById('ovSub').innerHTML=
-      `<span style="color:#c9a84c;font-weight:700">✅ Analyse vom ${wd}, ${date} · ${time} Uhr</span>` +
-      `<span style="color:#d0d0e0;margin-left:12px">Bias: ${a.fundamental?.bias} · D1: ${a.trend?.d1} · H4: ${a.trend?.h4} · H1: ${a.trend?.h1} · M15: ${a.trend?.m15}</span>`;
-    setTimeout(()=>{ hideProgress(); renderOverlay(a); },600);
+    const n=new Date();
+    const wd=['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'][n.getDay()];
+    const d=`${n.getDate().toString().padStart(2,'0')}.${(n.getMonth()+1).toString().padStart(2,'0')}.${n.getFullYear()}`;
+    const t=n.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
+    document.getElementById('tsWeekday').textContent=wd;
+    document.getElementById('tsDateTime').textContent=`${d} · ${t} Uhr`;
+    document.getElementById('tsUTC').textContent=n.toUTCString().slice(17,22)+' UTC';
+    document.getElementById('ovTimestamp').style.display='flex';
+    document.getElementById('ovSub').innerHTML=`<span style="color:#c9a84c;font-weight:700">✅ ${a._timestamp||''}</span><span style="color:#d0d0e0;margin-left:12px">Bias: ${a.fundamental?.bias} · D1: ${a.trend?.d1} · H4: ${a.trend?.h4} · H1: ${a.trend?.h1} · M15: ${a.trend?.m15}</span>`;
     document.getElementById('ovTitle').textContent=sym+` · ${a.lastPrice}`;
+    setTimeout(()=>{ hideProgress(); renderOverlay(a); },600);
   } else { hideProgress(); }
 }
 
 async function reAnalyzeCurrent(){
-  if(!currentSymbol) return;
-  delete analysisCache[currentSymbol];
+  if(!currentSym) return;
+  delete cache[currentSym];
+  document.getElementById('ovTimestamp').style.display='none';
+  document.getElementById('ovSub').innerHTML='<span class="spin"></span><span style="color:#d0d0e0">Wird analysiert…</span>';
   showProgress(); autoProgress(0);
-  await analyzeAndRender(currentSymbol);
+  await analyzeAndRender(currentSym);
 }
 
+// ─── Render Overlay ────────────────────────────────────────────────
 function renderOverlay(a){
   const ind=a.indicators||{};
+  // KPIs
   document.getElementById('ovKPIs').innerHTML=[
-    {l:'Kurs',     v:a.lastPrice,           c:'#f0f0f8', big:true},
-    {l:'D1',       v:a.trend?.d1,           c:trendColor(a.trend?.d1)},
-    {l:'H4',       v:a.trend?.h4,           c:trendColor(a.trend?.h4)},
-    {l:'H1',       v:a.trend?.h1,           c:trendColor(a.trend?.h1)},
-    {l:'M15',      v:a.trend?.m15,          c:trendColor(a.trend?.m15)},
-    {l:'RSI H1',   v:ind.rsiH1||'—',        c:rsiColor(ind.rsiH1)},
-    {l:'RSI M15',  v:ind.rsiM15||'—',       c:rsiColor(ind.rsiM15)},
-    {l:'MACD H1',  v:ind.macdH1Signal||'—', c:macdColor(ind.macdH1Signal)},
-    {l:'MACD M15', v:ind.macdM15Signal||'—',c:macdColor(ind.macdM15Signal)},
-  ].map(x=>`<div class="kpi">
-    <div class="kpi-label">${x.l}</div>
-    <div class="kpi-val" style="color:${x.c};font-size:${x.big?'24px':'15px'};font-weight:${x.big?'800':'700'}">${x.v||'—'}</div>
-  </div>`).join('');
+    {l:'Kurs',    v:a.lastPrice,           col:'#f0f0f8',big:true},
+    {l:'D1',      v:a.trend?.d1,           col:tc(a.trend?.d1)},
+    {l:'H4',      v:a.trend?.h4,           col:tc(a.trend?.h4)},
+    {l:'H1',      v:a.trend?.h1,           col:tc(a.trend?.h1)},
+    {l:'M15',     v:a.trend?.m15,          col:tc(a.trend?.m15)},
+    {l:'RSI H1',  v:ind.rsiH1||'—',        col:rc(ind.rsiH1)},
+    {l:'RSI M15', v:ind.rsiM15||'—',       col:rc(ind.rsiM15)},
+    {l:'MACD H1', v:ind.macdH1Signal||'—', col:mc(ind.macdH1Signal)},
+    {l:'MACD M15',v:ind.macdM15Signal||'—',col:mc(ind.macdM15Signal)},
+  ].map(x=>`<div class="kpi"><div class="kpi-label">${x.l}</div><div class="kpi-val" style="color:${x.col};font-size:${x.big?'24px':'15px'};font-weight:${x.big?'800':'700'}">${x.v||'—'}</div></div>`).join('');
 
+  // Levels
   document.getElementById('ovRes').innerHTML=(a.keyLevels?.resistance||[]).map(l=>`<div class="level-pill res-pill">${l}</div>`).join('');
   document.getElementById('ovSup').innerHTML=(a.keyLevels?.support||[]).map(l=>`<div class="level-pill sup-pill">${l}</div>`).join('');
 
-  const bias=a.fundamental?.bias||'Neutral', bc=trendColor(bias);
-  document.getElementById('ovBias').innerHTML=badge(bc,bias);
+  // Bias + Events
+  const bias=a.fundamental?.bias||'Neutral';
+  document.getElementById('ovBias').innerHTML=bdg(tc(bias),bias);
   document.getElementById('ovFundSummary').textContent=a.fundamental?.summary||'';
   document.getElementById('ovEvents').innerHTML=(a.fundamental?.keyEvents||[]).map(e=>{
     const ev=typeof e==='string'?{date:'',event:e,impact:'mittel',actual:'',forecast:'',direction:''}:e;
     const ic=ev.impact==='hoch'?'#f87171':ev.impact==='mittel'?'#c9a84c':'#d0d0e0';
     const dc=ev.direction==='bullish'?'#4ade80':ev.direction==='bearish'?'#f87171':'#d0d0e0';
-    const hasActual=ev.actual&&ev.forecast;
-    return `<div style="padding:8px 0;border-bottom:1px solid #1a1a1a">
-      <div style="display:flex;gap:10px;align-items:center;margin-bottom:${hasActual?'5px':'0'}">
+    return `<div style="padding:7px 0;border-bottom:1px solid #1a1a1a">
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:${ev.actual?'4px':'0'}">
         <span style="font-size:12px;color:#d0d0e0;min-width:85px;flex-shrink:0">${ev.date||''}</span>
         <span style="font-size:13px;color:#f0f0f8;flex:1;font-weight:600">${ev.event||''}</span>
-        <span style="font-size:11px;font-weight:700;color:${ic};background:${ic}18;padding:2px 8px;border-radius:3px;border:1px solid ${ic}44;white-space:nowrap">${(ev.impact||'').toUpperCase()}</span>
+        <span style="font-size:11px;font-weight:700;color:${ic};background:${ic}18;padding:2px 8px;border-radius:3px;border:1px solid ${ic}44">${(ev.impact||'').toUpperCase()}</span>
       </div>
-      ${hasActual?`<div style="display:flex;gap:12px;padding-left:95px">
+      ${ev.actual?`<div style="display:flex;gap:12px;padding-left:95px">
         <span style="font-size:11px;color:#d0d0e0">Aktuell: <strong style="color:#f0f0f8">${ev.actual}</strong></span>
-        <span style="font-size:11px;color:#d0d0e0">Forecast: <strong style="color:#f0f0f8">${ev.forecast}</strong></span>
+        <span style="font-size:11px;color:#d0d0e0">Forecast: <strong style="color:#f0f0f8">${ev.forecast||'—'}</strong></span>
         ${ev.direction?`<span style="font-size:11px;font-weight:700;color:${dc}">→ ${ev.direction==='bullish'?'USD-schwächend (EUR↑)':ev.direction==='bearish'?'USD-stärkend (EUR↓)':'Neutral'}</span>`:''}
       </div>`:''}
     </div>`;
   }).join('');
 
-  document.getElementById('ovCB1').textContent=a.fundamental?.ecbFed||a.fundamental?.cb1||'';
-  document.getElementById('ovCB2').textContent=a.fundamental?.macro||a.fundamental?.cb2||'';
-  document.getElementById('ovMacro').textContent=a.fundamental?.calendarImpact||a.fundamental?.macro||'';
+  // Fundamental
+  document.getElementById('ovCB1').textContent=a.fundamental?.ecbFed||'';
+  document.getElementById('ovCB2').textContent=a.fundamental?.macro||'';
+  document.getElementById('ovMacro').textContent=a.fundamental?.calendarImpact||'';
 
+  // Session Timing
   document.getElementById('ovSessionTiming').innerHTML=(a.sessionTiming||[]).map(s=>`
-    <div style="background:#1a1a1a;border-radius:7px;padding:16px;margin-bottom:8px;border:1px solid #c9a84c33">
-      <p style="font-size:12px;font-weight:700;color:#c9a84c;margin-bottom:10px;text-transform:uppercase;letter-spacing:.07em">🕐 ${s.session}</p>
+    <div style="background:#1a1a1a;border-radius:7px;padding:14px;margin-bottom:8px;border:1px solid #c9a84c33">
+      <p style="font-size:12px;font-weight:700;color:#c9a84c;margin-bottom:8px;text-transform:uppercase;letter-spacing:.07em">🕐 ${s.session}</p>
       <div class="three-col">
-        <div><p style="font-size:11px;color:#4ade80;font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Empfehlung</p><p style="font-size:13px;color:#f0f0f8">${s.recommendation||''}</p></div>
-        <div><p style="font-size:11px;color:#c9a84c;font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Best For</p><p style="font-size:13px;color:#f0f0f8">${s.bestFor||''}</p></div>
-        <div><p style="font-size:11px;color:#f87171;font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Vermeiden</p><p style="font-size:13px;color:#f0f0f8">${s.avoid||''}</p></div>
+        <div><p style="font-size:11px;color:#4ade80;font-weight:700;margin-bottom:3px;text-transform:uppercase;letter-spacing:.05em">Empfehlung</p><p style="font-size:13px;color:#f0f0f8">${s.recommendation||''}</p></div>
+        <div><p style="font-size:11px;color:#c9a84c;font-weight:700;margin-bottom:3px;text-transform:uppercase;letter-spacing:.05em">Best For</p><p style="font-size:13px;color:#f0f0f8">${s.bestFor||''}</p></div>
+        <div><p style="font-size:11px;color:#f87171;font-weight:700;margin-bottom:3px;text-transform:uppercase;letter-spacing:.05em">Vermeiden</p><p style="font-size:13px;color:#f0f0f8">${s.avoid||''}</p></div>
       </div>
     </div>`).join('');
 
-  // Starte AI Circle: 2 Tasks (Tiefenanalyse + evtl. Szenario)
-  showAnalysisTimestamp();
-  aiCircleShow(2);
+  // AI analysis
+  aiShow(2);
   loadDeepAnalysis(a);
 
+  // Scenarios
   document.getElementById('ovScenarios').innerHTML=(a.scenarios||[]).map((sc,i)=>{
     const d=sc.direction==='Long'?'#4ade80':'#f87171';
-    const p=probColor(sc.probability), cn=confColor(sc.confidence);
+    const p=pc(sc.probability);
     return `<tr class="sc-row" onclick="openScenarioDetail(${i})">
       <td style="color:#d0d0e0;font-weight:700;font-size:14px">${sc.id}</td>
       <td style="font-weight:800;color:#f0f0f8;white-space:nowrap;font-size:14px">🔍 ${sc.name}</td>
-      <td>${badge(d,sc.direction)}</td>
+      <td>${bdg(d,sc.direction)}</td>
       <td style="font-size:11px;color:#c9a84c">${(sc.confluenceFactors||[]).join(' · ')}</td>
       <td style="color:#c9a84c;font-weight:700">${sc.entryTF}</td>
       <td style="color:#d0d0e0">${(sc.higherTFs||[]).join(', ')}</td>
@@ -942,69 +811,51 @@ function renderOverlay(a){
       <td style="color:#d0d0e0;white-space:nowrap;font-size:12px">${sc.timing}</td>
       <td style="max-width:140px;color:#d0d0e0;font-size:12px">${sc.entrySignal}</td>
       <td style="max-width:130px;color:#f87171;font-size:11px">${sc.invalidation||''}</td>
-      <td>
-        <div style="font-weight:800;color:${p};font-size:18px">${sc.probability}%</div>
-        <div class="prob-bar"><div class="prob-fill" style="width:${sc.probability}%;background:${p}"></div></div>
-      </td>
+      <td><div style="font-weight:800;color:${p};font-size:18px">${sc.probability}%</div><div class="prob-bar"><div class="prob-fill" style="width:${sc.probability}%;background:${p}"></div></div></td>
       <td>${confBadge(sc.confidence)}</td>
     </tr>`;
   }).join('');
 
   document.getElementById('ovSummary').textContent=a.summary||'';
 
-  // Best Setup Banner
-  const bsEl=document.getElementById('bestSetupBanner');
-  if(bsEl) bsEl.remove();
+  // Best Setup + Risk Warning
+  document.querySelectorAll('.bestSetupBanner').forEach(el=>el.remove());
   if(a.bestSetup||a.riskWarning){
-    const banner=document.createElement('div');
-    banner.id='bestSetupBanner';
-    banner.style.cssText='margin-bottom:14px';
-    banner.innerHTML=`
-      ${a.bestSetup?`<div class="card" style="border-color:#4ade8066;border-left:3px solid #4ade80;margin-bottom:8px">
-        <p class="card-title" style="color:#4ade80">🏆 Bestes Setup</p>
-        <p style="font-size:14px;color:#f0f0f8;line-height:1.7">${a.bestSetup}</p>
-      </div>`:''}
-      ${a.riskWarning?`<div class="card" style="border-color:#f8717166;border-left:3px solid #f87171">
-        <p class="card-title" style="color:#f87171">⚠️ Risiko-Hinweis</p>
-        <p style="font-size:13px;color:#f0f0f8;line-height:1.7">${a.riskWarning}</p>
-      </div>`:''}`;
-    document.getElementById('summaryBlock').after(banner);
-  }
-
-  // Marktstruktur Card
-  const msEl=document.getElementById('marketStructureCard');
-  if(msEl) msEl.remove();
-  if(a.marketStructure){
-    const ms=a.marketStructure;
-    const card=document.createElement('div');
-    card.id='marketStructureCard';
-    card.className='card';
-    card.style.marginBottom='14px';
-    card.innerHTML=`<p class="card-title">🏗️ Marktstruktur & Trend-Kontext</p>
-      <div class="three-col" style="margin-bottom:12px">
-        <div><p class="sub-label">Dominanter Trend</p><p style="font-size:14px;font-weight:700;color:${trendColor(ms.dominantTrend)}">${ms.dominantTrend||'—'}</p></div>
-        <div><p class="sub-label">Pivot Zone</p><p style="font-size:13px;color:#f0f0f8">${a.keyLevels?.pivotZone||'—'}</p></div>
-        <div><p class="sub-label">Schlüssel-Konfluenz</p><p style="font-size:13px;color:#c9a84c">${ms.keyConflux||'—'}</p></div>
-      </div>
-      ${ms.d1||ms.h4?`<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
-        ${[['D1',ms.d1],['H4',ms.h4],['H1',ms.h1],['M15',ms.m15]].map(([tf,v])=>
-          `<div style="background:#1a1a1a;border-radius:6px;padding:10px;border:1px solid #c9a84c33;text-align:center">
-            <div style="font-size:10px;color:#d0d0e0;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">${tf}</div>
-            <div style="font-size:12px;font-weight:700;color:${trendColor(v)}">${v||'—'}</div>
-          </div>`).join('')}
-      </div>`:''}`; 
-    document.getElementById('scenariosBlock').before(card);
+    const div=document.createElement('div');
+    div.className='bestSetupBanner';
+    div.style.marginBottom='14px';
+    div.innerHTML=`${a.bestSetup?`<div class="card" style="border-color:#4ade8066;border-left:3px solid #4ade80;margin-bottom:8px"><p class="card-title" style="color:#4ade80">🏆 Bestes Setup</p><p style="font-size:14px;color:#f0f0f8;line-height:1.7">${a.bestSetup}</p></div>`:''}
+    ${a.riskWarning?`<div class="card" style="border-color:#f8717166;border-left:3px solid #f87171"><p class="card-title" style="color:#f87171">⚠️ Risiko-Hinweis</p><p style="font-size:13px;color:#f0f0f8;line-height:1.7">${a.riskWarning}</p></div>`:''}`;
+    document.getElementById('summaryBlock').after(div);
   }
 }
 
+// ─── Deep Analysis ─────────────────────────────────────────────────
+async function loadDeepAnalysis(a){
+  const el=document.getElementById('deepText');
+  el.innerHTML='<span class="spin"></span> Claude erstellt Tiefenanalyse…';
+  aiUpdate(10,'Tiefenanalyse…');
+  try{
+    const text=await callClaude(`Forex-Analyst. Analysiere ${a.symbol} auf Deutsch (~250 Wörter). **fett** für Überschriften.
+Kurs: ${a.lastPrice} | Bias: ${a.fundamental?.bias}
+Trends: D1 ${a.trend?.d1} | H4 ${a.trend?.h4} | H1 ${a.trend?.h1} | M15 ${a.trend?.m15}
+Resistance: ${(a.keyLevels?.resistance||[]).join(', ')} | Support: ${(a.keyLevels?.support||[]).join(', ')}
+Fundamental: ${a.fundamental?.summary}
+Abschnitte: **Marktlage** | **Beste Opportunität** | **Risiken** | **Fazit**`,700);
+    el.innerHTML=text.replace(/\*\*(.*?)\*\*/g,'<strong style="color:#f0f0f8;display:block;margin-top:12px;margin-bottom:4px">$1</strong>').replace(/\n/g,'<br>');
+    aiStep('Tiefenanalyse ✓');
+  }catch(e){ el.innerHTML=`<span style="color:#f87171">Fehler: ${e.message}</span>`; aiStep('Fehler'); }
+}
+
+// ─── Scenario Detail ───────────────────────────────────────────────
 function openScenarioDetail(idx){
-  const a=analysisCache[currentSymbol]; if(!a) return;
+  const a=cache[currentSym]; if(!a) return;
   const sc=a.scenarios[idx];
   const d=sc.direction==='Long'?'#4ade80':'#f87171';
   switchTF(TF_MAP[sc.entryTF]||'60');
   document.getElementById('scDetailTitle').textContent=`Szenario ${sc.id}: ${sc.name}`;
   document.getElementById('scDetailTable').innerHTML=[
-    ['Richtung',  badge(d,sc.direction)],
+    ['Richtung',  bdg(d,sc.direction)],
     ['Entry',     `<span style="color:#fbbf24;font-weight:700;font-size:14px">${sc.entry}</span>`],
     ['Stop Loss', `<span style="color:#f87171;font-weight:700;font-size:14px">${sc.sl}</span>`],
     ['TP1',       `<span style="color:#4ade80;font-weight:700;font-size:14px">${sc.tp1}</span>`],
@@ -1012,51 +863,138 @@ function openScenarioDetail(idx){
     ['R:R',       `<span style="color:#c9a84c;font-weight:700;font-size:14px">${sc.rr}</span>`],
     ['Entry TF',  `<span style="color:#c9a84c">${sc.entryTF}</span>`],
     ['Higher TFs', sc.higherTFs?.join(' → ')||''],
+    ['Konfluenz', (sc.confluenceFactors||[]).join(' · ')],
     ['Timing',    sc.timing],
     ['Beste Session', sc.bestSession||'—'],
-    ['Entry Signal', sc.entrySignal],
-    ['Exit Signal',  sc.exitSignal],
-    ['Wahrsch.', `<span style="color:${probColor(sc.probability)};font-weight:700">${sc.probability}%</span>`],
-    ['Konfidenz', badge(confColor(sc.confidence),sc.confidence)],
+    ['Entry Signal',  sc.entrySignal],
+    ['Exit Signal',   sc.exitSignal],
+    ['Invalidierung', `<span style="color:#f87171">${sc.invalidation||'—'}</span>`],
+    ['Wahrsch.', `<span style="color:${pc(sc.probability)};font-weight:700">${sc.probability}%</span>`],
+    ['Konfidenz', confBadge(sc.confidence)],
   ].map(([k,v])=>`<tr><td class="sc-param-key">${k}</td><td class="sc-param-val">${v}</td></tr>`).join('');
+
+  // Trade Chart
+  const bars=a._bars?.[sc.entryTF]||a._bars?.['H1']||a._bars?.['D1']||[];
+  requestAnimationFrame(()=>drawTradeChart(currentSym,sc,bars));
+
   const block=document.getElementById('scDetailBlock');
   block.style.display='block';
   block.scrollIntoView({behavior:'smooth',block:'start'});
+
+  // BUG FIX 4: aiShow(1) nötig damit Kreis sichtbar + Counter korrekt
+  aiShow(1);
   const aiEl=document.getElementById('scDetailAI');
   aiEl.innerHTML='<span class="spin"></span> Claude analysiert…';
-  updateAiCircle(55,'Szenario-Analyse…');
-  callClaudeQueued(`Forex-Trader Analyse auf Deutsch (~200 Wörter), **fett** für Überschriften.
+  aiUpdate(55,'Szenario-Analyse…');
+  callClaude(`Forex-Trader Analyse auf Deutsch (~200 Wörter), **fett** für Überschriften.
 Szenario: ${sc.name} | ${sc.direction} | Entry ${sc.entry} | SL ${sc.sl} | TP1 ${sc.tp1} | R:R ${sc.rr}
 Markt: D1 ${a.trend?.d1} | H4 ${a.trend?.h4} | H1 ${a.trend?.h1} | M15 ${a.trend?.m15}
 Bias: ${a.fundamental?.bias}
 Abschnitte: **Warum jetzt?** | **Einstieg** | **Risiken** | **Fazit**`,600)
-    .then(t=>{
-      aiEl.innerHTML=t.replace(/\*\*(.*?)\*\*/g,'<strong style="color:#f0f0f8;display:block;margin-top:10px;margin-bottom:3px">$1</strong>').replace(/\n/g,'<br>');
-      aiCircleStep('Szenario ✓');
-    })
-    .catch(e=>{
-      aiEl.innerHTML=`<span style="color:#f87171">${e.message}</span>`;
-      aiCircleStep('Fehler');
-    });
+    .then(t=>{ aiEl.innerHTML=t.replace(/\*\*(.*?)\*\*/g,'<strong style="color:#f0f0f8;display:block;margin-top:10px;margin-bottom:3px">$1</strong>').replace(/\n/g,'<br>'); aiStep('Szenario ✓'); })
+    .catch(e=>{ aiEl.innerHTML=`<span style="color:#f87171">${e.message}</span>`; aiStep('Fehler'); });
 }
 
-async function loadDeepAnalysis(a){
-  const el=document.getElementById('deepText');
-  el.innerHTML='<span class="spin"></span> Claude erstellt Tiefenanalyse…';
-  updateAiCircle(10,'Tiefenanalyse…');
-  try{
-    const text=await callClaudeQueued(`Forex-Analyst. Analysiere ${a.symbol} auf Deutsch (~250 Wörter). **fett** für Überschriften.
-Kurs: ${a.lastPrice} | Bias: ${a.fundamental?.bias}
-Trends: D1 ${a.trend?.d1} | H4 ${a.trend?.h4} | H1 ${a.trend?.h1} | M15 ${a.trend?.m15}
-Resistance: ${(a.keyLevels?.resistance||[]).join(', ')} | Support: ${(a.keyLevels?.support||[]).join(', ')}
-Fundamental: ${a.fundamental?.summary}
-Abschnitte: **Marktlage** | **Beste Opportunität** | **Risiken** | **Fazit**`,700);
-    el.innerHTML=text.replace(/\*\*(.*?)\*\*/g,'<strong style="color:#f0f0f8;display:block;margin-top:12px;margin-bottom:4px">$1</strong>').replace(/\n/g,'<br>');
-    aiCircleStep('Tiefenanalyse ✓');
-  }catch(e){
-    el.innerHTML=`<span style="color:#f87171">Fehler: ${e.message}</span>`;
-    aiCircleStep('Fehler');
+// ─── Trade Chart ───────────────────────────────────────────────────
+function drawTradeChart(sym,sc,bars){
+  const canvas=document.getElementById('tradeChartCanvas');
+  const wrap=document.getElementById('tradeChartWrap');
+  canvas.width=wrap.clientWidth||900;
+  const W=canvas.width, H=340;
+  canvas.height=H;
+  const ctx=canvas.getContext('2d');
+
+  document.getElementById('tcSymLabel').textContent=sym;
+  document.getElementById('tcTFLabel').textContent=sc.entryTF+' Chart';
+  const isBull=sc.direction==='Long';
+  const tcDir=document.getElementById('tcDirBadge');
+  tcDir.textContent=sc.direction;
+  tcDir.style.background=isBull?'rgba(74,222,128,.2)':'rgba(248,113,113,.2)';
+  tcDir.style.color=isBull?'#4ade80':'#f87171';
+
+  ctx.fillStyle='#0d1117'; ctx.fillRect(0,0,W,H);
+
+  if(!bars||bars.length<5){
+    ctx.fillStyle='#d0d0e0'; ctx.font='14px Inter'; ctx.textAlign='center';
+    ctx.fillText('Keine Kerzen-Daten verfügbar',W/2,H/2); return;
   }
+
+  // BUG FIX 1: Massive liefert newest-first → umkehren für chronologische Darstellung
+  const data=[...bars].reverse().slice(-60);
+
+  const entry=parseFloat(sc.entry)||0, sl=parseFloat(sc.sl)||0,
+        tp1=parseFloat(sc.tp1)||0,   tp2=parseFloat(sc.tp2)||0;
+
+  const nums=[...data.map(b=>[+b.h,+b.l]).flat(),entry,sl,tp1,tp2].filter(v=>v&&!isNaN(v)&&v>0);
+  if(!nums.length) return;
+  let minP=Math.min(...nums), maxP=Math.max(...nums);
+  const pad=(maxP-minP)*0.12; minP-=pad; maxP+=pad;
+
+  const PAD={left:72,right:88,top:18,bottom:26};
+  const cW=W-PAD.left-PAD.right, cH=H-PAD.top-PAD.bottom;
+  const toY=p=>PAD.top+cH-((p-minP)/(maxP-minP))*cH;
+  const bSlot=cW/data.length, bW=Math.max(2,Math.floor(bSlot*0.65));
+  const bX=i=>PAD.left+i*bSlot+(bSlot-bW)/2;
+
+  for(let i=0;i<=5;i++){
+    const y=PAD.top+(cH/5)*i;
+    ctx.strokeStyle='#1e2633'; ctx.lineWidth=1; ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(PAD.left,y); ctx.lineTo(W-PAD.right,y); ctx.stroke();
+    ctx.fillStyle='#778899'; ctx.font='10px Inter'; ctx.textAlign='right';
+    ctx.fillText((maxP-(maxP-minP)*(i/5)).toFixed(5),PAD.left-4,y+3);
+  }
+
+  // BUG FIX 2: EMA braucht chronologische Reihenfolge (älteste zuerst) → data ist jetzt korrekt
+  const closes=data.map(b=>+b.c);
+  const ema20=calcEMA(closes,20);
+  ctx.beginPath(); ctx.strokeStyle='#eab308'; ctx.lineWidth=1.5; ctx.setLineDash([]);
+  data.forEach((_,i)=>{ i===0?ctx.moveTo(bX(i)+bW/2,toY(ema20[i])):ctx.lineTo(bX(i)+bW/2,toY(ema20[i])); });
+  ctx.stroke();
+
+  const drawZone=(p1,p2,col)=>{
+    if(!p1||!p2||isNaN(p1)||isNaN(p2)) return;
+    const y1=toY(Math.max(p1,p2)), y2=toY(Math.min(p1,p2));
+    ctx.fillStyle=col; ctx.fillRect(PAD.left,y1,cW,y2-y1);
+  };
+  drawZone(entry,tp1,isBull?'rgba(74,222,128,.08)':'rgba(248,113,113,.08)');
+  drawZone(entry,sl,'rgba(248,113,113,.08)');
+
+  data.forEach((b,i)=>{
+    const o=+b.o,h=+b.h,l=+b.l,c=+b.c, bull=c>=o;
+    const col=bull?'#26a69a':'#ef5350';
+    ctx.strokeStyle=col; ctx.lineWidth=1; ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(bX(i)+bW/2,toY(h)); ctx.lineTo(bX(i)+bW/2,toY(l)); ctx.stroke();
+    const bodyTop=Math.min(toY(o),toY(c)), bodyH=Math.max(Math.abs(toY(c)-toY(o)),1);
+    ctx.fillStyle=col; ctx.fillRect(bX(i),bodyTop,bW,bodyH);
+  });
+
+  const drawLevel=(price,color,label,dashed=false)=>{
+    if(!price||isNaN(price)||price<=0) return;
+    const y=toY(price); if(y<0||y>H) return;
+    ctx.strokeStyle=color; ctx.lineWidth=1.5; ctx.setLineDash(dashed?[6,4]:[]);
+    ctx.beginPath(); ctx.moveTo(PAD.left,y); ctx.lineTo(W-PAD.right,y); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.font='bold 10px Inter';
+    const lw=ctx.measureText(label).width+12, lx=W-PAD.right+4;
+    ctx.fillStyle=color+'dd';
+    if(ctx.roundRect) ctx.roundRect(lx,y-9,lw,18,3); else ctx.rect(lx,y-9,lw,18);
+    ctx.fill();
+    ctx.fillStyle='#0a0a0a'; ctx.textAlign='left';
+    ctx.fillText(label,lx+6,y+3.5);
+  };
+  drawLevel(tp2,'#86efac',`TP2 ${tp2?tp2.toFixed(5):''}`,true);
+  drawLevel(tp1,'#4ade80',`TP1 ${tp1?tp1.toFixed(5):''}`);
+  drawLevel(entry,'#fbbf24',`Entry ${entry?entry.toFixed(5):''}`);
+  drawLevel(sl,'#f87171',`SL ${sl?sl.toFixed(5):''}`);
+
+  const lastI=data.length-1, ax=bX(lastI)+bW/2, entryY=toY(entry);
+  const ay=entryY+(isBull?-22:22);
+  if(ay>0&&ay<H){ ctx.fillStyle='#fbbf24'; ctx.font='bold 16px Inter'; ctx.textAlign='center'; ctx.fillText(isBull?'▲':'▼',ax,ay+(isBull?6:-2)); }
+
+  ctx.fillStyle='#667788'; ctx.font='9px Inter'; ctx.textAlign='center';
+  [0,15,30,45,data.length-1].filter(i=>i<data.length).forEach(i=>{
+    if(data[i]?.t) ctx.fillText(data[i].t.slice(5,10),bX(i)+bW/2,H-6);
+  });
 }
 
 // ─── TradingView ───────────────────────────────────────────────────
@@ -1066,10 +1004,10 @@ function loadTVChart(sym,interval){
   if(typeof TradingView==='undefined'){ c.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#d0d0e0;font-size:13px">TradingView lädt…</div>'; return; }
   new TradingView.widget({container_id:'tv_chart',autosize:true,symbol:tvSym(sym),interval,timezone:'Etc/UTC',theme:'dark',style:'1',locale:'de',toolbar_bg:'#111111',enable_publishing:false,allow_symbol_change:false,withdateranges:true,hide_side_toolbar:false,studies:[],overrides:{'paneProperties.background':'#0a0a0a','paneProperties.backgroundType':'solid'}});
 }
-function switchTF(tf){ currentTF=tf; updateTFBtns(tf); if(currentSymbol) loadTVChart(currentSymbol,tf); }
+function switchTF(tf){ currentTF=tf; updateTFBtns(tf); if(currentSym) loadTVChart(currentSym,tf); }
 function updateTFBtns(a){ document.querySelectorAll('.tf-btn').forEach(b=>b.classList.toggle('active',b.dataset.tf===a)); }
 function toggleTV(){ tvVisible=!tvVisible; document.getElementById('tvWrap').style.display=tvVisible?'block':'none'; document.getElementById('tvToggleBtn').textContent=tvVisible?'📉 Chart aus':'📈 Chart ein'; }
-function closeOverlay(){ document.getElementById('overlay').style.display='none'; document.body.style.overflow=''; aiCircleHide(); }
+function closeOverlay(){ document.getElementById('overlay').style.display='none'; document.body.style.overflow=''; aiHide(); }
 document.getElementById('overlay').addEventListener('click',e=>{ if(e.target===document.getElementById('overlay')) closeOverlay(); });
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeOverlay(); });
 
