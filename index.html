@@ -266,50 +266,47 @@ td{padding:10px 12px;font-size:13px;border-bottom:1px solid #1a1a1a;vertical-ali
       <div id="scDetailBlock">
         <div class="card card-accent" style="padding:0;overflow:hidden">
 
-          <!-- Header -->
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid #c9a84c33;background:#0d1a2a">
-            <div style="display:flex;align-items:center;gap:12px">
+          <!-- Header bar -->
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid #c9a84c33;background:#0a1828">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
               <span id="tcDirBadge" style="font-size:11px;font-weight:700;padding:3px 12px;border-radius:4px"></span>
-              <span id="scDetailTitle" style="font-size:15px;font-weight:800;color:#f0f0f8"></span>
+              <span id="scDetailTitle" style="font-size:14px;font-weight:800;color:#f0f0f8"></span>
               <span id="tcSymLabel" style="font-size:12px;color:#c9a84c;font-weight:700"></span>
-              <span id="tcTFLabel" style="font-size:11px;color:#3a5570;background:#0a1828;border:1px solid #1a3050;border-radius:4px;padding:2px 8px"></span>
+              <span id="tcTFLabel" style="font-size:10px;color:#3a5570;background:#091520;border:1px solid #1a3050;border-radius:4px;padding:2px 8px"></span>
             </div>
-            <div style="display:flex;align-items:center;gap:12px">
-              <span style="display:flex;gap:10px;font-size:10px;color:#3a5570">
-                <span>● <span style="color:#fbbf24">Entry</span></span>
-                <span>● <span style="color:#f87171">SL</span></span>
-                <span>● <span style="color:#4ade80">TP1</span></span>
-                <span>● <span style="color:#86efac">TP2</span></span>
-                <span>— <span style="color:#c6d400">EMA9</span></span>
-                <span style="color:#20b2aa">▪ Cloud</span>
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="display:flex;gap:8px;font-size:10px">
+                <span style="color:#3a5570">● <span style="color:#fbbf24">Entry</span></span>
+                <span style="color:#3a5570">● <span style="color:#f87171">SL</span></span>
+                <span style="color:#3a5570">● <span style="color:#4ade80">TP1</span></span>
+                <span style="color:#3a5570">● <span style="color:#86efac">TP2</span></span>
+                <span style="color:#c6d400">— EMA9</span>
+                <span style="color:#20b2aa88">▪ Cloud</span>
                 <span style="color:#ffffff55">↷ Proj.</span>
               </span>
               <button class="btn btn-gray" style="font-size:11px;padding:5px 10px" onclick="document.getElementById('scDetailBlock').style.display='none'">✕</button>
             </div>
           </div>
 
-          <!-- Body: chart square left | params + AI right -->
-          <div style="display:grid;grid-template-columns:420px 1fr;min-height:420px">
+          <!-- FULL WIDTH CHART -->
+          <div id="tradeChartWrap" style="background:#091520;border-bottom:1px solid #c9a84c22;position:relative">
+            <canvas id="tradeChartCanvas" style="display:block;width:100%"></canvas>
+            <div id="chartNoData" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;color:#3a5570;font-size:13px">Lade Chart…</div>
+          </div>
 
-            <!-- LEFT: Square chart -->
-            <div id="tradeChartWrap" style="border-right:1px solid #c9a84c22;background:#091520;position:relative">
-              <canvas id="tradeChartCanvas" style="display:block;width:100%;height:420px"></canvas>
+          <!-- BOTTOM: params left | AI right -->
+          <div style="display:grid;grid-template-columns:340px 1fr;background:#0d1520">
+
+            <!-- Params -->
+            <div style="padding:14px 16px;border-right:1px solid #c9a84c22">
+              <p style="font-size:10px;font-weight:700;color:#c9a84c;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Trade Parameter</p>
+              <table style="width:100%"><tbody id="scDetailTable"></tbody></table>
             </div>
 
-            <!-- RIGHT: params top + AI bottom -->
-            <div style="display:flex;flex-direction:column;background:#0d1520">
-
-              <!-- Params table -->
-              <div style="padding:14px 18px;border-bottom:1px solid #c9a84c22;flex-shrink:0">
-                <p style="font-size:10px;font-weight:700;color:#c9a84c;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Trade Parameter</p>
-                <table style="width:100%"><tbody id="scDetailTable"></tbody></table>
-              </div>
-
-              <!-- AI Analysis -->
-              <div style="padding:14px 18px;flex:1;overflow-y:auto;max-height:280px">
-                <p style="font-size:10px;font-weight:700;color:#c9a84c;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">KI-Analyse zum Szenario</p>
-                <div id="scDetailAI" style="font-size:12px;color:#c8d0dc;line-height:1.8"><span class="spin"></span> Wird geladen…</div>
-              </div>
+            <!-- AI -->
+            <div style="padding:14px 16px;overflow-y:auto;max-height:320px">
+              <p style="font-size:10px;font-weight:700;color:#c9a84c;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">KI-Analyse zum Szenario</p>
+              <div id="scDetailAI" style="font-size:12px;color:#c8d0dc;line-height:1.8"><span class="spin"></span> Wird geladen…</div>
             </div>
           </div>
         </div>
@@ -894,8 +891,14 @@ function openScenarioDetail(idx){
     <td style="font-size:12px;padding:4px 0 4px 10px;border-bottom:1px solid #0d1a2a;vertical-align:middle;color:#f0f0f8">${v}</td>
   </tr>`).join('');
 
-  // Trade Chart
-  const bars=a._bars?.[sc.entryTF]||a._bars?.['H1']||a._bars?.['D1']||[];
+  // Bars: try entryTF → H1 → H4 → D1 → generate synthetic
+  const tfKey={'M15':'M15','H1':'H1','H4':'H4','D1':'D1','W1':'D1'};
+  const barsKey=tfKey[sc.entryTF]||'H1';
+  let bars=(a._bars?.[barsKey]||[]).filter(b=>b&&+b.h&&+b.l);
+  if(!bars.length) bars=(a._bars?.['H1']||[]).filter(b=>b&&+b.h&&+b.l);
+  if(!bars.length) bars=(a._bars?.['H4']||[]).filter(b=>b&&+b.h&&+b.l);
+  if(!bars.length) bars=(a._bars?.['D1']||[]).filter(b=>b&&+b.h&&+b.l);
+  if(!bars.length) bars=synthBars(parseFloat(sc.entry)||parseFloat(a.lastPrice)||1.0, sc);
   requestAnimationFrame(()=>drawTradeChart(currentSym,sc,bars));
 
   const block=document.getElementById('scDetailBlock');
@@ -916,188 +919,204 @@ Abschnitte: **Warum jetzt?** | **Einstieg** | **Risiken** | **Fazit**`,600)
     .catch(e=>{ aiEl.innerHTML=`<span style="color:#f87171">${e.message}</span>`; aiStep('Fehler'); });
 }
 
-// ─── Trade Chart ───────────────────────────────────────────────────
+// ─── Synthetic bars fallback ────────────────────────────────────────
+function synthBars(basePrice, sc){
+  // Generate plausible OHLC bars leading up to the entry zone
+  const n=60, bars=[], isBull=sc.direction==='Long';
+  const entry=parseFloat(sc.entry)||basePrice;
+  const sl=parseFloat(sc.sl)||entry*(isBull?0.998:1.002);
+  const pipSz=basePrice>500?0.1:basePrice>50?0.01:0.0001;
+  const volatility=pipSz*12;
+  // Start price: offset from entry so chart shows approach
+  let price=isBull?(entry-volatility*8):(entry+volatility*8);
+  const now=Date.now();
+  for(let i=0;i<n;i++){
+    const drift=isBull?(volatility*0.06):(-volatility*0.06);
+    const noise=(Math.random()-0.5)*volatility*2;
+    const o=price;
+    const c=o+drift+noise;
+    const range=Math.abs(c-o)+volatility*Math.random();
+    const h=Math.max(o,c)+range*0.4;
+    const l=Math.min(o,c)-range*0.4;
+    const ts=new Date(now-(n-i)*3600000).toISOString().slice(0,16).replace('T',' ');
+    bars.push({t:ts,o:+o.toFixed(5),h:+h.toFixed(5),l:+l.toFixed(5),c:+c.toFixed(5)});
+    price=c;
+  }
+  return bars;
+}
+
+// ─── Trade Chart (full-width) ───────────────────────────────────────
 function drawTradeChart(sym,sc,bars){
   const canvas=document.getElementById('tradeChartCanvas');
   const wrap=document.getElementById('tradeChartWrap');
-  const H=420;
-  canvas.width=420; canvas.height=H;
-  canvas.style.width='100%'; canvas.style.height=H+'px';
-  const W=420;
+  const W=wrap.clientWidth||900;
+  const H=Math.round(W*0.28); // ~16:4.5 ratio like TradingView
+  canvas.width=W; canvas.height=H;
+  canvas.style.height=H+'px';
   const ctx=canvas.getContext('2d');
 
   document.getElementById('tcSymLabel').textContent=sym;
-  document.getElementById('tcTFLabel').textContent=sc.entryTF+' Chart';
+  document.getElementById('tcTFLabel').textContent=(sc.entryTF||'H1')+' Chart';
   const isBull=sc.direction==='Long';
   const tcDir=document.getElementById('tcDirBadge');
   tcDir.textContent=sc.direction;
   tcDir.style.background=isBull?'rgba(74,222,128,.2)':'rgba(248,113,113,.2)';
   tcDir.style.color=isBull?'#4ade80':'#f87171';
 
-  // Dark blue gradient background (TradingView style)
+  // Dark blue gradient background
   const bgGrad=ctx.createLinearGradient(0,0,0,H);
   bgGrad.addColorStop(0,'#0d1f35'); bgGrad.addColorStop(1,'#091520');
   ctx.fillStyle=bgGrad; ctx.fillRect(0,0,W,H);
 
   if(!bars||bars.length<5){
-    ctx.fillStyle='#4a6080'; ctx.font='14px Inter'; ctx.textAlign='center';
-    ctx.fillText('Keine Kerzen-Daten verfügbar',W/2,H/2); return;
+    ctx.fillStyle='#3a5570'; ctx.font='13px Inter'; ctx.textAlign='center';
+    ctx.fillText('Keine Chart-Daten verfügbar',W/2,H/2); return;
   }
 
-  const data=[...bars].reverse().slice(-50);
-  const entry=parseFloat(sc.entry)||0, sl=parseFloat(sc.sl)||0,
-        tp1=parseFloat(sc.tp1)||0,   tp2=parseFloat(sc.tp2)||0;
+  // Use chronological order (newest-first from Massive → reverse)
+  const data=[...bars].reverse().slice(-55);
 
-  const nums=[...data.map(b=>[+b.h,+b.l]).flat(),entry,sl,tp1,tp2].filter(v=>v&&!isNaN(v)&&v>0);
+  const entry=parseFloat(sc.entry)||0, sl=parseFloat(sc.sl)||0,
+        tp1=parseFloat(sc.tp1)||0, tp2=parseFloat(sc.tp2)||0;
+
+  const nums=[...data.map(b=>[+b.h,+b.l]).flat(),entry,sl,tp1,tp2]
+    .filter(v=>v&&!isNaN(v)&&v>0);
   if(!nums.length) return;
   let minP=Math.min(...nums), maxP=Math.max(...nums);
-  const rangePad=(maxP-minP)*0.15; minP-=rangePad; maxP+=rangePad;
+  const rPad=(maxP-minP)*0.18; minP-=rPad; maxP+=rPad;
 
-  const PAD={left:68,right:96,top:14,bottom:26};
+  const PAD={left:62,right:82,top:10,bottom:22};
   const cW=W-PAD.left-PAD.right, cH=H-PAD.top-PAD.bottom;
   const toY=p=>PAD.top+cH-((p-minP)/(maxP-minP))*cH;
-  const bSlot=cW/data.length, bW=Math.max(2,Math.floor(bSlot*0.62));
+  const bSlot=cW/data.length, bW=Math.max(1.5,Math.floor(bSlot*0.6));
   const bX=i=>PAD.left+i*bSlot+(bSlot-bW)/2;
 
-  // Grid lines (subtle blue)
-  for(let i=0;i<=6;i++){
-    const y=PAD.top+(cH/6)*i;
+  // Grid lines
+  const gridSteps=5;
+  for(let i=0;i<=gridSteps;i++){
+    const y=PAD.top+(cH/gridSteps)*i;
     ctx.strokeStyle='#152840'; ctx.lineWidth=1; ctx.setLineDash([]);
     ctx.beginPath(); ctx.moveTo(PAD.left,y); ctx.lineTo(W-PAD.right,y); ctx.stroke();
-    ctx.fillStyle='#3a5570'; ctx.font='10px Inter'; ctx.textAlign='right';
-    ctx.fillText((maxP-(maxP-minP)*(i/6)).toFixed(5),PAD.left-4,y+3.5);
+    const price=maxP-(maxP-minP)*(i/gridSteps);
+    const decimals=price>500?2:price>50?3:5;
+    ctx.fillStyle='#2a4060'; ctx.font='9px Inter'; ctx.textAlign='right';
+    ctx.fillText(price.toFixed(decimals),PAD.left-4,y+3.5);
   }
 
-  // ── Ichimoku-style cloud (EMA9 + EMA26 fill) ──
+  // Cloud: EMA9 vs EMA26 fill
   const closes=data.map(b=>+b.c);
-  const ema9=calcEMA(closes,9), ema26=calcEMA(closes,26);
+  const ema9=calcEMA(closes,9), ema26=calcEMA(closes,Math.min(26,closes.length-1));
 
-  // Cloud fill
   ctx.beginPath();
   data.forEach((_,i)=>{ i===0?ctx.moveTo(bX(i)+bW/2,toY(ema9[i])):ctx.lineTo(bX(i)+bW/2,toY(ema9[i])); });
   for(let i=data.length-1;i>=0;i--) ctx.lineTo(bX(i)+bW/2,toY(ema26[i]));
   ctx.closePath();
-  ctx.fillStyle='rgba(18,110,140,0.32)'; ctx.fill();
+  ctx.fillStyle='rgba(18,110,140,0.30)'; ctx.fill();
 
-  // EMA26 line (slow, teal)
-  ctx.beginPath(); ctx.strokeStyle='rgba(32,200,200,0.55)'; ctx.lineWidth=1; ctx.setLineDash([]);
+  // EMA26 (slow)
+  ctx.beginPath(); ctx.strokeStyle='rgba(32,200,200,0.45)'; ctx.lineWidth=1; ctx.setLineDash([]);
   data.forEach((_,i)=>{ i===0?ctx.moveTo(bX(i)+bW/2,toY(ema26[i])):ctx.lineTo(bX(i)+bW/2,toY(ema26[i])); });
   ctx.stroke();
 
-  // EMA9 line (fast, yellow-lime like TradingView)
+  // EMA9 (fast, yellow-lime)
   ctx.beginPath(); ctx.strokeStyle='#c6d400'; ctx.lineWidth=1.5; ctx.setLineDash([]);
   data.forEach((_,i)=>{ i===0?ctx.moveTo(bX(i)+bW/2,toY(ema9[i])):ctx.lineTo(bX(i)+bW/2,toY(ema9[i])); });
   ctx.stroke();
 
-  // ── Candles (white hollow = bull, red filled = bear) ──
+  // Candles
   data.forEach((b,i)=>{
-    const o=+b.o,h=+b.h,l=+b.l,c=+b.c, bull=c>=o;
-    // Wick
-    ctx.strokeStyle=bull?'#d0d0d0':'#ef5350'; ctx.lineWidth=1; ctx.setLineDash([]);
+    const o=+b.o,h=+b.h,l=+b.l,c=+b.c,bull=c>=o;
+    ctx.strokeStyle=bull?'#c8c8c8':'#ef5350'; ctx.lineWidth=1; ctx.setLineDash([]);
     ctx.beginPath(); ctx.moveTo(bX(i)+bW/2,toY(h)); ctx.lineTo(bX(i)+bW/2,toY(l)); ctx.stroke();
-    // Body
-    const bodyTop=Math.min(toY(o),toY(c)), bodyH=Math.max(Math.abs(toY(c)-toY(o)),1.5);
+    const top=Math.min(toY(o),toY(c)), bh=Math.max(Math.abs(toY(c)-toY(o)),1.5);
     if(bull){
-      // Hollow white candle
-      ctx.strokeStyle='#d8d8d8'; ctx.lineWidth=1;
-      ctx.strokeRect(bX(i),bodyTop,bW,bodyH);
-      ctx.fillStyle='rgba(216,216,216,0.12)'; ctx.fillRect(bX(i),bodyTop,bW,bodyH);
+      ctx.strokeStyle='#c8c8c8'; ctx.lineWidth=1;
+      ctx.strokeRect(bX(i),top,bW,bh);
+      ctx.fillStyle='rgba(200,200,200,0.10)'; ctx.fillRect(bX(i),top,bW,bh);
     } else {
-      ctx.fillStyle='#ef5350'; ctx.fillRect(bX(i),bodyTop,bW,bodyH);
+      ctx.fillStyle='#ef5350'; ctx.fillRect(bX(i),top,bW,bh);
     }
   });
 
-  // ── Key level lines (dashed, TradingView style) ──
+  // Level lines with price pills on right
+  const decimals2=entry>500?2:entry>50?3:5;
   const drawLevel=(price,color,label,dashed=true)=>{
     if(!price||isNaN(price)||price<=0) return;
-    const y=toY(price); if(y<PAD.top-2||y>H-PAD.bottom+2) return;
-    ctx.strokeStyle=color; ctx.lineWidth=1; ctx.setLineDash(dashed?[5,4]:[]);
+    const y=toY(price);
+    if(y<PAD.top-2||y>H-PAD.bottom+6) return;
+    ctx.strokeStyle=color; ctx.lineWidth=1; ctx.setLineDash(dashed?[4,4]:[]);
     ctx.beginPath(); ctx.moveTo(PAD.left,y); ctx.lineTo(W-PAD.right,y); ctx.stroke();
     ctx.setLineDash([]);
-    ctx.font='bold 10px Inter';
-    const labelStr=label+' '+price.toFixed(5);
-    const lw=ctx.measureText(labelStr).width+10, lx=W-PAD.right+3;
+    const txt=`${label} ${price.toFixed(decimals2)}`;
+    ctx.font='bold 9px Inter';
+    const tw=ctx.measureText(txt).width+8, tx=W-PAD.right+2;
     ctx.fillStyle=color;
-    if(ctx.roundRect) ctx.roundRect(lx,y-9,lw,17,3); else ctx.rect(lx,y-9,lw,17);
-    ctx.fill();
+    ctx.beginPath(); ctx.roundRect?ctx.roundRect(tx,y-8,tw,16,2):ctx.rect(tx,y-8,tw,16); ctx.fill();
     ctx.fillStyle='#0a0a0a'; ctx.textAlign='left';
-    ctx.fillText(labelStr,lx+5,y+3.5);
+    ctx.fillText(txt,tx+4,y+3.5);
   };
   drawLevel(tp2,'#86efac','TP2',true);
   drawLevel(tp1,'#4ade80','TP1',true);
   drawLevel(entry,'#fbbf24','Entry',false);
   drawLevel(sl,'#f87171','SL',false);
 
-  // ── Projected trade path (curved arrow like TradingView annotation) ──
-  const lastBarX=bX(data.length-1)+bW/2;
-  const projW=cW*0.25; // projection takes ~25% of chart width
-  const entryY=toY(entry), tp1Y=toY(tp1), slY=toY(sl);
-  const endX=lastBarX+projW;
+  // Projection: Bezier curved arrow from last bar toward TP1
+  const lastX=bX(data.length-1)+bW/2;
+  const projW=Math.min(cW*0.22, 120);
+  const entryY=toY(entry), tp1Y=toY(tp1||entry);
+  const endX=lastX+projW, endY=tp1Y;
 
-  // Projection zone (faint overlay)
-  ctx.fillStyle=isBull?'rgba(74,222,128,0.04)':'rgba(248,113,113,0.04)';
-  ctx.fillRect(lastBarX,PAD.top,projW,cH);
-
-  // Divider line
-  ctx.strokeStyle='rgba(255,255,255,0.12)'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
-  ctx.beginPath(); ctx.moveTo(lastBarX,PAD.top); ctx.lineTo(lastBarX,H-PAD.bottom); ctx.stroke();
+  // Separator
+  ctx.strokeStyle='rgba(255,255,255,0.10)'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(lastX,PAD.top); ctx.lineTo(lastX,H-PAD.bottom); ctx.stroke();
   ctx.setLineDash([]);
 
-  // Bezier curve: for Short → slight retest up then drop; for Long → slight pullback then rise
-  const bounce=Math.abs(entryY-tp1Y)*0.3;
-  const cp1x=lastBarX+projW*0.22, cp1y=isBull?entryY+bounce:entryY-bounce;
-  const cp2x=lastBarX+projW*0.65, cp2y=tp1Y+(isBull?bounce*0.4:-bounce*0.4);
-  const finalX=endX-4, finalY=tp1Y;
+  // Faint zone
+  ctx.fillStyle=isBull?'rgba(74,222,128,0.04)':'rgba(248,113,113,0.04)';
+  ctx.fillRect(lastX,PAD.top,projW,cH);
 
+  // Bezier
+  const bounce=Math.abs(entryY-tp1Y)*0.35;
+  const cp1x=lastX+projW*0.2, cp1y=isBull?entryY+bounce:entryY-bounce;
+  const cp2x=lastX+projW*0.7, cp2y=tp1Y+(isBull?bounce*0.3:-bounce*0.3);
   ctx.beginPath();
-  ctx.moveTo(lastBarX,entryY);
-  ctx.bezierCurveTo(cp1x,cp1y,cp2x,cp2y,finalX,finalY);
-  ctx.strokeStyle='rgba(255,255,255,0.82)';
-  ctx.lineWidth=2; ctx.setLineDash([]);
+  ctx.moveTo(lastX,entryY);
+  ctx.bezierCurveTo(cp1x,cp1y,cp2x,cp2y,endX-3,endY);
+  ctx.strokeStyle='rgba(255,255,255,0.80)'; ctx.lineWidth=2; ctx.setLineDash([]);
   ctx.stroke();
 
   // Arrowhead
-  const angleArr=Math.atan2(finalY-cp2y,finalX-cp2x);
-  const arrSz=8;
+  const ang=Math.atan2(endY-cp2y,endX-3-cp2x);
   ctx.beginPath();
-  ctx.moveTo(finalX,finalY);
-  ctx.lineTo(finalX-arrSz*Math.cos(angleArr-0.38),finalY-arrSz*Math.sin(angleArr-0.38));
-  ctx.lineTo(finalX-arrSz*Math.cos(angleArr+0.38),finalY-arrSz*Math.sin(angleArr+0.38));
+  ctx.moveTo(endX-3,endY);
+  ctx.lineTo(endX-3-9*Math.cos(ang-0.4),endY-9*Math.sin(ang-0.4));
+  ctx.lineTo(endX-3-9*Math.cos(ang+0.4),endY-9*Math.sin(ang+0.4));
   ctx.closePath();
-  ctx.fillStyle='rgba(255,255,255,0.85)'; ctx.fill();
+  ctx.fillStyle='rgba(255,255,255,0.82)'; ctx.fill();
 
-  // Target price label at arrow end (like "0.7046" in screenshot)
-  if(tp1>0){
-    ctx.font='bold 11px Inter';
-    const tl=tp1.toFixed(5), tw2=ctx.measureText(tl).width+10;
-    const tlx=finalX+6, tly=finalY;
-    if(tlx+tw2<W){
-      ctx.fillStyle=isBull?'#4ade80':'#f87171';
-      if(ctx.roundRect) ctx.roundRect(tlx,tly-9,tw2,17,3); else ctx.rect(tlx,tly-9,tw2,17);
-      ctx.fill();
-      ctx.fillStyle='#0a0a0a'; ctx.textAlign='left';
-      ctx.fillText(tl,tlx+5,tly+3.5);
-    }
-  }
-
-  // Start dot on arrow
-  ctx.beginPath(); ctx.arc(lastBarX,entryY,3.5,0,Math.PI*2);
+  // Entry dot
+  ctx.beginPath(); ctx.arc(lastX,entryY,3.5,0,Math.PI*2);
   ctx.fillStyle='#fbbf24'; ctx.fill();
 
-  // Direction badge (▲ / ▼) near last candle
-  const arrowBadgeY=entryY+(isBull?-20:20);
-  if(arrowBadgeY>PAD.top&&arrowBadgeY<H-PAD.bottom){
-    ctx.fillStyle='#fbbf24'; ctx.font='bold 15px Inter'; ctx.textAlign='center';
-    ctx.fillText(isBull?'▲':'▼',lastBarX,arrowBadgeY+(isBull?5:-2));
+  // Direction badge
+  const badgeY=entryY+(isBull?-18:18);
+  if(badgeY>PAD.top+4&&badgeY<H-PAD.bottom-4){
+    ctx.fillStyle='#fbbf24'; ctx.font='bold 13px Inter'; ctx.textAlign='center';
+    ctx.fillText(isBull?'▲':'▼',lastX,badgeY+(isBull?4:-2));
   }
 
-  // Timestamp labels
-  ctx.fillStyle='#3a5570'; ctx.font='9px Inter'; ctx.textAlign='center';
+  // Timestamps
+  ctx.fillStyle='#1e3a55'; ctx.font='8px Inter'; ctx.textAlign='center';
   [0,Math.floor(data.length*0.25),Math.floor(data.length*0.5),Math.floor(data.length*0.75),data.length-1]
     .filter(i=>i<data.length&&data[i]?.t)
-    .forEach(i=>ctx.fillText(data[i].t.slice(5,10),bX(i)+bW/2,H-7));
-}
+    .forEach(i=>ctx.fillText(data[i].t.slice(5,10),bX(i)+bW/2,H-5));
 
+  // "Illustrativ" label if synthetic
+  if(bars[0]&&!bars[0]._real){
+    ctx.fillStyle='rgba(201,168,76,0.5)'; ctx.font='10px Inter'; ctx.textAlign='left';
+    ctx.fillText('⚠ Illustrativ – keine Echtdaten verfügbar',PAD.left+4,PAD.top+12);
+  }
+}
 // ─── TradingView ───────────────────────────────────────────────────
 let tvVisible=true, currentTF='60';
 function loadTVChart(sym,interval){
